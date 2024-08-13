@@ -87,7 +87,7 @@ export const Sidebar = () => {
             <div className="flex">
                 <div
                     className={`fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform ${
-                        isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+                        isSidebarOpen ? 'translate-x-0 w-full' : '-translate-x-full'
                     } bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700`}
                 >
                     <div className="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
@@ -98,9 +98,7 @@ export const Sidebar = () => {
                 </div>
 
                 <main
-                    className={`flex-1 p-4 overflow-auto ${
-                        isSidebarOpen ? 'ml-64' : 'ml-0'
-                    } sm:ml-64 transition-all duration-300 mt-16`}
+                    className={`flex-1 p-4 overflow-auto sm:ml-64 transition-all duration-300 mt-16`}
                 >
                     <Outlet />
                 </main>
