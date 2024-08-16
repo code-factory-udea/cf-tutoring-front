@@ -14,12 +14,13 @@ const router = createBrowserRouter(
                     element: <HomePage />,
                 },
                 { path: 'home', element: <HomePage /> },
-                {
-                    path: 'login',
-                    element: <Login />,
-                },
+                
             ],
         },
+        {
+            path: '/login',
+            element: <Login />,
+        }
     ]
     // createRoutesFromElements(
     //     <Route path="/" element={<Sidebar />}>

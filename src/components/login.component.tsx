@@ -1,51 +1,72 @@
+import React, { useState } from 'react'
 import { useValidateUserMutation } from '../hooks/user'
 
 export const Login = () => {
     const { mutateAsync: validateUser } = useValidateUserMutation()
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
 
-  const handleSubmit = async ()=>{
-    const credentials = {
-      username: 'eliana.puerta',
-      password: 'elianalatirana'
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault()
+        const credentials = {
+            username,
+            password,
+        }
+        const response = await validateUser(credentials)
+        if (response.token) {
+            localStorage.setItem('authToken', response.token)
+            localStorage.setItem('user', JSON.stringify(response.user))
+        } else {
+            console.error('No se recibió un token en la respuesta')
+        }
     }
-    await validateUser(credentials)
-    console.log('Login')
-  }
+
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100">
-            <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
-                <h2 className="text-2xl font-bold text-center mb-6 text-emerald-600">Iniciar Sesión</h2>
-                <form>
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="email">
-                            Email
-                        </label>
-                        <input
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                            type="text"
-                            id="email"
-                            placeholder="Enter your email"
-                        />
-                    </div>
-                    <div className="mb-6">
-                        <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="password">
-                            Password
-                        </label>
-                        <input
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                            type="password"
-                            id="password"
-                            placeholder="Enter your password"
-                        />
-                    </div>
-                    <button
-                        className="w-full px-4 py-2 bg-emerald-600 text-white font-semibold rounded-lg shadow-md hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                        type="submit"
-                        onClick={handleSubmit}
-                    >
+        <div className="flex flex-col lg:flex-row bg-gradient-to-r from-purple-600 to-blue-500 h-screen">
+            <div className="lg:flex-1 text-white flex flex-col justify-center items-center p-8 lg:p-12">
+                <h1 className="text-3xl lg:text-4xl font-bold mb-2">Tutorías Académicas</h1>
+                <p className="text-xl lg:text-2xl font-semibold mb-4">Bienvenid@!</p>
+                <p className="mb-6 text-center max-w-xs lg:max-w-sm">
+                    Aplicación web para la gestión de espacios de asesoría, mentoring y apoyo que dan los monitores a
+                    los diferentes cursos
+                </p>
+            </div>
+
+            <div className="lg:flex-1 flex flex-col justify-center items-center rounded-none lg:mr-20 lg:mt-20 bg-white p-8 lg:p-12 lg:rounded-t-3xl shadow-lg">
+                <h2 className="text-2xl font-semibold mb-4">Bienvenid@</h2>
+                <p className="text-gray-500 mb-8 text-center">
+                    Vamos a iniciar sesión con tú usuario que ingresas al LIS
+                </p>
+
+                <form className="w-full max-w-sm" onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        placeholder="Username"
+                        className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <a href="#" className="text-blue-500 text-sm mb-4 block text-right">
+                        Forgot Password?
+                    </a>
+                    <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold mb-6">
                         Login
                     </button>
                 </form>
+
+                <p className="text-gray-500 mt-6 text-center">
+                    No tienes cuenta?{' '}
+                    <a href="#" className="text-blue-500 font-semibold">
+                        Registrate!
+                    </a>
+                </p>
             </div>
         </div>
     )
