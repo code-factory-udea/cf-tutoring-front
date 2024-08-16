@@ -1,11 +1,25 @@
 {
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.node.json"
+    "files": [],
+    "references": [
+        {
+            "path": "./tsconfig.app.json"
+        },
+        {
+            "path": "./tsconfig.node.json"
+        }
+    ],
+
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@axios/*": ["src/axios/*"],
+            "@interfaces/*": ["src/interfaces/*"],
+            "@services/*": ["src/services/*"],
+            "@utils/*": ["src/utils/*"],
+            "@components/*": ["src/components/*"],
+            "@hooks/*": ["src/hooks/*"],
+            "@pages/*": ["src/pages/*"],
+            "@assets/*": ["src/assets/*"],
+        }
     }
-  ]
 }
