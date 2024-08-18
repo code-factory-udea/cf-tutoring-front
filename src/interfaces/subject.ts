@@ -3,3 +3,8 @@ export interface Subject {
     name: string
     accademicProgramId: number
 }
+
+export interface SubjectTutor {
+    username: string
+    subjectCode: number
+}
