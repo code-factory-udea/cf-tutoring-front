@@ -3,7 +3,7 @@ import { Link, Outlet } from 'react-router-dom'
 import { FaChalkboardTeacher } from 'react-icons/fa'
 import homeIcon from '../assets/home.svg'
 import { TiThMenuOutline } from 'react-icons/ti'
-import { ItemSidebar } from './sidebar/item.component'
+import { ItemSidebar } from './sidebar/Item'
 
 export const Sidebar = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)

@@ -8,6 +8,6 @@ export const authLogin = async (credentials: Credentials) => {
     );
     return response.data;
   } catch (error) {
-    console.error('Error fetching data:', error);
+    throw new Error('Failed to login');
   }
 };

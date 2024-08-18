@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { useValidateUserMutation } from '../hooks/user'
+import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa'
 
 export const Login = () => {
     const { mutateAsync: validateUser } = useValidateUserMutation()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [showPassword, setShowPassword] = useState(false)
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -42,19 +44,32 @@ export const Login = () => {
                     <input
                         type="text"
                         placeholder="Username"
-                        className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
+                        className="w-full p-3 mb-4 border border-gray-300 rounded-lg "
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <a href="#" className="text-blue-500 text-sm mb-4 block text-right">
-                        Forgot Password?
+                    <div className="relative w-full mb-4">
+                        <input
+                            type={showPassword ? 'text' : 'password'}
+                            placeholder="Password"
+                            className="w-full p-3 border border-gray-300 rounded-lg "
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <span
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-xl text-gray-400"
+                        >
+                            {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
+                        </span>
+                    </div>
+                    <a
+                        href="https://lis.udea.edu.co/forgotpassword"
+                        className="text-blue-500 text-sm mb-4 block text-right"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        ¿Olvidaste la contraseña?
                     </a>
                     <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold mb-6">
                         Login
@@ -63,7 +78,12 @@ export const Login = () => {
 
                 <p className="text-gray-500 mt-6 text-center">
                     No tienes cuenta?{' '}
-                    <a href="#" className="text-blue-500 font-semibold">
+                    <a
+                        href="https://lis.udea.edu.co/signup"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 font-semibold"
+                    >
                         Registrate!
                     </a>
                 </p>
