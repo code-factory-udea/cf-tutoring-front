@@ -1,4 +1,4 @@
-import { useValidateUserMutation } from '../hooks/user'
+import { useValidateUserMutation } from '@hooks/user'
 
 export const Login = () => {
     const { mutateAsync: validateUser } = useValidateUserMutation()
