@@ -61,21 +61,19 @@ export const Sidebar = () => {
                   style={{ top: "calc(100% + 10px)" }}
                 >
                   <div className="px-4 py-3">
-                    <p className="text-sm text-gray-900 dark:text-white">
-                      Neil Sims
-                    </p>
-                    <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-300">
+                    <p className="text-sm text-light">Neil Sims</p>
+                    <p className="text-sm font-medium truncate text-dark">
                       neil.sims@com
                     </p>
                   </div>
                   <ul className="py-1">
                     <li>
                       <Link
-                        to="/dashboard"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                        to="/login"
+                        className="block px-4 py-2 text-sm text-light dark:hover:bg-primary-green hover:text-white"
                         role="menuitem"
                       >
-                        Dashboard
+                        Cerrar Sesión
                       </Link>
                     </li>
                   </ul>
