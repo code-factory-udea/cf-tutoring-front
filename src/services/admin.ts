@@ -1,5 +1,5 @@
-import axiosInstance from '../axios/index';
-import { Admin } from '../interfaces/admin';
+import axiosInstance from '@axios/index';
+import { Admin } from '@interfaces/admin';
 
 export const getAdmin = async () => {
     try {

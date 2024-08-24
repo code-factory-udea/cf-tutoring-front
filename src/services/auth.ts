@@ -1,5 +1,5 @@
-import axiosInstance from '../axios/index';
-import { Credentials } from '../interfaces/user';
+import axiosInstance from "@axios/index";
+import { Credentials } from "@interfaces/user";
 
 export const authLogin = async (credentials: Credentials) => {
   try {

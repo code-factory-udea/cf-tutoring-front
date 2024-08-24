@@ -1,5 +1,5 @@
-import axiosInstance from "../axios";
-import { Professor } from "../interfaces/professor";
+import axiosInstance from "@axios/index";
+import { Professor } from "@interfaces/professor";
 
 export const getProfessorByUsername = async (username: string) => {
     try {

@@ -1,5 +1,5 @@
-import axiosInstance from "../axios";
-import { AppointmentResponse } from "../interfaces/appointment";
+import axiosInstance from "@axios/index";
+import { AppointmentResponse } from "@interfaces/appointment";
 
 export const getAppointmentsCSV = async () => {
     try {

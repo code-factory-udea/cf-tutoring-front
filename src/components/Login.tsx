@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useValidateUserMutation } from '../hooks/user'
+import { useState } from 'react'
+import { useValidateUserMutation } from '@hooks/user'
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa'
 
 export const Login = () => {

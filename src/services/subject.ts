@@ -1,4 +1,5 @@
-import axiosInstance from "../axios";
+import axiosInstance from "@axios/index";
+
 import { Subject, SubjectTutor } from "../interfaces/subject";
 
 export const postSubject = async ({ code, name, accademicProgramId }: Subject) => {

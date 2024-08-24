@@ -1,15 +1,17 @@
 import { useMutation } from '@tanstack/react-query'
-import { authLogin } from '../services/auth'
-import { useAlert } from '@context/alertContext'
+import { authLogin } from '@services/auth'
+import { useAlert } from '@context/alertContext';
 
-export const useValidateUserMutation = () => useMutation({
-    const { showAlert } = useAlert()
-
-    mutationFn: authLogin,
-    onSuccess: (data) => {
-        showAlert('success', 'Usuario autenticado correctamente.');
-    },
-    onError: (error) => {
-        showAlert('error', 'Usuario o Contraseña incorrectos.');
-    },
-})
+export const useValidateUserMutation = () => {
+    const { showAlert } = useAlert();
+    return useMutation({
+        mutationFn: authLogin,
+        onSuccess: () => {
+            showAlert('success', 'Usuario autenticado correctamente.');
+        },
+        onError: (error) => {
+            console.error('Error fetching data:', error);
+            showAlert('error', 'Usuario o Contraseña incorrectos.');
+        },
+    });
+};

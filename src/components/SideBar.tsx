@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import { FaChalkboardTeacher } from 'react-icons/fa'
-import homeIcon from '../assets/home.svg'
+import homeIcon from '@assets/home.svg'
 import { TiThMenuOutline } from 'react-icons/ti'
 import { ItemSidebar } from './sidebar/Item'
 
