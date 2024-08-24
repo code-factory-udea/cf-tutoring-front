@@ -1,12 +1,11 @@
 export interface Professor {
-    id: number
-    name: string
-    username: string
-    professorSubjectInfo: ProfessorSubjectInfo[]
+  id: number;
+  name: string;
+  username: string;
+  professorSubjectInfo: ProfessorSubjectInfo[];
 }
 
-
 interface ProfessorSubjectInfo {
-    subjectId: number
-    accademicProgramInfo: number
+  subjectId: number;
+  accademicProgramInfo: number;
 }

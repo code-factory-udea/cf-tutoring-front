@@ -1,0 +1,17 @@
+# Ignorar la carpetas
+**/axios/
+/build/**
+**/public/
+
+# Ignorar la carpeta node_modules en cualquier nivel
+**/node_modules/
+
+# Ignorar archivos de configuración específicos
+*.env
+*.config.js
+*.json
+*.node.json
+*.md
+
+vite.config.js
+vite.config.ts
