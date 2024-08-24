@@ -1,5 +1,9 @@
 {
     "compilerOptions": {
+        "jsx": "react-jsx",
+        "module": "esnext",
+        "moduleResolution": "node",
+        "target": "esnext",
         "baseUrl": ".",
         "paths": {
             "@axios/*": ["src/axios/*"],
@@ -9,7 +13,8 @@
             "@components/*": ["src/components/*"],
             "@hooks/*": ["src/hooks/*"],
             "@pages/*": ["src/pages/*"],
-            "@assets/*": ["src/assets/*"]
+            "@assets/*": ["src/assets/*"],
+            "@context/*": ["src/context/*"]
         }
     },
     "include": ["src"],
