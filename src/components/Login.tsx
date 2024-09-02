@@ -18,6 +18,7 @@ export const Login = () => {
     if (response.token) {
       localStorage.setItem("authToken", response.token);
       localStorage.setItem("user", JSON.stringify(response.user));
+
     } else {
       console.error("No se recibió un token en la respuesta");
     }

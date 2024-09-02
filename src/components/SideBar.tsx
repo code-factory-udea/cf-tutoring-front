@@ -17,6 +17,15 @@ export const Sidebar = () => {
     setIsUserMenuOpen(!isUserMenuOpen);
   };
 
+  const handleLogout = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault();
+    localStorage.clear();
+    if (!localStorage.length) {
+      console.log("Se ha cerrado sesión satisfactoriamente");
+    }
+  };
+
+
   return (
     <>
       <nav className="fixed top-0 z-50 w-full border-b bg-secondary-green border-secondary-green shadow-xl">
@@ -70,6 +79,7 @@ export const Sidebar = () => {
                     <li>
                       <Link
                         to="/login"
+                        onClick={handleLogout}
                         className="block px-4 py-2 text-sm text-light dark:hover:bg-primary-green hover:text-white"
                         role="menuitem"
                       >
