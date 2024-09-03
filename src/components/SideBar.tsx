@@ -1,13 +1,18 @@
 import homeIcon from "@assets/home.svg";
+import { getInitials } from "@utils/avatar";
 import { useState } from "react";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { TiThMenuOutline } from "react-icons/ti";
-import { Link, Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { ItemSidebar } from "./sidebar/Item";
 
 export const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const userData = localStorage.getItem("user");
+  const userName = userData ? JSON.parse(userData).name : "Usuario";
+  const userInitials = getInitials(userName);
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -17,14 +22,12 @@ export const Sidebar = () => {
     setIsUserMenuOpen(!isUserMenuOpen);
   };
 
-  const handleLogout = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+  const handleLogout = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     localStorage.clear();
-    if (!localStorage.length) {
-      console.log("Se ha cerrado sesión satisfactoriamente");
-    }
+    console.log("Se ha cerrado sesión satisfactoriamente");
+    navigate("/");
   };
-
 
   return (
     <>
@@ -51,15 +54,13 @@ export const Sidebar = () => {
               <button
                 type="button"
                 onClick={toggleUserMenu}
-                className="transition ease-in-out delay-150 duration-300 hover:-translate-y-1 hover:scale-105 flex text-sm bg-primary-green rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                className="transition ease-in-out delay-150 duration-300 hover:-translate-y-1 hover:scale-105 flex text-sm bg-primary-green rounded-full focus:ring-4 focus:ring-primary-green "
                 aria-expanded={isUserMenuOpen ? "true" : "false"}
                 aria-haspopup="true"
               >
-                <img
-                  className="w-8 h-8 rounded-full"
-                  src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                  alt="user photo"
-                />
+                <div className="w-8 h-8 rounded-full bg-light-green flex items-center justify-center text-dark font-bold">
+                  {userInitials}
+                </div>
               </button>
               {isUserMenuOpen && (
                 <div
@@ -70,21 +71,21 @@ export const Sidebar = () => {
                   style={{ top: "calc(100% + 10px)" }}
                 >
                   <div className="px-4 py-3">
-                    <p className="text-sm text-light">Neil Sims</p>
+                    <p className="text-sm text-light">{userName}</p>
                     <p className="text-sm font-medium truncate text-dark">
-                      neil.sims@com
+                      {userData ? JSON.parse(userData).username : "Correo"}
+                      {"@udea.edu.co "}
                     </p>
                   </div>
                   <ul className="py-1">
                     <li>
-                      <Link
-                        to="/login"
+                      <button
                         onClick={handleLogout}
-                        className="block px-4 py-2 text-sm text-light dark:hover:bg-primary-green hover:text-white"
+                        className="block px-4 py-2 text-sm w-full text-left text-light dark:hover:bg-primary-green hover:text-white"
                         role="menuitem"
                       >
                         Cerrar Sesión
-                      </Link>
+                      </button>
                     </li>
                   </ul>
                 </div>
@@ -106,15 +107,7 @@ export const Sidebar = () => {
                 icon={homeIcon}
                 title="Home"
                 active={true}
-                route="/home"
-              />
-            </ul>
-            <ul className="space-y-2 font-medium">
-              <ItemSidebar
-                icon={homeIcon}
-                title="Login"
-                active={true}
-                route="/login"
+                route="/dashboard"
               />
             </ul>
           </div>

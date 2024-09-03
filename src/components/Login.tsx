@@ -1,26 +1,35 @@
 import { useValidateUserMutation } from "@hooks/user";
 import { useState } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const { mutateAsync: validateUser } = useValidateUserMutation();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const credentials = {
-      username,
-      password,
-    };
-    const response = await validateUser(credentials);
-    if (response.token) {
-      localStorage.setItem("authToken", response.token);
-      localStorage.setItem("user", JSON.stringify(response.user));
+    setIsLoading(true);
 
-    } else {
-      console.error("No se recibió un token en la respuesta");
+    try {
+      const credentials = {
+        username,
+        password,
+      };
+      const response = await validateUser(credentials);
+      if (response.token) {
+        localStorage.setItem("authToken", response.token);
+        localStorage.setItem("user", JSON.stringify(response.user));
+        navigate("/dashboard");
+      } 
+    } catch (err) {
+      console.error("Error de autenticación:", err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -40,7 +49,7 @@ export const Login = () => {
       <div className="lg:flex-1 flex flex-col justify-center items-center rounded-none lg:mr-20 lg:mt-20 bg-light p-8 lg:p-12 lg:rounded-t-3xl shadow-lg">
         <h2 className="text-2xl font-semibold mb-4 text-dark">Bienvenid@</h2>
         <p className="text-dark/50 mb-8 text-center">
-          Vamos a iniciar sesión con tú usuario que ingresas al LIS
+          Vamos a iniciar sesión con la misma cuenta del LIS
         </p>
 
         <form className="w-full max-w-sm" onSubmit={handleSubmit}>
@@ -78,8 +87,9 @@ export const Login = () => {
             type="submit"
             className="w-full bg-primary-green text-light hover:bg-secondary-green shadow-xl  py-3 rounded-lg font-semibold mb-6"
           >
-            Login
-          </button>
+            {isLoading ? "Cargando..." : "Iniciar Sesión"}
+            </button>
+          
         </form>
 
         <p className="text-gray-500 mt-6 text-center">

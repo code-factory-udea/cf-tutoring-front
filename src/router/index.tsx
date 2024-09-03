@@ -6,18 +6,18 @@ import MainLayout from "../pages/mainLayout";
 const router = createBrowserRouter(
   [
     {
-      path: "/",
+      path: "/dashboard",
       element: <MainLayout />,
       children: [
         {
           index: true,
           element: <HomePage />,
         },
-        { path: "home", element: <HomePage /> },
+        { path: "dashboard", element: <HomePage /> },
       ],
     },
     {
-      path: "/login",
+      path: "/",
       element: <Login />,
     },
   ],
