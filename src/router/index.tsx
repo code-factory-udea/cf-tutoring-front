@@ -20,6 +20,16 @@ const router = createBrowserRouter(
       path: "/",
       element: <Login />,
     },
+    {
+      path: "/users",
+      element: <MainLayout />,
+      children: [
+        {
+          index: true,
+          element: <HomePage />,
+        },
+      ],
+    },
   ],
   // createRoutesFromElements(
   //     <Route path="/" element={<Sidebar />}>

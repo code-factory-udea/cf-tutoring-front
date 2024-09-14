@@ -1,3 +1,4 @@
+import { useLocalStorage } from "@hooks/useLocalStorage";
 import { useValidateUserMutation } from "@hooks/user";
 import { useState } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
@@ -11,6 +12,8 @@ export const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate()
 
+  const [authData, setAuthData] = useLocalStorage();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -22,8 +25,7 @@ export const Login = () => {
       };
       const response = await validateUser(credentials);
       if (response.token) {
-        localStorage.setItem("authToken", response.token);
-        localStorage.setItem("user", JSON.stringify(response.user));
+        setAuthData(response.user, response.token);
         navigate("/dashboard");
       } 
     } catch (err) {

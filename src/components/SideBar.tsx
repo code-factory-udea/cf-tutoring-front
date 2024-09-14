@@ -1,7 +1,9 @@
-import homeIcon from "@assets/home.svg";
+import { useLocalStorage } from "@hooks/useLocalStorage";
 import { getInitials } from "@utils/avatar";
 import { useState } from "react";
 import { FaChalkboardTeacher } from "react-icons/fa";
+import { FaUserGroup } from "react-icons/fa6";
+import { GoHome } from "react-icons/go";
 import { TiThMenuOutline } from "react-icons/ti";
 import { Outlet, useNavigate } from "react-router-dom";
 import { ItemSidebar } from "./sidebar/Item";
@@ -9,9 +11,8 @@ import { ItemSidebar } from "./sidebar/Item";
 export const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const userData = localStorage.getItem("user");
-  const userName = userData ? JSON.parse(userData).name : "Usuario";
-  const userInitials = getInitials(userName);
+  const [authData, setAuthData] = useLocalStorage();
+  const userInitials = getInitials(authData.user.name);
   const navigate = useNavigate();
 
   const toggleSidebar = () => {
@@ -24,9 +25,37 @@ export const Sidebar = () => {
 
   const handleLogout = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    localStorage.clear();
-    console.log("Se ha cerrado sesión satisfactoriamente");
+    setAuthData(null, null);
     navigate("/");
+  };
+
+  const renderMenuItems = () => {
+    switch (authData.user.role) {
+      case "Administrador":
+        return (
+          <>
+            <ItemSidebar icon={<GoHome />} title="Home" route="/dashboard" />
+            <ItemSidebar
+              icon={<FaUserGroup />}
+              title="Usuarios"
+              route="/users"
+            />
+          </>
+        );
+      case "student":
+        return (
+          <>
+            <ItemSidebar icon={<GoHome />} title="Home" route="/" />
+          </>
+        );
+      case "teacher":
+      default:
+        return (
+          <>
+            <ItemSidebar icon={<GoHome />} title="Home" route="/" />
+          </>
+        );
+    }
   };
 
   return (
@@ -71,10 +100,9 @@ export const Sidebar = () => {
                   style={{ top: "calc(100% + 10px)" }}
                 >
                   <div className="px-4 py-3">
-                    <p className="text-sm text-light">{userName}</p>
+                    <p className="text-sm text-light">{authData.user.name}</p>
                     <p className="text-sm font-medium truncate text-dark">
-                      {userData ? JSON.parse(userData).username : "Correo"}
-                      {"@udea.edu.co "}
+                      {`${authData.user.username} udea.edu.co`}
                     </p>
                   </div>
                   <ul className="py-1">
@@ -102,14 +130,7 @@ export const Sidebar = () => {
           } bg-secondary-green border-r border-secondary-green sm:translate-x-0 shadow-xl`}
         >
           <div className="h-full px-3 pb-4 overflow-y-auto bg-secondary-green border-secondary-green">
-            <ul className="space-y-2 font-medium">
-              <ItemSidebar
-                icon={homeIcon}
-                title="Home"
-                active={true}
-                route="/dashboard"
-              />
-            </ul>
+            <ul className="space-y-2 font-medium">{renderMenuItems()}</ul>
           </div>
         </div>
 
