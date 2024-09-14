@@ -6,7 +6,7 @@ import { FaUserGroup } from "react-icons/fa6";
 import { GoHome } from "react-icons/go";
 import { TiThMenuOutline } from "react-icons/ti";
 import { Outlet, useNavigate } from "react-router-dom";
-import { ItemSidebar } from "./sidebar/Item";
+import { ItemSidebar } from "../ui/ItemSidebar";
 
 export const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

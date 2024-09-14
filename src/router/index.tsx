@@ -1,43 +1,63 @@
+import { Login } from "@components/Login";
+import AdminPage from "@pages/admin.page";
+import HomePage from "@pages/home.page";
+import MainLayout from "@pages/mainLayout";
+import MonitorPage from "@pages/monitor.page";
+import StudentPage from "@pages/student.page";
+import TeacherPage from "@pages/teacher.page";
+import UnidentifiedPage from "@pages/undefined.page";
+import UserPage from "@pages/user.page";
 import { createBrowserRouter } from "react-router-dom";
-import { Login } from "../components/Login";
-import HomePage from "../pages/home.page";
-import MainLayout from "../pages/mainLayout";
 
-const router = createBrowserRouter(
-  [
-    {
-      path: "/dashboard",
-      element: <MainLayout />,
-      children: [
-        {
-          index: true,
-          element: <HomePage />,
-        },
-        { path: "dashboard", element: <HomePage /> },
-      ],
-    },
-    {
-      path: "/",
-      element: <Login />,
-    },
-    {
-      path: "/users",
-      element: <MainLayout />,
-      children: [
-        {
-          index: true,
-          element: <HomePage />,
-        },
-      ],
-    },
-  ],
-  // createRoutesFromElements(
-  //     <Route path="/" element={<Sidebar />}>
-  //         <Route index element={<HomePage />} />
-  //         <Route path="/login" element={<Login />} />
-  //         <Route path="/home" element={<HomePage />} />
-  //     </Route>
-  // )
-);
+const dashboardRoutes = [
+  {
+    index: true,
+    element: <HomePage />,
+  },
+];
+
+const userRoutes = [
+  {
+    index: true,
+    element: <UserPage />,
+  },
+  {
+    path: "students",
+    element: <StudentPage />,
+  },
+  {
+    path: "monitors",
+    element: <MonitorPage />,
+  },
+  {
+    path: "teachers",
+    element: <TeacherPage />,
+  },
+  {
+    path: "administrators",
+    element: <AdminPage />,
+  },
+  {
+    path: "unidentified",
+    element: <UnidentifiedPage />,
+  },
+];
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Login />,
+  },
+  {
+    path: "/dashboard",
+    element: <MainLayout />,
+    children: dashboardRoutes,
+  },
+  {
+    path: "/users",
+    element: <MainLayout />,
+    children: userRoutes,
+  },
+]);
 
 export default router;
