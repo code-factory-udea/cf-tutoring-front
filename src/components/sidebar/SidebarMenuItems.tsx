@@ -8,7 +8,7 @@ interface SidebarMenuItemsProps {
   role: string;
 }
 
-export const SidebarMenuItems = ({ role }: SidebarMenuItemsProps) => {
+export const SidebarMenuItems = ({ role}: SidebarMenuItemsProps) => {
   switch (role) {
     case "Administrador":
       return (

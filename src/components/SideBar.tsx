@@ -3,7 +3,7 @@ import { getInitials } from "@utils/avatar";
 import { useState } from "react";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { TiThMenuOutline } from "react-icons/ti";
-import { Outlet, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { SidebarMenuItems } from "./sidebar/SidebarMenuItems";
 
 export const Sidebar = () => {
@@ -13,13 +13,9 @@ export const Sidebar = () => {
   const userInitials = getInitials(authData.user.name);
   const navigate = useNavigate();
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
-  const toggleUserMenu = () => {
-    setIsUserMenuOpen(!isUserMenuOpen);
-  };
+  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+  const closeSidebar = () => setIsSidebarOpen(false);
+  const toggleUserMenu = () => setIsUserMenuOpen(!isUserMenuOpen);
 
   const handleLogout = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -37,7 +33,7 @@ export const Sidebar = () => {
                 onClick={toggleSidebar}
                 aria-controls="logo-sidebar"
                 type="button"
-                className="inline-flex items-center p-2 text-sm  rounded-lg sm:hidden bg-primary-green  focus:outline-none focus:ring-2 text-light focus:ring-primary-green"
+                className="inline-flex items-center p-2 text-sm rounded-lg sm:hidden bg-primary-green focus:outline-none focus:ring-2 text-light focus:ring-primary-green"
               >
                 <TiThMenuOutline className="h-6 w-6" />
               </button>
@@ -52,7 +48,7 @@ export const Sidebar = () => {
               <button
                 type="button"
                 onClick={toggleUserMenu}
-                className="transition ease-in-out delay-150 duration-300 hover:-translate-y-1 hover:scale-105 flex text-sm bg-primary-green rounded-full focus:ring-4 focus:ring-primary-green "
+                className="transition ease-in-out delay-150 duration-300 hover:-translate-y-1 hover:scale-105 flex text-sm bg-primary-green rounded-full focus:ring-4 focus:ring-primary-green"
                 aria-expanded={isUserMenuOpen ? "true" : "false"}
                 aria-haspopup="true"
               >
@@ -94,21 +90,18 @@ export const Sidebar = () => {
 
       <div className="flex">
         <div
-          className={`fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform ${
-            isSidebarOpen ? "translate-x-0 w-full md:w-64" : "-translate-x-full"
-          } bg-secondary-green border-r border-secondary-green sm:translate-x-0 shadow-xl`}
+          className={`fixed top-0 left-0 z-40 h-screen pt-20 transition-transform ${
+            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } bg-secondary-green border-r border-secondary-green shadow-xl sm:translate-x-0 ${
+            isSidebarOpen ? "w-full sm:w-64" : "w-64"
+          }`}
         >
           <div className="h-full px-3 pb-4 overflow-y-auto bg-secondary-green border-secondary-green">
-            <ul className="space-y-2 font-medium">
+            <ul className="space-y-2 font-medium" onClick={closeSidebar}>
               <SidebarMenuItems role={authData.user.role} />
             </ul>
           </div>
         </div>
-        <main
-          className={`flex-1 p-4 overflow-auto sm:ml-64 transition-all duration-300 mt-16`}
-        >
-          <Outlet />
-        </main>
       </div>
     </>
   );
