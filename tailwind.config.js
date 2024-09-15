@@ -12,6 +12,9 @@ export default {
         'light-green': '#5DEBDC',
         'light': '#efefef',
         'dark': '#292929',
+      },
+      fontFamily: {
+        body: ['Roboto', 'sans-serif']
       }
     },
   },

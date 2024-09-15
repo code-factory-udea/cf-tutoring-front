@@ -20,7 +20,7 @@ export const Sidebar = () => {
   const handleLogout = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     setAuthData(null, null);
-    navigate("/");
+    navigate("/login");
   };
 
   return (

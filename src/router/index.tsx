@@ -1,20 +1,16 @@
 import { Login } from "@components/Login";
+import AcademicProgramPage from "@pages/academicProgram.page";
 import AdminPage from "@pages/admin.page";
+import FacultyPage from "@pages/faculty.page";
 import HomePage from "@pages/home.page";
 import MainLayout from "@pages/mainLayout";
 import MonitorPage from "@pages/monitor.page";
 import StudentPage from "@pages/student.page";
+import SubjectPage from "@pages/subject";
 import TeacherPage from "@pages/teacher.page";
 import UnidentifiedPage from "@pages/undefined.page";
 import UserPage from "@pages/user.page";
 import { createBrowserRouter } from "react-router-dom";
-
-const dashboardRoutes = [
-  {
-    index: true,
-    element: <HomePage />,
-  },
-];
 
 const userRoutes = [
   {
@@ -45,18 +41,35 @@ const userRoutes = [
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/login",
     element: <Login />,
   },
   {
-    path: "/dashboard",
+    path: "/",
     element: <MainLayout />,
-    children: dashboardRoutes,
-  },
-  {
-    path: "/usuarios",
-    element: <MainLayout />,
-    children: userRoutes,
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+      {
+        path: "/usuarios",
+        element: <UserPage />,
+        children: userRoutes,
+      },
+      {
+        path: "/facultades",
+        element: <FacultyPage />,
+      },
+      {
+        path: "/programas",
+        element: <AcademicProgramPage />,
+      },
+      {
+        path: "/materias",
+        element: <SubjectPage />,
+      },
+    ],
   },
 ]);
 
