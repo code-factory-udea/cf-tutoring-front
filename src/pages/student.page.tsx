@@ -13,11 +13,10 @@ const StudentPage = () => {
   const handleRowClick = (index: number) => {
     console.log("Row clicked:", index);
   };
-  const {data: student} = useQueryStudents();
+  const { data: student } = useQueryStudents();
   console.log(student);
   return (
     <div className="flex flex-col gap-4">
-
       <SearchBar
         onSearch={(searchTerm) => console.log(searchTerm)}
         placeholder="Buscar Estudiantes"
