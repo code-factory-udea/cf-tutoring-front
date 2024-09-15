@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import uniqid from "uniqid";
-
+import { Spinner } from "./Spinner";
 interface TableCellProps {
   colSpan?: number;
   rowSpan?: number;
@@ -24,11 +24,12 @@ export const Table = ({
   onRowClick,
   isLoadingData,
 }: TableProps) => {
+  console.log(isLoadingData);
   if (isLoadingData) {
     return (
       <div className="flex justify-center items-center py-8">
         <div className="loader" />
-        <p className="text-sm text-gray-500">Cargando datos...</p>
+        <Spinner />
       </div>
     );
   }
@@ -66,7 +67,7 @@ export const Table = ({
                       key={uniqid()}
                       colSpan={colSpan}
                       rowSpan={rowSpan}
-                      className={`px-6 py-4 whitespace-nowrap text-sm font-medium text-dark ${className || ""}`}
+                      className={`px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-dark ${className || ""}`}
                     >
                       {children}
                     </td>
@@ -75,7 +76,7 @@ export const Table = ({
                   return (
                     <td
                       key={uniqid()}
-                      className="px-6 py-4 whitespace-nowrap text-sm font-medium text-dark"
+                      className="px-6 py-4 whitespace-nowrap text-sm font-medium text-dark text-center"
                     >
                       {cell}
                     </td>
