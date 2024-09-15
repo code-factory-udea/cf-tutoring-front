@@ -22,19 +22,19 @@ const userRoutes = [
     element: <UserPage />,
   },
   {
-    path: "students",
+    path: "estudiantes",
     element: <StudentPage />,
   },
   {
-    path: "monitors",
+    path: "monitores",
     element: <MonitorPage />,
   },
   {
-    path: "teachers",
+    path: "profesores",
     element: <TeacherPage />,
   },
   {
-    path: "administrators",
+    path: "adminitradores",
     element: <AdminPage />,
   },
   {
@@ -54,7 +54,7 @@ const router = createBrowserRouter([
     children: dashboardRoutes,
   },
   {
-    path: "/users",
+    path: "/usuarios",
     element: <MainLayout />,
     children: userRoutes,
   },

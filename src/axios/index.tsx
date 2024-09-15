@@ -7,4 +7,19 @@ const axiosInstance = axios.create({
     },
 })
 
-export default axiosInstance
+axiosInstance.interceptors.request.use(
+    (config) => {
+        if (config.url !== '/auth/login') {
+            const authToken = localStorage.getItem('authToken');
+            if (authToken) {
+                config.headers.Authorization = `Bearer ${authToken}`;
+            }
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
+export default axiosInstance;

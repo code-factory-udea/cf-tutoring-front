@@ -2,11 +2,9 @@ import { useLocalStorage } from "@hooks/useLocalStorage";
 import { getInitials } from "@utils/avatar";
 import { useState } from "react";
 import { FaChalkboardTeacher } from "react-icons/fa";
-import { FaUserGroup } from "react-icons/fa6";
-import { GoHome } from "react-icons/go";
 import { TiThMenuOutline } from "react-icons/ti";
 import { Outlet, useNavigate } from "react-router-dom";
-import { ItemSidebar } from "../ui/ItemSidebar";
+import { SidebarMenuItems } from "./sidebar/SidebarMenuItems";
 
 export const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -27,35 +25,6 @@ export const Sidebar = () => {
     e.preventDefault();
     setAuthData(null, null);
     navigate("/");
-  };
-
-  const renderMenuItems = () => {
-    switch (authData.user.role) {
-      case "Administrador":
-        return (
-          <>
-            <ItemSidebar icon={<GoHome />} title="Home" route="/dashboard" />
-            <ItemSidebar
-              icon={<FaUserGroup />}
-              title="Usuarios"
-              route="/users"
-            />
-          </>
-        );
-      case "student":
-        return (
-          <>
-            <ItemSidebar icon={<GoHome />} title="Home" route="/" />
-          </>
-        );
-      case "teacher":
-      default:
-        return (
-          <>
-            <ItemSidebar icon={<GoHome />} title="Home" route="/" />
-          </>
-        );
-    }
   };
 
   return (
@@ -130,10 +99,11 @@ export const Sidebar = () => {
           } bg-secondary-green border-r border-secondary-green sm:translate-x-0 shadow-xl`}
         >
           <div className="h-full px-3 pb-4 overflow-y-auto bg-secondary-green border-secondary-green">
-            <ul className="space-y-2 font-medium">{renderMenuItems()}</ul>
+            <ul className="space-y-2 font-medium">
+              <SidebarMenuItems role={authData.user.role} />
+            </ul>
           </div>
         </div>
-
         <main
           className={`flex-1 p-4 overflow-auto sm:ml-64 transition-all duration-300 mt-16`}
         >

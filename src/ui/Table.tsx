@@ -41,7 +41,7 @@ export const Table = ({
             {columns.map((column) => (
               <th
                 key={uniqid()}
-                className="px-6 py-3 text-center text-sm font-bold text-dark bg-light-green uppercase tracking-wider"
+                className="px-6 py-3 text-center text-sm font-bold text-light bg-primary-green uppercase tracking-wider"
               >
                 {column}
               </th>
@@ -54,7 +54,7 @@ export const Table = ({
               key={uniqid()}
               onClick={onRowClick ? () => onRowClick(rowIndex) : undefined}
               className={`cursor-pointer ${
-                onRowClick ? "hover:bg-light-green" : ""
+                onRowClick ? "hover:bg-light-green/30" : ""
               } transition-colors`}
             >
               {row.map((cell) => {
