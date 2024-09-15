@@ -1,16 +1,16 @@
+import { useMutationValidateUser } from "@hooks/mutations";
 import { useLocalStorage } from "@hooks/useLocalStorage";
-import { useValidateUserMutation } from "@hooks/user";
 import { useState } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
-  const { mutateAsync: validateUser } = useValidateUserMutation();
+  const { mutateAsync: validateUser } = useMutationValidateUser();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [authData, setAuthData] = useLocalStorage();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -26,7 +26,7 @@ export const Login = () => {
       if (response.token) {
         setAuthData(response.user, response.token);
         navigate("/dashboard");
-      } 
+      }
     } catch (err) {
       console.error("Error de autenticación:", err);
     } finally {
@@ -89,8 +89,7 @@ export const Login = () => {
             className="w-full bg-primary-green text-light hover:bg-secondary-green shadow-xl  py-3 rounded-lg font-semibold mb-6"
           >
             {isLoading ? "Cargando..." : "Iniciar Sesión"}
-            </button>
-          
+          </button>
         </form>
 
         <p className="text-gray-500 mt-6 text-center">

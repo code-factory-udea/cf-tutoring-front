@@ -8,13 +8,17 @@ interface SidebarMenuItemsProps {
   role: string;
 }
 
-export const SidebarMenuItems = ({ role}: SidebarMenuItemsProps) => {
+export const SidebarMenuItems = ({ role }: SidebarMenuItemsProps) => {
   switch (role) {
     case "Administrador":
       return (
         <>
           <ItemSidebar icon={<GoHome />} title="Home" route="/dashboard" />
-          <ItemSidebar icon={<FaUserGroup />} title="Usuarios" route="/usuarios" />
+          <ItemSidebar
+            icon={<FaUserGroup />}
+            title="Usuarios"
+            route="/usuarios"
+          />
           <ItemSidebar
             icon={<MdHomeWork />}
             title="Facultades"

@@ -6,7 +6,11 @@ interface UserMenuProps {
   onLogout: () => void;
 }
 
-export const UserMenu: React.FC<UserMenuProps> = ({ userInitials, user, onLogout }) => {
+export const UserMenu: React.FC<UserMenuProps> = ({
+  userInitials,
+  user,
+  onLogout,
+}) => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
   const toggleUserMenu = () => {

@@ -18,7 +18,7 @@ const dashboardRoutes = [
 
 const userRoutes = [
   {
-    index: true, 
+    index: true,
     element: <UserPage />,
   },
   {
@@ -34,7 +34,7 @@ const userRoutes = [
     element: <TeacherPage />,
   },
   {
-    path: "administradores", 
+    path: "administradores",
     element: <AdminPage />,
   },
   {
@@ -46,17 +46,17 @@ const userRoutes = [
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Login />, 
+    element: <Login />,
   },
   {
     path: "/dashboard",
     element: <MainLayout />,
-    children: dashboardRoutes, 
+    children: dashboardRoutes,
   },
   {
     path: "/usuarios",
-    element: <MainLayout />, 
-    children: userRoutes, 
+    element: <MainLayout />,
+    children: userRoutes,
   },
 ]);
 

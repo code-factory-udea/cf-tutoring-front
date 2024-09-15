@@ -1,4 +1,4 @@
-import { useQueryStudents } from "@hooks/student";
+import { useQueryStudents } from "@hooks/queries";
 import { SearchBar } from "@ui/SearchBar";
 import { Table } from "@ui/Table";
 

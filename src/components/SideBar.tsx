@@ -67,7 +67,7 @@ export const Sidebar = () => {
                   <div className="px-4 py-3">
                     <p className="text-sm text-light">{authData.user.name}</p>
                     <p className="text-sm font-medium truncate text-dark">
-                      {`${authData.user.username} udea.edu.co`}
+                      {authData.user.username}
                     </p>
                   </div>
                   <ul className="py-1">

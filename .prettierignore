@@ -12,6 +12,7 @@
 *.json
 *.node.json
 *.md
+*.yml
 
 vite.config.js
 vite.config.ts
