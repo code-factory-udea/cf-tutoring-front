@@ -13,7 +13,7 @@ export const SidebarMenuItems = ({ role }: SidebarMenuItemsProps) => {
     case "Administrador":
       return (
         <>
-          <ItemSidebar icon={<GoHome />} title="Home" route="/dashboard" />
+          <ItemSidebar icon={<GoHome />} title="Home" route="/" />
           <ItemSidebar
             icon={<FaUserGroup />}
             title="Usuarios"

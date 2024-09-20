@@ -1,5 +1,6 @@
 import axiosInstance from "@axios/index";
 import { Admin } from "@interfaces/admin";
+import { Role } from "@interfaces/user";
 
 export const getAdmin = async () => {
   try {
@@ -22,7 +23,7 @@ export const getAdminOthers = async () => {
 export const getRoles = async () => {
   try {
     const response = await axiosInstance.get("admin/role");
-    return response.data as Admin[];
+    return response.data as Role[];
   } catch (error) {
     throw new Error("Failed to get roles");
   }

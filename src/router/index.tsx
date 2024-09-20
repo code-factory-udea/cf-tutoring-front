@@ -14,10 +14,6 @@ import { createBrowserRouter } from "react-router-dom";
 
 const userRoutes = [
   {
-    index: true,
-    element: <UserPage />,
-  },
-  {
     path: "estudiantes",
     element: <StudentPage />,
   },
@@ -55,7 +51,6 @@ const router = createBrowserRouter([
       {
         path: "/usuarios",
         element: <UserPage />,
-        children: userRoutes,
       },
       {
         path: "/facultades",
@@ -69,6 +64,26 @@ const router = createBrowserRouter([
         path: "/materias",
         element: <SubjectPage />,
       },
+      {
+        path: "/usuarios/estudiantes",
+        element: <StudentPage />,
+      },
+      {
+        path: "/usuarios/monitores",
+        element: <MonitorPage />,
+      },
+      {
+        path: "/usuarios/profesores",
+        element: <TeacherPage />,
+      },
+      {
+        path: "/usuarios/administradores",
+        element: <AdminPage />,
+      },
+      {
+        path: "/usuarios/unidentified",
+        element: <UnidentifiedPage />,
+      }
     ],
   },
 ]);

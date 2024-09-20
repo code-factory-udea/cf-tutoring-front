@@ -33,16 +33,16 @@ export const Dropdown = ({ options, onSelect, placeholder }: DropdownProps) => {
   };
 
   return (
-    <div className="relative inline-block w-1/2" ref={dropdownRef}>
+    <div className="relative inline-block w-full" ref={dropdownRef}>
       <div
         onClick={() => setIsOpen(!isOpen)}
-        className="bg-light border border-gray-300 rounded-lg px-4 py-2 cursor-pointer"
+        className="bg-light border border-gray-300 rounded-lg px-4 py-2 cursor-pointer w-full flex justify-between items-center"
       >
-        {selectedOption || placeholder}
-        <span className="float-right">&#9662;</span>
+        <span>{selectedOption || placeholder}</span>
+        <span className="ml-2">&#9662;</span>
       </div>
       {isOpen && (
-        <ul className="absolute left-0 w-full mt-1 bg-white border border-gray-300 rounded-lg max-h-60 overflow-y-auto">
+        <ul className="absolute left-0 w-full mt-1 bg-white border border-gray-300 rounded-lg max-h-60 overflow-y-auto z-10">
           {options.map((option) => (
             <li
               key={option}

@@ -13,3 +13,8 @@ export interface UpdateUserRole {
   username: string;
   idRole: number;
 }
+
+export interface Role{
+  id: number;
+  role: string;
+}

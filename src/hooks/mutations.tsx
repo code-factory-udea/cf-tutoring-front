@@ -1,7 +1,7 @@
 import { useAlert } from "@context/alertContext";
 import { authLogin } from "@services/auth";
 import { updateUserRole } from "@services/user";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useMutationValidateUser = () => {
   const { showAlert } = useAlert();
@@ -18,11 +18,13 @@ export const useMutationValidateUser = () => {
 };
 
 export const useMutationUpdateUserRole = () => {
+  const queryClient = useQueryClient();
   const { showAlert } = useAlert();
   return useMutation({
     mutationFn: updateUserRole,
     onSuccess: () => {
       showAlert("success", "Rol actualizado correctamente.");
+      queryClient.invalidateQueries({ queryKey: ["userApiKeys"] });
     },
     onError: (error) => {
       console.error("Error fetching data:", error);

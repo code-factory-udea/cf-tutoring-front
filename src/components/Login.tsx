@@ -25,7 +25,7 @@ export const Login = () => {
       const response = await validateUser(credentials);
       if (response.token) {
         setAuthData(response.user, response.token);
-        navigate("/dashboard");
+        navigate("/");
       }
     } catch (err) {
       console.error("Error de autenticación:", err);

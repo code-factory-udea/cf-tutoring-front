@@ -1,20 +1,30 @@
+import { EditRole } from "@components/EditRole";
 import { useQueryStudents } from "@hooks/queries";
 import { SearchBar } from "@ui/SearchBar";
 import { Table } from "@ui/Table";
+import { useMemo } from "react";
 
 const StudentPage = () => {
   const columns = ["ID", "Nombre", "Usuario", "Rol"];
-  const students = [
-    [1, "Eliana Puerta", "Estudiante", "eliana@udea.edu.co"],
-    [2, "Juan Lopera", "Monitor", "juan@udea.edu.co"],
-    [3, "Mateo Velasquez", "Monitor", "mateo@udea.edu.co"],
-  ];
+  
+  const { data: students } = useQueryStudents();
+
+  const memoizedStudents = useMemo(() => {
+    if (!students) return [];
+    return students.map((student, index) => {
+      return [
+        index + 1, 
+        <p>{student.name}</p>,
+        <strong>{student.username}</strong>, 
+        <EditRole role={student.role} username={student.username}/>,
+      ];
+    });
+  }, [students]);
 
   const handleRowClick = (index: number) => {
     console.log("Row clicked:", index);
   };
-  const { data: student } = useQueryStudents();
-  console.log(student);
+
   return (
     <div className="flex flex-col gap-4">
       <SearchBar
@@ -23,9 +33,9 @@ const StudentPage = () => {
       />
       <Table
         columns={columns}
-        data={students}
+        data={memoizedStudents} 
         onRowClick={handleRowClick}
-        isLoadingData={false}
+        isLoadingData={!students}
       />
     </div>
   );

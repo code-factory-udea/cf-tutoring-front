@@ -1,9 +1,10 @@
 import axiosInstance from "@axios/index";
+import { User } from "@interfaces/user";
 
 export const getStudents = async () => {
   try {
     const response = await axiosInstance.get("admin/student");
-    return response.data;
+    return response.data as Array<User>;
   } catch (error) {
     throw new Error("Failed to get students");
   }

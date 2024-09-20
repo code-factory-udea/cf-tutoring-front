@@ -33,7 +33,7 @@ export const Table = ({
       </div>
     );
   }
-
+  console.log(data);
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full bg-light border border-primary-green rounded-lg">
