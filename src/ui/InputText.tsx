@@ -20,7 +20,7 @@ export const InputText = ({
 }: InputTextProps) => {
   return (
     <div className="relative w-full">
-      <label className="text-xs font-semibold mb-2 block">
+      <label className="text-sm font-semibold mb-2 block">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
       <div className="relative">
@@ -31,7 +31,7 @@ export const InputText = ({
           type="text"
           name={name}
           value={value}
-          className="outline-none border border-gray-300 rounded-md py-2 pl-12 pr-3 w-full text-xs hover:border-gray-400 focus:border-gray-400 focus:shadow-lg"
+          className="outline-none border border-gray-300 rounded-md py-2 pl-12 pr-3 w-full text-sm hover:border-gray-400 focus:border-gray-400 focus:shadow-lg"
           placeholder={placeholder}
           onChange={onChange}
         />

@@ -11,6 +11,7 @@ axiosInstance.interceptors.request.use(
     (config) => {
         if (config.url !== '/auth/login') {
             const authToken = localStorage.getItem('authToken');
+            console.log('authToken', authToken);
             if (authToken) {
                 config.headers.Authorization = `Bearer ${authToken}`;
             }
