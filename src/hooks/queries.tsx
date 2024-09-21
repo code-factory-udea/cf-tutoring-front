@@ -1,13 +1,39 @@
+import { User } from "@interfaces/user";
 import { getAcademicProgram, getFaculty } from "@services/academic";
 import { getRoles } from "@services/admin";
 import { getStudents, getTutorByUsername } from "@services/student";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
-export const useQueryStudents = () =>
-  useQuery({
-    queryKey: ["students"],
-    queryFn: getStudents,
+export function useQueryStudents({
+  page,
+  name,
+}: {
+  page: number;
+  name: string;
+}) {
+  const response = useInfiniteQuery({
+    initialPageParam: 1,
+    queryKey: ["students", page, name],
+    queryFn: ({ pageParam = 1 }) => getStudents({ page: pageParam, name }),
+    getNextPageParam: (lastPage) =>
+      lastPage.hasNextPage ? lastPage.currentPage + 1 : undefined,
   });
+
+  const students = response.data?.pages.reduce((prev, curr) => {
+    return [...prev, ...curr.userList];
+  }, [] as User[]);
+
+  const handleChangeInView = (inView: boolean) => {
+    if (response.isFetching || !inView) return;
+    response.hasNextPage && response.fetchNextPage();
+  };
+
+  return {
+    ...response,
+    students: students || [],
+    handleChangeInView,
+  };
+}
 
 export const useQueryTutorByUsername = (username: string) =>
   useQuery({

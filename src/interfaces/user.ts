@@ -14,7 +14,15 @@ export interface UpdateUserRole {
   idRole: number;
 }
 
-export interface Role{
+export interface Role {
   id: number;
   role: string;
+}
+
+export interface UserList {
+  totalPages: number,
+  userList: User[],
+  currentPage: number,
+  pageSize: number,
+  hasNextPage: true
 }

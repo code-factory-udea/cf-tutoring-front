@@ -32,8 +32,8 @@ const FacultyPage = () => {
 
   const memoizedFaculties = useMemo(() => {
     if (!faculties) return [];
-    return faculties.map((faculty, index) => {
-      return [index + 1, <p>{faculty.id}</p>, <p>{faculty.name}</p>];
+    return faculties.map((faculty) => {
+      return [ <p>{faculty.id}</p>, <p>{faculty.name}</p>];
     });
   }, [faculties]);
 
