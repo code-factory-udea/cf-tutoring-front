@@ -1,17 +1,18 @@
 import { EditRole } from "@components/EditRole";
 import { useQueryStudents } from "@hooks/queries";
 import { SearchBar } from "@ui/SearchBar";
-import { Spinner } from "@ui/Spinner";
 import { Table } from "@ui/Table";
 import { useEffect, useMemo, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
+const COLUMNS = ["ID", "Nombre", "Usuario", "Rol"];
+
 const StudentPage = () => {
-  const columns = ["ID", "Nombre", "Usuario", "Rol"];
   const [searchQuery, setSearchQuery] = useState<string>("");
   const {
     data: students,
     isPending,
+    isFetching,
     handleChangeInView,
   } = useQueryStudents({ page: 1, name: searchQuery });
   const { ref: refBottom } = useInView({
@@ -51,22 +52,16 @@ const StudentPage = () => {
   return (
     <div className="flex flex-col gap-4">
       <SearchBar onSearch={onSearch} placeholder="Buscar Estudiantes" />
-      {isPending ? (
-        <Spinner />
-      ) : (
-        <>
-          <Table
-            columns={columns}
-            data={memoizedStudents}
-            onRowClick={handleRowClick}
-            isLoadingData={!students}
-          />
-          <div ref={refBottom} className="w-full py-1" />
-        </>
-      )}
+      <Table
+        columns={COLUMNS}
+        data={memoizedStudents}
+        onRowClick={handleRowClick}
+        isLoadingData={isPending}
+      />
+      <div ref={refBottom} className="w-full py-1" />
+      {isFetching && <p className="text-center text-primary-green text-xl font-bold">Buscando...</p>}
     </div>
   );
 };
 
 export default StudentPage;
-

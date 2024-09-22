@@ -1,4 +1,5 @@
 import { Modal } from "@components/Modal";
+import { useAlert } from "@context/alertContext";
 import { useMutationCreateFaculty } from "@hooks/mutations";
 import { useQueryFaculties } from "@hooks/queries";
 import { useModal } from "@hooks/useModal";
@@ -8,12 +9,14 @@ import { Table } from "@ui/Table";
 import { useMemo, useState } from "react";
 import { FaSchool } from "react-icons/fa";
 
+const COLUMNS = ["ID", "Nombre"];
+
 const FacultyPage = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const [facultyName, setFacultyName] = useState<string>("");
   const { mutateAsync: createFaculty } = useMutationCreateFaculty();
   const { data: faculties } = useQueryFaculties();
-  const columns = ["ID", "Nombre"];
+  const { showAlert } = useAlert();
 
   const handleRowClick = (index: number) => {
     console.log("Row clicked:", index);
@@ -21,7 +24,7 @@ const FacultyPage = () => {
 
   const handleConfirm = () => {
     if (facultyName.trim() === "") {
-      alert("El nombre de la facultad no puede estar vacío");
+      showAlert("info", "El nombre de la facultad no puede estar vacío");
       return;
     }
     createFaculty({ name: facultyName });
@@ -44,7 +47,7 @@ const FacultyPage = () => {
       </div>
 
       <Table
-        columns={columns}
+        columns={COLUMNS}
         data={memoizedFaculties}
         onRowClick={handleRowClick}
         isLoadingData={false}
