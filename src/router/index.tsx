@@ -11,6 +11,7 @@ import TeacherPage from "@pages/teacher.page";
 import UnidentifiedPage from "@pages/undefined.page";
 import UserPage from "@pages/user.page";
 import { createBrowserRouter } from "react-router-dom";
+import PrivateRoute from "./privateRouter";
 
 const userRoutes = [
   {
@@ -42,7 +43,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <MainLayout />,
+    element: <PrivateRoute element={<MainLayout />} />,
     children: [
       {
         index: true,
@@ -50,40 +51,40 @@ const router = createBrowserRouter([
       },
       {
         path: "/usuarios",
-        element: <UserPage />,
+        element: <PrivateRoute element={<UserPage />} />,
       },
       {
         path: "/facultades",
-        element: <FacultyPage />,
+        element: <PrivateRoute element={<FacultyPage />} />,
       },
       {
         path: "/programas",
-        element: <AcademicProgramPage />,
+        element: <PrivateRoute element={<AcademicProgramPage />} />,
       },
       {
         path: "/materias",
-        element: <SubjectPage />,
+        element: <PrivateRoute element={<SubjectPage />} />,
       },
       {
         path: "/usuarios/estudiantes",
-        element: <StudentPage />,
+        element: <PrivateRoute element={<StudentPage />} />,
       },
       {
         path: "/usuarios/monitores",
-        element: <MonitorPage />,
+        element: <PrivateRoute element={<MonitorPage />} />,
       },
       {
         path: "/usuarios/profesores",
-        element: <TeacherPage />,
+        element: <PrivateRoute element={<TeacherPage />} />,
       },
       {
         path: "/usuarios/administradores",
-        element: <AdminPage />,
+        element: <PrivateRoute element={<AdminPage />} />,
       },
       {
         path: "/usuarios/unidentified",
-        element: <UnidentifiedPage />,
-      }
+        element: <PrivateRoute element={<UnidentifiedPage />} />,
+      },
     ],
   },
 ]);

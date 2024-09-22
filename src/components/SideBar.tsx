@@ -10,8 +10,9 @@ export const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [authData, setAuthData] = useLocalStorage();
-  const userInitials = getInitials(authData.user.name);
   const navigate = useNavigate();
+  const userInitials =
+    authData && authData.user ? getInitials(authData.user.name) : "";
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
   const closeSidebar = () => setIsSidebarOpen(false);
@@ -65,9 +66,11 @@ export const Sidebar = () => {
                   style={{ top: "calc(100% + 10px)" }}
                 >
                   <div className="px-4 py-3">
-                    <p className="text-sm text-light">{authData.user.name}</p>
+                    <p className="text-sm text-light">
+                      {authData && authData.user ? authData.user.name : ""}
+                    </p>
                     <p className="text-sm font-medium truncate text-dark">
-                      {authData.user.username}
+                      {authData && authData.user ? authData.user.username : ""}
                     </p>
                   </div>
                   <ul className="py-1">
@@ -98,7 +101,7 @@ export const Sidebar = () => {
         >
           <div className="h-full px-3 pb-4 overflow-y-auto bg-secondary-green border-secondary-green">
             <ul className="space-y-2 font-medium" onClick={closeSidebar}>
-              <SidebarMenuItems role={authData.user.role} />
+              <SidebarMenuItems role={authData && authData.user ? authData.user.role:''} />
             </ul>
           </div>
         </div>
