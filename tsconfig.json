@@ -14,7 +14,8 @@
             "@hooks/*": ["src/hooks/*"],
             "@pages/*": ["src/pages/*"],
             "@assets/*": ["src/assets/*"],
-            "@context/*": ["src/context/*"]
+            "@context/*": ["src/context/*"],
+            "@ui/*": ["src/ui/*"],
         }
     },
     "include": ["src"],

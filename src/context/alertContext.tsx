@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext, useState } from "react";
-import Alert from "../components/Alert";
+import Alert from "../ui/Alert";
 
 type AlertType = "success" | "error" | "info";
 
