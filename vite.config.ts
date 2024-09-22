@@ -19,7 +19,11 @@ export default defineConfig({
     },
   },
   server: {
-    host: "localhost",
+    https: {
+      key: import.meta.env.CERT_KEY,
+      cert: import.meta.env.CERT_CRT,
+    },
+    host: "0.0.0.0",
     port: 3000,
   },
 });
