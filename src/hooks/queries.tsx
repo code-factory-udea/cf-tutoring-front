@@ -1,7 +1,7 @@
 import { User } from "@interfaces/user";
 import { getAcademicProgram, getFaculty } from "@services/academic";
 import { getRoles } from "@services/admin";
-import { getProfessors } from "@services/professor";
+import { getProfessorByUsername, getProfessors } from "@services/professor";
 import { getMonitors, getStudents, getTutorByUsername } from "@services/student";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
@@ -121,3 +121,9 @@ export const useQueryAcademicPrograms = () =>
       handleChangeInView,
     };
   }
+
+  export const useQueryProfessorByUsername = (username: string) =>
+    useQuery({
+      queryKey: ["professorByUsername", username],
+      queryFn: () => getProfessorByUsername(username),
+    });

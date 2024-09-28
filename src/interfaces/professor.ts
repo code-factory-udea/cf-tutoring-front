@@ -1,11 +1,11 @@
 export interface Professor {
-  id: number;
   name: string;
   username: string;
-  professorSubjectInfo: ProfessorSubjectInfo[];
+  professorSubjectInfoDTO: ProfessorSubjectInfo[];
 }
 
 interface ProfessorSubjectInfo {
+  idProfessor: number;
   subjectId: number;
   accademicProgramInfo: number;
 }

@@ -45,17 +45,12 @@ const StudentPage = () => {
     setSearchQuery(searchTerm);
   };
 
-  const handleRowClick = (index: number) => {
-    console.log("Row clicked:", index);
-  };
-
   return (
     <div className="flex flex-col gap-4">
       <SearchBar onSearch={onSearch} placeholder="Buscar Estudiantes" />
       <Table
         columns={COLUMNS}
         data={memoizedStudents}
-        onRowClick={handleRowClick}
         isLoadingData={isPending}
       />
       <div ref={refBottom} className="w-full py-1" />

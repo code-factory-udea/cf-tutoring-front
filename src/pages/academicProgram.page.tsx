@@ -38,10 +38,6 @@ const AcademicProgramPage = () => {
     }));
   }, [faculties]);
 
-  const handleRowClick = (index: number) => {
-    console.log("Row clicked:", index);
-  };
-
   const handleSelect = (selectedOption: { value: string; label: string }) => {
     setSelectedFaculty({
       id: selectedOption.value,
@@ -89,7 +85,6 @@ const AcademicProgramPage = () => {
       <Table
         columns={COLUMNS}
         data={memoizedAcademicPrograms}
-        onRowClick={handleRowClick}
         isLoadingData={false}
       />
       <Modal isOpen={isOpen} title="Crear un programa académico">

@@ -14,7 +14,7 @@ type TableCell = TableCellProps | ReactNode | string | number;
 interface TableProps {
   columns: Array<string | ReactNode>;
   data: Array<Array<TableCell>>;
-  onRowClick?: (index: number) => void;
+  onRowClick?: (row: Array<TableCell>) => void;
   isLoadingData?: boolean;
 }
 
@@ -24,7 +24,6 @@ export const Table = ({
   onRowClick,
   isLoadingData,
 }: TableProps) => {
-  console.log(isLoadingData);
   if (isLoadingData) {
     return (
       <div className="flex justify-center items-center py-8">
@@ -33,7 +32,6 @@ export const Table = ({
       </div>
     );
   }
-  console.log(data);
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full bg-light border border-primary-green rounded-lg">
@@ -50,10 +48,10 @@ export const Table = ({
           </tr>
         </thead>
         <tbody>
-          {data.map((row, rowIndex) => (
+          {data.map((row) => (
             <tr
               key={uniqid()}
-              onClick={onRowClick ? () => onRowClick(rowIndex) : undefined}
+              onClick={onRowClick ? () => onRowClick(row) : undefined}
               className={`cursor-pointer ${
                 onRowClick ? "hover:bg-light-green/30" : ""
               } transition-colors`}

@@ -1,5 +1,8 @@
 import { EditRole } from "@components/EditRole";
+import { InfoMonitor } from "@components/InfoMonitor";
+import { Modal } from "@components/Modal";
 import { useQueryMonitors } from "@hooks/queries";
+import { useModal } from "@hooks/useModal";
 import { SearchBar } from "@ui/SearchBar";
 import { Table } from "@ui/Table";
 import { useEffect, useMemo, useState } from "react";
@@ -9,6 +12,8 @@ const COLUMNS = ["ID", "Nombre", "Usuario", "Rol"];
 
 const MonitorPage = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const { isOpen, openModal, closeModal } = useModal();
+  const [selectedMonitor, setselectedMonitor] = useState<string>("");
   const {
     data: monitors,
     isPending,
@@ -45,22 +50,33 @@ const MonitorPage = () => {
     setSearchQuery(searchTerm);
   };
 
-  const handleRowClick = (index: number) => {
-    console.log("Row clicked:", index);
+  const handleRowClick = (row) => {
+    const username = row[2].props.children;
+    setselectedMonitor(username);
+   openModal();
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      <SearchBar onSearch={onSearch} placeholder="Buscar Monitores" />
-      <Table
-        columns={COLUMNS}
-        data={memoizedMonitors}
-        onRowClick={handleRowClick}
-        isLoadingData={isPending}
-      />
-      <div ref={refBottom} className="w-full py-1" />
-      {isFetching && <p className="text-center text-primary-green text-xl font-bold">Buscando...</p>}
-    </div>
+    <>
+      <div className="flex flex-col gap-4">
+        <SearchBar onSearch={onSearch} placeholder="Buscar Monitores" />
+        <Table
+          columns={COLUMNS}
+          data={memoizedMonitors}
+          onRowClick={handleRowClick}
+          isLoadingData={isPending}
+        />
+        <div ref={refBottom} className="w-full py-1" />
+        {isFetching && (
+          <p className="text-center text-primary-green text-xl font-bold">
+            Buscando...
+          </p>
+        )}
+      </div>
+      <Modal isOpen={isOpen} title="Información del profesor">
+        <InfoMonitor username={selectedMonitor} close={closeModal} />
+      </Modal>
+    </>
   );
 };
 
