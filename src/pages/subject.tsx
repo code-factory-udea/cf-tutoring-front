@@ -42,9 +42,7 @@ const SubjectPage = () => {
       label: academic.name,
     }));
   }, [academicPrograms]);
-  const handleRowClick = (index: number) => {
-    console.log("Row clicked:", index);
-  };
+
   const handleSelectFaculty = (selectedOption: {
     value: string;
     label: string;
@@ -108,7 +106,6 @@ const SubjectPage = () => {
       <Table
         columns={COLUMNS}
         data={[]}
-        onRowClick={handleRowClick}
         isLoadingData={false}
       />
       <Modal isOpen={isOpen} title="Crear una materia">

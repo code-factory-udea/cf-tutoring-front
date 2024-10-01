@@ -1,5 +1,6 @@
 import axiosInstance from "@axios/index";
 import { Professor } from "@interfaces/professor";
+import { UserList } from "@interfaces/user";
 
 export const getProfessorByUsername = async (username: string) => {
   try {
@@ -10,12 +11,19 @@ export const getProfessorByUsername = async (username: string) => {
   }
 };
 
-export const getProfessors = async () => {
+export const getProfessors = async ({ page, name }: { page: number, name: string }) => {
   try {
-    const response = await axiosInstance.get("admin/professor");
-    return response.data as Professor[];
+    const response = await axiosInstance.get("admin/professor",
+      {
+        params: {
+          page,
+          name
+        }
+      }
+    );
+    return response.data as UserList;
   } catch (error) {
-    throw new Error("Failed to get professors");
+    throw new Error("Failed to get students");
   }
 };
 
