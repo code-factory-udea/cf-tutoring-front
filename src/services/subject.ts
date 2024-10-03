@@ -2,21 +2,9 @@ import axiosInstance from "@axios/index";
 
 import { Subject, SubjectTutor } from "../interfaces/subject";
 
-export const postSubject = async ({
-  code,
-  name,
-  accademicProgramId,
-}: Subject) => {
-  try {
-    const response = await axiosInstance.post("admin/subject", {
-      code,
-      name,
-      accademicProgramId,
-    });
-    return response.data;
-  } catch (error) {
-    throw new Error("Failed to post subject");
-  }
+export const postSubject = async (subjectData) => {
+  const response = await axiosInstance.post("/admin/subject", subjectData);
+  return response.data;
 };
 
 export const postSubjectTutor = async ({
