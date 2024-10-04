@@ -2,18 +2,17 @@ import { User } from "@interfaces/user";
 import { getAcademicProgram, getFaculty } from "@services/academic";
 import { getRoles } from "@services/admin";
 import { getProfessorByUsername, getProfessors } from "@services/professor";
-import { getMonitors, getStudents, getTutorByUsername } from "@services/student";
+import {
+  getMonitors,
+  getStudents,
+  getTutorByUsername,
+} from "@services/student";
+import { getSubjects } from "@services/subject";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { getAdmins } from '../services/admin';
-import { Admin } from '../interfaces/admin';
+import { Admin } from "../interfaces/admin";
+import { getAdmins } from "../services/admin";
 
-export function useQueryAdmins({
-  page,
-  name,
-}: {
-  page: number;
-  name: string;
-}) {
+export function useQueryAdmins({ page, name }: { page: number; name: string }) {
   const response = useInfiniteQuery({
     initialPageParam: 1,
     queryKey: ["admins", page, name],
@@ -95,70 +94,76 @@ export const useQueryAcademicPrograms = () =>
     queryFn: getAcademicProgram,
   });
 
-  export function useQueryMonitors({
-    page,
-    name,
-  }: {
-    page: number;
-    name: string;
-  }) {
-    const response = useInfiniteQuery({
-      initialPageParam: 1,
-      queryKey: ["monitors", page, name],
-      queryFn: ({ pageParam = 1 }) => getMonitors({ page: pageParam, name }),
-      getNextPageParam: (lastPage) =>
-        lastPage.hasNextPage ? lastPage.currentPage + 1 : undefined,
-    });
-  
-    const monitors = response.data?.pages.reduce((prev, curr) => {
-      return [...prev, ...curr.userList];
-    }, [] as User[]);
-  
-    const handleChangeInView = (inView: boolean) => {
-      if (response.isFetching || !inView) return;
-      response.hasNextPage && response.fetchNextPage();
-    };
-  
-    return {
-      ...response,
-      monitors: monitors || [],
-      handleChangeInView,
-    };
-  }
+export function useQueryMonitors({
+  page,
+  name,
+}: {
+  page: number;
+  name: string;
+}) {
+  const response = useInfiniteQuery({
+    initialPageParam: 1,
+    queryKey: ["monitors", page, name],
+    queryFn: ({ pageParam = 1 }) => getMonitors({ page: pageParam, name }),
+    getNextPageParam: (lastPage) =>
+      lastPage.hasNextPage ? lastPage.currentPage + 1 : undefined,
+  });
 
-  export function useQueryProfessor({
-    page,
-    name,
-  }: {
-    page: number;
-    name: string;
-  }) {
-    const response = useInfiniteQuery({
-      initialPageParam: 1,
-      queryKey: ["professors", page, name],
-      queryFn: ({ pageParam = 1 }) => getProfessors({ page: pageParam, name }),
-      getNextPageParam: (lastPage) =>
-        lastPage.hasNextPage ? lastPage.currentPage + 1 : undefined,
-    });
-  
-    const professors = response.data?.pages.reduce((prev, curr) => {
-      return [...prev, ...curr.userList];
-    }, [] as User[]);
-  
-    const handleChangeInView = (inView: boolean) => {
-      if (response.isFetching || !inView) return;
-      response.hasNextPage && response.fetchNextPage();
-    };
-  
-    return {
-      ...response,
-      professors: professors || [],
-      handleChangeInView,
-    };
-  }
+  const monitors = response.data?.pages.reduce((prev, curr) => {
+    return [...prev, ...curr.userList];
+  }, [] as User[]);
 
-  export const useQueryProfessorByUsername = (username: string) =>
-    useQuery({
-      queryKey: ["professorByUsername", username],
-      queryFn: () => getProfessorByUsername(username),
-    });
+  const handleChangeInView = (inView: boolean) => {
+    if (response.isFetching || !inView) return;
+    response.hasNextPage && response.fetchNextPage();
+  };
+
+  return {
+    ...response,
+    monitors: monitors || [],
+    handleChangeInView,
+  };
+}
+
+export function useQueryProfessor({
+  page,
+  name,
+}: {
+  page: number;
+  name: string;
+}) {
+  const response = useInfiniteQuery({
+    initialPageParam: 1,
+    queryKey: ["professors", page, name],
+    queryFn: ({ pageParam = 1 }) => getProfessors({ page: pageParam, name }),
+    getNextPageParam: (lastPage) =>
+      lastPage.hasNextPage ? lastPage.currentPage + 1 : undefined,
+  });
+
+  const professors = response.data?.pages.reduce((prev, curr) => {
+    return [...prev, ...curr.userList];
+  }, [] as User[]);
+
+  const handleChangeInView = (inView: boolean) => {
+    if (response.isFetching || !inView) return;
+    response.hasNextPage && response.fetchNextPage();
+  };
+
+  return {
+    ...response,
+    professors: professors || [],
+    handleChangeInView,
+  };
+}
+
+export const useQueryProfessorByUsername = (username: string) =>
+  useQuery({
+    queryKey: ["professorByUsername", username],
+    queryFn: () => getProfessorByUsername(username),
+  });
+
+export const useQuerySubjects = (academicProgramId: number) =>
+  useQuery({
+    queryKey: ["subjects", academicProgramId],
+    queryFn: () => getSubjects({ academicProgramId }),
+  });
