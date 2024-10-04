@@ -1,5 +1,6 @@
 import { Modal } from "@components/Modal";
 import { useAlert } from "@context/alertContext";
+import { useMutationCreateAcademicProgram } from "@hooks/mutations";
 import { useQueryAcademicPrograms, useQueryFaculties } from "@hooks/queries";
 import { useModal } from "@hooks/useModal";
 import Button from "@ui/Button";
@@ -7,6 +8,7 @@ import { Dropdown } from "@ui/Dropdown";
 import { InputText } from "@ui/InputText";
 import { Table } from "@ui/Table";
 import { useMemo, useState } from "react";
+import { FaBook } from "react-icons/fa";
 import { HiAcademicCap } from "react-icons/hi2";
 
 const COLUMNS = ["ID", "Nombre"];
@@ -14,9 +16,12 @@ const COLUMNS = ["ID", "Nombre"];
 const AcademicProgramPage = () => {
   const { data: academicPrograms } = useQueryAcademicPrograms();
   const { data: faculties } = useQueryFaculties();
+  const { mutateAsync: createAcademicProgram } =
+    useMutationCreateAcademicProgram();
   const { isOpen, openModal, closeModal } = useModal();
   const { showAlert } = useAlert();
   const [academicName, setAcademicName] = useState<string>("");
+  const [subjectCode, setSubjectCode] = useState<string>("");
   const [selectedFaculty, setSelectedFaculty] = useState<{
     id: string;
     name: string;
@@ -45,14 +50,18 @@ const AcademicProgramPage = () => {
     });
   };
 
-  const handleConfirm = () => {
-    if (academicName.trim() === "") {
-      showAlert("info", "El nombre del programa no puede estar vacío");
+  const handleConfirm = async () => {
+    if (academicName.trim() === "" && subjectCode.trim() === "") {
+      showAlert("info", "No pueden quedar campos vacíos");
       return;
     }
-    //TODO: Create academic program
-    console.log("Nombre del programa:", academicName);
+    await createAcademicProgram({
+      id: Number(subjectCode),
+      facultyId: Number(selectedFaculty.id),
+      name: academicName,
+    });
     setAcademicName("");
+    setSubjectCode("");
     closeModal();
   };
 
@@ -72,7 +81,7 @@ const AcademicProgramPage = () => {
         options={memoizedFaculties}
         onSelect={handleSelect}
       />
-      
+
       {selectedFaculty && (
         <div className="w-1/2 flex">
           <Button
@@ -91,6 +100,15 @@ const AcademicProgramPage = () => {
         <h2 className="text-md font-semibold text-dark/60">
           Facultad: {selectedFaculty?.name}
         </h2>
+        <InputText
+          placeholder="Ingrese el código del programa académico"
+          icon={<FaBook />}
+          label="Código del programa académico"
+          name="programCode"
+          value={subjectCode}
+          required
+          onChange={(e) => setSubjectCode(e.target.value)}
+        />
         <InputText
           placeholder="Ingrese el nombre del programa académico"
           icon={<HiAcademicCap />}

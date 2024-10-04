@@ -1,6 +1,7 @@
 import { useAlert } from "@context/alertContext";
 import { postAcademicProgram, postFaculty } from "@services/academic";
 import { authLogin } from "@services/auth";
+import { postSubject } from "@services/subject";
 import { updateUserRole } from "@services/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -63,6 +64,22 @@ export const useMutationCreateAcademicProgram = () => {
     onError: (error) => {
       console.error("Error fetching data:", error);
       showAlert("error", "Error al crear el programa académico.");
+    },
+  });
+}
+
+export const useMutationCreateSubject = () => {
+  const queryClient = useQueryClient();
+  const { showAlert } = useAlert();
+  return useMutation({
+    mutationFn: postSubject,
+    onSuccess: () => {
+      showAlert("success", "Materia creada correctamente.");
+      queryClient.invalidateQueries({ queryKey: ["subjects"] });
+    },
+    onError: (error) => {
+      console.error("Error fetching data:", error);
+      showAlert("error", "Error al crear la materia.");
     },
   });
 }

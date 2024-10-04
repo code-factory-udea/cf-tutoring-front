@@ -21,3 +21,16 @@ export const postSubjectTutor = async ({
     throw new Error("Failed to post subject tutor");
   }
 };
+
+export const getSubjects = async ({ academicProgramId }: { academicProgramId: number }) => {
+  try {
+    const response = await axiosInstance.get("subject", {
+      params: {
+        academicProgramId,
+      }
+    });
+    return response.data as Subject[];
+  } catch (error) {
+    throw new Error("Failed to get subjects");
+  }
+}
