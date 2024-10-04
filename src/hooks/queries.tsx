@@ -4,6 +4,41 @@ import { getRoles } from "@services/admin";
 import { getProfessorByUsername, getProfessors } from "@services/professor";
 import { getMonitors, getStudents, getTutorByUsername } from "@services/student";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { getAdmins } from '../services/admin';
+import { Admin } from '../interfaces/admin';
+
+export function useQueryAdmins({
+  page,
+  name,
+}: {
+  page: number;
+  name: string;
+}) {
+  const response = useInfiniteQuery({
+    initialPageParam: 1,
+    queryKey: ["admins", page, name],
+    queryFn: () => getAdmins(page, name),
+    getNextPageParam: (lastPage) =>
+      lastPage.hasNextPage ? Number(lastPage.currentPage) + 1 : undefined,
+  });
+
+  const admins = response.data?.pages.reduce((prev, curr) => {
+    // Aquí usamos 'userList' ya que es la clave correcta en tu API
+    const userList = Array.isArray(curr.userList) ? curr.userList : [];
+    return [...prev, ...userList];
+  }, [] as Admin[]);
+
+  const handleChangeInView = (inView: boolean) => {
+    if (response.isFetching || !inView) return;
+    response.hasNextPage && response.fetchNextPage();
+  };
+
+  return {
+    ...response,
+    admins: admins || [],
+    handleChangeInView,
+  };
+}
 
 export function useQueryStudents({
   page,
