@@ -8,6 +8,7 @@ import { InputText } from "@ui/InputText";
 import { Table } from "@ui/Table";
 import { useMemo, useState } from "react";
 import { FaBook } from "react-icons/fa";
+import { postSubject } from "../services/subject";
 
 const COLUMNS = ["ID", "Nombre"];
 
@@ -16,6 +17,7 @@ const SubjectPage = () => {
   const { data: faculties } = useQueryFaculties();
   const { data: academicPrograms } = useQueryAcademicPrograms();
   const [subject, setSubject] = useState<string>("");
+  const [subjectCode, setSubjectCode] = useState<string>("");
   const { showAlert } = useAlert();
 
   const [selectedAcademicProgram, setSelectedAcademicProgram] = useState<{
@@ -42,9 +44,7 @@ const SubjectPage = () => {
       label: academic.name,
     }));
   }, [academicPrograms]);
-  const handleRowClick = (index: number) => {
-    console.log("Row clicked:", index);
-  };
+
   const handleSelectFaculty = (selectedOption: {
     value: string;
     label: string;
@@ -63,15 +63,33 @@ const SubjectPage = () => {
       name: selectedOption.label,
     });
   };
-  const handleConfirm = () => {
-    if (subject.trim() === "") {
-      showAlert("info", "El nombre del programa no puede estar vacío");
+  const handleConfirm = async () => {
+    if (subject.trim() === "" || subjectCode.trim() === "") {
+      showAlert("info", "El nombre y el código de la materia no pueden estar vacíos");
       return;
     }
-    //TODO: Create subject
-    console.log("Nombre de la materia:", subject);
-    setSubject("");
-    closeModal();
+    try {
+      const academicProgramId = Number(selectedAcademicProgram.id);
+  
+      // Crea el objeto con los datos correctos
+      const newSubject = {
+        code: Number(subjectCode),  // Asegúrate de convertir el código a número
+        name: subject,  // El nombre de la materia ingresada
+        academicProgramId: academicProgramId,  // El ID del programa académico seleccionado
+      };
+
+      console.log("Datos que se enviarán al backend:", newSubject);
+  
+      // Realiza la petición al backend
+      const response = await postSubject(newSubject);
+  
+      showAlert("success", "Materia creada correctamente");
+      setSubject("");  // Limpia el campo de nombre
+      setSubjectCode("");  // Limpia el campo de código
+      closeModal();  // Cierra el modal
+    } catch (error) {
+      showAlert("error", "Error al crear la materia");
+    }
   };
 
   const handleCreateSubject = () => {
@@ -108,7 +126,6 @@ const SubjectPage = () => {
       <Table
         columns={COLUMNS}
         data={[]}
-        onRowClick={handleRowClick}
         isLoadingData={false}
       />
       <Modal isOpen={isOpen} title="Crear una materia">
@@ -126,6 +143,16 @@ const SubjectPage = () => {
           value={subject}
           required
           onChange={(e) => setSubject(e.target.value)}
+        />
+        <br></br>
+        <InputText
+          placeholder="Ingrese el codigo de la materia"
+          icon={<FaBook />}
+          label="Código de la materia"
+          name="subjectCode"
+          value={subjectCode}
+          required
+          onChange={(e) => setSubjectCode(e.target.value)}
         />
         <div className="flex justify-end gap-2 mt-4">
           <button

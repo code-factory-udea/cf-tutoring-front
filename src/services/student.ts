@@ -25,3 +25,19 @@ export const getTutorByUsername = async (username: string) => {
     throw new Error("Failed to get tutor");
   }
 };
+
+export const getMonitors = async ({ page, name }: { page: number, name: string }) => {
+  try {
+    const response = await axiosInstance.get("admin/tutor",
+      {
+        params: {
+          page,
+          name
+        }
+      }
+    );
+    return response.data as UserList;
+  } catch (error) {
+    throw new Error("Failed to get monitors");
+  }
+};
