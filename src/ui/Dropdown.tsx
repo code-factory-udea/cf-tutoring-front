@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
-interface DropdownOption {
-  value: string;
+export interface DropdownOption {
+  value: number;
   label: string;
 }
 interface DropdownProps {

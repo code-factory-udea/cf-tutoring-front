@@ -166,4 +166,5 @@ export const useQuerySubjects = (academicProgramId: number) =>
   useQuery({
     queryKey: ["subjects", academicProgramId],
     queryFn: () => getSubjects({ academicProgramId }),
+    enabled: !!academicProgramId,
   });

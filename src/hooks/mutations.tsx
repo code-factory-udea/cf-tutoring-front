@@ -27,6 +27,7 @@ export const useMutationUpdateUserRole = () => {
     onSuccess: () => {
       showAlert("success", "Rol actualizado correctamente.");
       queryClient.invalidateQueries({ queryKey: ["userApiKeys"] });
+      queryClient.invalidateQueries({ queryKey: ["students"] });
     },
     onError: (error) => {
       console.error("Error fetching data:", error);

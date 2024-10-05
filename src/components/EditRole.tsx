@@ -1,6 +1,6 @@
 import { useMutationUpdateUserRole } from "@hooks/mutations";
 import { useQueryRoles } from "@hooks/queries";
-import { Dropdown } from "@ui/Dropdown";
+import { Dropdown, DropdownOption } from "@ui/Dropdown";
 import { useState } from "react";
 import { FaRegCircleCheck } from "react-icons/fa6";
 import { MdOutlineCancel, MdOutlineModeEdit } from "react-icons/md";
@@ -15,21 +15,15 @@ export const EditRole = ({ role, username }: Props) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const { mutateAsync: updateRole } = useMutationUpdateUserRole();
 
-  const [currentRole, setCurrentRole] = useState<number | null>(null);
+  const [currentRole, setCurrentRole] = useState<DropdownOption | null>(null);
 
-  const handleRoleSelect = (selectedRole: string) => {
-    const roleObject = roles?.find((role) => role.role === selectedRole);
-    if (roleObject) {
-      setCurrentRole(roleObject.id);
-    }
+  const handleRoleSelect = (selectedRole: DropdownOption) => {
+    setCurrentRole(selectedRole);
   };
 
   const handleSave = async () => {
-    console.log("currentRole", currentRole);
-    console.log("role", role);
-    console.log("username", username);
     if (currentRole !== null) {
-      await updateRole({ data: { username, idRole: currentRole }, role });
+      await updateRole({ data: { username, idRole: currentRole.value } });
       setIsEditing(false);
     }
   };
@@ -37,7 +31,7 @@ export const EditRole = ({ role, username }: Props) => {
   const editMode = () => (
     <div className="flex gap-2 items-center">
       <Dropdown
-        options={roles?.map((role) => role.role) || []}
+        options={roles?.map((role) => ({ label: role.role, value: role.id })) || []}
         onSelect={handleRoleSelect}
         placeholder="Seleccione un rol"
       />
