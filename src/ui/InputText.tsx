@@ -19,7 +19,7 @@ export const InputText = ({
   required,
 }: InputTextProps) => {
   return (
-    <div className="relative w-full">
+    <div className="relative w-full mt-2">
       <label className="text-sm font-semibold mb-2 block">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
