@@ -20,8 +20,8 @@ export default defineConfig({
   },
   server: {
     https: {
-      key: process.env.CERT_KEY,
-      cert: process.env.CERT_CRT,
+      key: 'codefact-2024.key',
+      cert: 'codefact-2024.crt',
     },
     host: "0.0.0.0",
     port: 3000,
