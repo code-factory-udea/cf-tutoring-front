@@ -20,10 +20,10 @@ export default defineConfig({
   },
   server: {
     https: {
-      key: 'codefact-2024.key',
-      cert: 'codefact-2024.crt',
+      key: './codefact-2024.key',
+      cert: './codefact-2024.crt',
     },
-    host: "0.0.0.0",
+    host: "localhost",
     port: 3000,
   },
 });
