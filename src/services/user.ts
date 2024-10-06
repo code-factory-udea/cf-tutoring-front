@@ -12,9 +12,9 @@ export const getUserByname = async (name: string) => {
 
 export const updateUserRole = async ({ data }: { data: UpdateUserRole }) => {
   try {
-    const response = await axiosInstance.patch(`admin/user/user-role`,  data );
+    const response = await axiosInstance.patch(`admin/user/user-role`, data);
     return response.data;
   } catch (error) {
-    throw new Error("Failed to update user role");
+    throw new Error(error.response.data.message);
   }
 };

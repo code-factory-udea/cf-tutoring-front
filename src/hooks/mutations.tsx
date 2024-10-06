@@ -31,7 +31,7 @@ export const useMutationUpdateUserRole = () => {
     },
     onError: (error) => {
       console.error("Error fetching data:", error);
-      showAlert("error", "Error al actualizar el rol.");
+      showAlert("error", error.message);
     },
   });
 };

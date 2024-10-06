@@ -23,7 +23,9 @@ export const EditRole = ({ role, username }: Props) => {
 
   const handleSave = async () => {
     if (currentRole !== null) {
-      await updateRole({ data: { username, idRole: currentRole.value } });
+      await updateRole({
+        data: { username, idRole: Number(currentRole.value) },
+      });
       setIsEditing(false);
     }
   };
@@ -31,7 +33,12 @@ export const EditRole = ({ role, username }: Props) => {
   const editMode = () => (
     <div className="flex gap-2 items-center">
       <Dropdown
-        options={roles?.map((role) => ({ label: role.role, value: role.id })) || []}
+        options={
+          roles?.map((role) => ({
+            label: role.role,
+            value: String(role.id),
+          })) || []
+        }
         onSelect={handleRoleSelect}
         placeholder="Seleccione un rol"
       />
