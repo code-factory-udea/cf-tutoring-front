@@ -10,9 +10,13 @@ export const getFaculty = async () => {
     }
 };
 
-export const getAcademicProgram = async () => {
+export const getAcademicProgram = async ({ facultyId }: { facultyId: number }) => {
     try {
-        const response = await axiosInstance.get("academic/academic-program");
+        const response = await axiosInstance.get("academic/academic-program", {
+            params: {
+                facultyId
+            }
+        });
         return response.data;
     } catch (error) {
         throw new Error("Failed to get academic program");
