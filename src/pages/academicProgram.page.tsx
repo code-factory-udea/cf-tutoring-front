@@ -14,7 +14,7 @@ import { HiAcademicCap } from "react-icons/hi2";
 const COLUMNS = ["ID", "Nombre"];
 
 const AcademicProgramPage = () => {
-  const { data: academicPrograms } = useQueryAcademicPrograms();
+  
   const { data: faculties } = useQueryFaculties();
   const { mutateAsync: createAcademicProgram } =
     useMutationCreateAcademicProgram();
@@ -27,6 +27,10 @@ const AcademicProgramPage = () => {
     name: string;
   } | null>(null);
 
+  const { data: academicPrograms } = useQueryAcademicPrograms(
+    Number(selectedFaculty?.id)
+  );
+  
   const memoizedAcademicPrograms = useMemo(() => {
     if (!academicPrograms) return [];
 

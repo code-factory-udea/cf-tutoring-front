@@ -19,12 +19,11 @@ const COLUMNS = ["Código", "Nombre"];
 const SubjectPage = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const { data: faculties } = useQueryFaculties();
-  const { data: academicPrograms } = useQueryAcademicPrograms();
   const { mutateAsync: createSubject } = useMutationCreateSubject();
   const [subject, setSubject] = useState<string>("");
   const [subjectCode, setSubjectCode] = useState<string>("");
   const { showAlert } = useAlert();
-
+  
   const [selectedAcademicProgram, setSelectedAcademicProgram] = useState<{
     id: string;
     name: string;
@@ -33,6 +32,8 @@ const SubjectPage = () => {
     id: string;
     name: string;
   } | null>(null);
+
+  const { data: academicPrograms } = useQueryAcademicPrograms(Number(selectedFaculty?.id));
 
   const { data: subjects } = useQuerySubjects(
     Number(selectedAcademicProgram?.id),
