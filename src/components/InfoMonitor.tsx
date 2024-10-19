@@ -36,11 +36,11 @@ export const InfoMonitor = ({ username, close }: InfoMonitorProps) => {
         >
           {isAddingSubject
             ? "Ocultar Formulario"
-            : monitor?.id == null
+            : monitor?.subjectInfo == "Sin asignar"
               ? "Asignar Materia"
               : "Cambiar Materia"}
         </button>
-        {!isAddingSubject && monitor?.id != null && (
+        {!isAddingSubject && monitor?.subjectInfo != "Sin asignar" && (
           <button
             className="px-4 py-2 bg-primary-green text-white rounded-lg text-sm"
             title="Eliminar materia del monitor"
