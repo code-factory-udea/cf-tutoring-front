@@ -14,7 +14,6 @@ import { HiAcademicCap } from "react-icons/hi2";
 const COLUMNS = ["ID", "Nombre"];
 
 const AcademicProgramPage = () => {
-  
   const { data: faculties } = useQueryFaculties();
   const { mutateAsync: createAcademicProgram } =
     useMutationCreateAcademicProgram();
@@ -28,9 +27,9 @@ const AcademicProgramPage = () => {
   } | null>(null);
 
   const { data: academicPrograms } = useQueryAcademicPrograms(
-    Number(selectedFaculty?.id)
+    Number(selectedFaculty?.id),
   );
-  
+
   const memoizedAcademicPrograms = useMemo(() => {
     if (!academicPrograms) return [];
 
@@ -79,12 +78,18 @@ const AcademicProgramPage = () => {
 
   return (
     <div className="flex flex-col gap-4 w-full">
-      <h3 className="text-2xl font-bold">Seleccione una facultad </h3>
-      <Dropdown
-        placeholder="Seleccione una Facultad"
-        options={memoizedFaculties}
-        onSelect={handleSelect}
-      />
+      <p className="bg-gray-200 w-fit px-2 py-1 rounded-md">
+        Explora la lista de programas académicos disponibles y agrega nuevos
+        programas fácilmente.
+      </p>
+      <h2 className="text-2xl font-bold">Seleccione una facultad </h2>
+      <div className="w-1/2">
+        <Dropdown
+          placeholder="Seleccione una Facultad"
+          options={memoizedFaculties}
+          onSelect={handleSelect}
+        />
+      </div>
 
       {selectedFaculty && (
         <div className="w-1/2 flex">
@@ -94,12 +99,13 @@ const AcademicProgramPage = () => {
           />
         </div>
       )}
-
-      <Table
-        columns={COLUMNS}
-        data={memoizedAcademicPrograms}
-        isLoadingData={false}
-      />
+      {selectedFaculty && (
+        <Table
+          columns={COLUMNS}
+          data={memoizedAcademicPrograms}
+          isLoadingData={false}
+        />
+      )}
       <Modal isOpen={isOpen} title="Crear un programa académico">
         <h2 className="text-md font-semibold text-dark/60">
           Facultad: {selectedFaculty?.name}

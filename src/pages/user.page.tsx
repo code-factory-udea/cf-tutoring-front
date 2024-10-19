@@ -2,7 +2,7 @@ import { FaChalkboardTeacher, FaRegUser } from "react-icons/fa";
 import { LiaChalkboardTeacherSolid } from "react-icons/lia";
 import { PiStudent } from "react-icons/pi";
 import { RiAdminLine } from "react-icons/ri";
-import { useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
 const UserPage = () => {
   const navigate = useNavigate();
