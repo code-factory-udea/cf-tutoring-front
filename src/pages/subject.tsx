@@ -23,7 +23,7 @@ const SubjectPage = () => {
   const [subject, setSubject] = useState<string>("");
   const [subjectCode, setSubjectCode] = useState<string>("");
   const { showAlert } = useAlert();
-  
+
   const [selectedAcademicProgram, setSelectedAcademicProgram] = useState<{
     id: string;
     name: string;
@@ -33,7 +33,9 @@ const SubjectPage = () => {
     name: string;
   } | null>(null);
 
-  const { data: academicPrograms } = useQueryAcademicPrograms(Number(selectedFaculty?.id));
+  const { data: academicPrograms } = useQueryAcademicPrograms(
+    Number(selectedFaculty?.id),
+  );
 
   const { data: subjects } = useQuerySubjects(
     Number(selectedAcademicProgram?.id),
@@ -114,18 +116,30 @@ const SubjectPage = () => {
   }, [subjects]);
 
   return (
-    <div className="flex flex-col gap-4 w-full">
+    <div className="flex flex-col gap-3 w-full">
+      <p className="bg-gray-200 w-fit px-2 py-1 rounded-md">
+        Explora la lista de materias disponibles seleccionando una facultad y un
+        programa académico.
+      </p>
+      <h2 className="text-xl font-bold">Seleccione una facultad </h2>
+      <div className="w-1/2">
       <Dropdown
         placeholder="Seleccione una Facultad"
         options={memoizedFaculties}
         onSelect={handleSelectFaculty}
       />
+      </div>
       {selectedFaculty && (
-        <Dropdown
-          placeholder="Seleccione un programa académico"
-          options={memoizedAcademicProgram}
-          onSelect={handleSelectAcademicProgram}
-        />
+        <div className="w-1/2 space-y-3">
+          <h2 className="text-xl font-bold">
+            Seleccione un programa académico{" "}
+          </h2>
+          <Dropdown
+            placeholder="Seleccione un programa académico"
+            options={memoizedAcademicProgram}
+            onSelect={handleSelectAcademicProgram}
+          />
+        </div>
       )}
 
       {selectedAcademicProgram && selectedFaculty && (

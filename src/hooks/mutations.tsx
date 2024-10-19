@@ -140,6 +140,7 @@ export const useMutationDeleteSubjectTutor = () => {
     onSuccess: () => {
       showAlert("success", "Materia eliminada correctamente.");
       queryClient.invalidateQueries({ queryKey: ["tutorByUsername"] });
+      queryClient.refetchQueries({ queryKey: ["tutorByUsername"] });
     },
     onError: (error) => {
       showAlert("error", error.message);
