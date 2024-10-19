@@ -1,4 +1,7 @@
-import { useMutationSubjectProfessor } from "@hooks/mutations";
+import {
+  useMutationCreateSubjectTutor,
+  useMutationSubjectProfessor,
+} from "@hooks/mutations";
 import {
   useQueryAcademicPrograms,
   useQueryFaculties,
@@ -9,11 +12,13 @@ import { useMemo, useState } from "react";
 
 interface AddSubjectFormProps {
   username: string;
+  user: "professor" | "tutor";
 }
 
-export const AddSubjectForm = ({ username }: AddSubjectFormProps) => {
+export const AddSubjectForm = ({ username, user }: AddSubjectFormProps) => {
   const { data: faculties } = useQueryFaculties();
-  const { mutateAsync: addSubject } = useMutationSubjectProfessor();
+  const { mutateAsync: addSubjectProfessor } = useMutationSubjectProfessor();
+  const { mutateAsync: addSubjectTutor } = useMutationCreateSubjectTutor();
   const [selectedAcademicProgram, setSelectedAcademicProgram] = useState<{
     id: string;
     name: string;
@@ -88,17 +93,25 @@ export const AddSubjectForm = ({ username }: AddSubjectFormProps) => {
   };
   const handleAddSubject = async () => {
     if (selectedSubject) {
-      await addSubject({
-        username,
-        subjectCode: Number(selectedSubject.id),
-      });
+      if (user === "tutor") {
+        await addSubjectTutor({
+          username,
+          subjectCode: Number(selectedSubject.id),
+        });
+      }
+      if (user === "professor") {
+        await addSubjectProfessor({
+          username,
+          subjectCode: Number(selectedSubject.id),
+        });
+      }
     }
   };
   return (
     <section className="space-y-2">
       <p className="text-xs italic bg-yellow-100 px-2 rounded-md">
         Selecciona la Facultad, el programa académico y la materia para
-        asignarle una materia al profesor.
+        asignarle una materia al {user === "professor" ? "profesor" : "monitor"}
       </p>
 
       <div className="flex text-sm items-center gap-1 ">

@@ -2,7 +2,7 @@ import { useAlert } from "@context/alertContext";
 import { postAcademicProgram, postFaculty } from "@services/academic";
 import { authLogin } from "@services/auth";
 import { deleteProfessorSubject, postProfessorSubject } from "@services/professor";
-import { postSubject } from "@services/subject";
+import { deleteSubjectTutor, postSubject, postSubjectTutor } from "@services/subject";
 import { updateUserRole } from "@services/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -117,3 +117,32 @@ export const useMutationDeleteSubjectProfessor = () =>{
     },
   }); }
   
+export const useMutationCreateSubjectTutor = () => {
+  const queryClient = useQueryClient();
+  const { showAlert } = useAlert();
+  return useMutation({
+    mutationFn: postSubjectTutor,
+    onSuccess: () => {
+      showAlert("success", "Materia asignada correctamente.");
+      queryClient.invalidateQueries({ queryKey: ["tutorByUsername"] });
+    },
+    onError: (error) => {
+      showAlert("error", error.message);
+    },
+  });
+}
+
+export const useMutationDeleteSubjectTutor = () => {
+  const queryClient = useQueryClient();
+  const { showAlert } = useAlert();
+  return useMutation({
+    mutationFn: deleteSubjectTutor,
+    onSuccess: () => {
+      showAlert("success", "Materia eliminada correctamente.");
+      queryClient.invalidateQueries({ queryKey: ["tutorByUsername"] });
+    },
+    onError: (error) => {
+      showAlert("error", error.message);
+    },
+  });
+}

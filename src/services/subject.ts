@@ -18,7 +18,7 @@ export const postSubjectTutor = async ({
     });
     return response.data;
   } catch (error) {
-    throw new Error("Failed to post subject tutor");
+    throw new Error(error.response.data.message);
   }
 };
 
@@ -31,6 +31,20 @@ export const getSubjects = async ({ academicProgramId }: { academicProgramId: nu
     });
     return response.data as Subject[];
   } catch (error) {
-    throw new Error("Failed to get subjects");
+    throw new Error(error.response.data.message);
   }
 }
+
+export const deleteSubjectTutor = async ({
+  id,
+}: { id: number }) => {
+  try {
+    const response = await axiosInstance.patch(`admin/tutor/subject`,
+      {
+        id
+      });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};

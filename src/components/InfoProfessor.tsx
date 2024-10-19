@@ -16,7 +16,7 @@ export const InfoProfessor = ({ username, close }: InfoProfessorProps) => {
 
   const [isAddingSubject, setIsAddingSubject] = useState<boolean>(false);
   const handleDelete = async (id: number) => {
-    await deleteSubject({ idProfessor: id });
+    await deleteSubject({ id });
   };
   return (
     <div className=" space-y-2">
@@ -52,7 +52,9 @@ export const InfoProfessor = ({ username, close }: InfoProfessorProps) => {
       >
         {isAddingSubject ? "Ocultar Formulario" : "Agregar Materia"}
       </button>
-      {isAddingSubject && <AddSubjectForm username={username} />}
+      {isAddingSubject && (
+        <AddSubjectForm username={username} user="professor" />
+      )}
       <div className="flex justify-center gap-2 mt-4">
         <button
           onClick={close}

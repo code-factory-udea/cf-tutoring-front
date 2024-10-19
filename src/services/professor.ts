@@ -27,10 +27,10 @@ export const getProfessors = async ({ page, name }: { page: number, name: string
   }
 };
 
-export const deleteProfessorSubject = async ({idProfessor,}: {idProfessor: number}) => {
+export const deleteProfessorSubject = async ({ id }: { id: number }) => {
   try {
     const response = await axiosInstance.delete(`admin/professor/subject`, {
-      data: { idProfessor },
+      data: { id },
     });
     return response.data;
   } catch (error) {
