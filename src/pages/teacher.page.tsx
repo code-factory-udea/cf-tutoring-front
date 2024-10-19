@@ -41,7 +41,9 @@ const TeacherPage = () => {
         index + 1,
         <p>{professor.name}</p>,
         <strong>{professor.username}</strong>,
-        <EditRole role={professor.role} username={professor.username} />,
+        <div onClick={(e) => e.stopPropagation()}>
+          <EditRole role={professor.role} username={professor.username} />
+        </div>,
       ];
     });
   }, [professors]);
@@ -53,30 +55,29 @@ const TeacherPage = () => {
   const handleRowClick = (row) => {
     const username = row[2].props.children;
     setSelectedProfessor(username);
-   openModal();
+    openModal();
   };
 
   return (
     <>
-    <div className="flex flex-col gap-4">
-      <SearchBar onSearch={onSearch} placeholder="Buscar Profesores" />
-      <Table
-        columns={COLUMNS}
-        data={memoizedProfessors}
-        onRowClick={handleRowClick} 
-        isLoadingData={isPending}
-      />
-      <div ref={refBottom} className="w-full py-1" />
-      {isFetching && (
-        <p className="text-center text-primary-green text-xl font-bold">
-          Buscando...
-        </p>
-      )}
-    </div>
-    <Modal isOpen={isOpen} title="Información del profesor">
-      <InfoProfessor username={selectedProfessor} close={closeModal} />
-    </Modal>
-
+      <div className="flex flex-col gap-4">
+        <SearchBar onSearch={onSearch} placeholder="Buscar Profesores" />
+        <Table
+          columns={COLUMNS}
+          data={memoizedProfessors}
+          onRowClick={handleRowClick}
+          isLoadingData={isPending}
+        />
+        <div ref={refBottom} className="w-full py-1" />
+        {isFetching && (
+          <p className="text-center text-primary-green text-xl font-bold">
+            Buscando...
+          </p>
+        )}
+      </div>
+      <Modal isOpen={isOpen} title="Información del profesor">
+        <InfoProfessor username={selectedProfessor} close={closeModal} />
+      </Modal>
     </>
   );
 };

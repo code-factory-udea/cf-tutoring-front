@@ -88,10 +88,11 @@ export const useQueryFaculties = () =>
     queryFn: getFaculty,
   });
 
-export const useQueryAcademicPrograms = () =>
+export const useQueryAcademicPrograms = (facultyId: number) =>
   useQuery({
-    queryKey: ["academicPrograms"],
-    queryFn: getAcademicProgram,
+    queryKey: ["academicPrograms", facultyId],
+    queryFn: () => getAcademicProgram({ facultyId }),
+    enabled: !!facultyId,
   });
 
 export function useQueryMonitors({
@@ -166,4 +167,5 @@ export const useQuerySubjects = (academicProgramId: number) =>
   useQuery({
     queryKey: ["subjects", academicProgramId],
     queryFn: () => getSubjects({ academicProgramId }),
+    enabled: !!academicProgramId,
   });

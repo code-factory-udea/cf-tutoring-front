@@ -6,6 +6,6 @@ export interface Professor {
 
 interface ProfessorSubjectInfo {
   idProfessor: number;
-  subjectId: number;
-  accademicProgramInfo: number;
+  subjectInfo: string;
+  academicProgramInfo: number;
 }

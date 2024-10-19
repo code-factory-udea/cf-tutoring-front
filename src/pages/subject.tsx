@@ -14,17 +14,16 @@ import { Table } from "@ui/Table";
 import { useMemo, useState } from "react";
 import { FaBook } from "react-icons/fa";
 
-const COLUMNS = ["ID", "Nombre"];
+const COLUMNS = ["Código", "Nombre"];
 
 const SubjectPage = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const { data: faculties } = useQueryFaculties();
-  const { data: academicPrograms } = useQueryAcademicPrograms();
   const { mutateAsync: createSubject } = useMutationCreateSubject();
   const [subject, setSubject] = useState<string>("");
   const [subjectCode, setSubjectCode] = useState<string>("");
   const { showAlert } = useAlert();
-
+  
   const [selectedAcademicProgram, setSelectedAcademicProgram] = useState<{
     id: string;
     name: string;
@@ -34,9 +33,12 @@ const SubjectPage = () => {
     name: string;
   } | null>(null);
 
+  const { data: academicPrograms } = useQueryAcademicPrograms(Number(selectedFaculty?.id));
+
   const { data: subjects } = useQuerySubjects(
-    Number(selectedAcademicProgram.id),
+    Number(selectedAcademicProgram?.id),
   );
+
   const memoizedFaculties = useMemo(() => {
     if (!faculties) return [];
     return faculties.map((faculty) => ({
@@ -131,8 +133,13 @@ const SubjectPage = () => {
           <Button label="Agregar Una Materia" onClick={handleCreateSubject} />
         </div>
       )}
-
-      <Table columns={COLUMNS} data={memoizedSubjects} isLoadingData={false} />
+      {selectedAcademicProgram && selectedFaculty && (
+        <Table
+          columns={COLUMNS}
+          data={memoizedSubjects}
+          isLoadingData={false}
+        />
+      )}
       <Modal isOpen={isOpen} title="Crear una materia">
         <h2 className="text-md font-semibold text-dark/60">
           Facultad: {selectedFaculty?.name}
@@ -149,7 +156,7 @@ const SubjectPage = () => {
           required
           onChange={(e) => setSubjectCode(e.target.value)}
         />
-        
+
         <InputText
           placeholder="Ingrese el nombre de la materia"
           icon={<FaBook />}
@@ -159,7 +166,7 @@ const SubjectPage = () => {
           required
           onChange={(e) => setSubject(e.target.value)}
         />
-      
+
         <div className="flex justify-end gap-2 mt-4">
           <button
             onClick={closeModal}

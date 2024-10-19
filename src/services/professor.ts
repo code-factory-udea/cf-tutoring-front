@@ -7,7 +7,7 @@ export const getProfessorByUsername = async (username: string) => {
     const response = await axiosInstance.get(`admin/professor/${username}`);
     return response.data as Professor;
   } catch (error) {
-    throw new Error("Failed to get professor");
+    throw new Error(error.response.data.message);
   }
 };
 
@@ -23,24 +23,18 @@ export const getProfessors = async ({ page, name }: { page: number, name: string
     );
     return response.data as UserList;
   } catch (error) {
-    throw new Error("Failed to get students");
+    throw new Error(error.response.data.message);
   }
 };
 
-export const deleteProfessorSubject = async ({
-  idProfessor,
-  subjectCode,
-}: {
-  idProfessor: number;
-  subjectCode: number;
-}) => {
+export const deleteProfessorSubject = async ({ id }: { id: number }) => {
   try {
     const response = await axiosInstance.delete(`admin/professor/subject`, {
-      data: { idProfessor, subjectCode },
+      data: { id },
     });
     return response.data;
   } catch (error) {
-    throw new Error("Failed to delete professor subject");
+    throw new Error(error.response.data.message);
   }
 };
 
@@ -58,6 +52,6 @@ export const postProfessorSubject = async ({
     });
     return response.data;
   } catch (error) {
-    throw new Error("Failed to post professor subject");
+    throw new Error(error.response.data.message);
   }
 };

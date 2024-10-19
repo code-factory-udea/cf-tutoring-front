@@ -41,7 +41,9 @@ const MonitorPage = () => {
         index + 1,
         <p>{monitor.name}</p>,
         <strong>{monitor.username}</strong>,
-        <EditRole role={monitor.role} username={monitor.username} />,
+        <div onClick={(e) => e.stopPropagation()}>
+          <EditRole role={monitor.role} username={monitor.username} />
+        </div>,
       ];
     });
   }, [monitors]);
@@ -53,7 +55,7 @@ const MonitorPage = () => {
   const handleRowClick = (row) => {
     const username = row[2].props.children;
     setselectedMonitor(username);
-   openModal();
+    openModal();
   };
 
   return (
@@ -73,7 +75,7 @@ const MonitorPage = () => {
           </p>
         )}
       </div>
-      <Modal isOpen={isOpen} title="Información del profesor">
+      <Modal isOpen={isOpen} title="Información del monitor">
         <InfoMonitor username={selectedMonitor} close={closeModal} />
       </Modal>
     </>
