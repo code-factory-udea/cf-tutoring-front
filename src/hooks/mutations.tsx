@@ -1,6 +1,7 @@
 import { useAlert } from "@context/alertContext";
 import { postAcademicProgram, postFaculty } from "@services/academic";
 import { authLogin } from "@services/auth";
+import { deleteProfessorSubject, postProfessorSubject } from "@services/professor";
 import { postSubject } from "@services/subject";
 import { updateUserRole } from "@services/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -28,6 +29,8 @@ export const useMutationUpdateUserRole = () => {
       showAlert("success", "Rol actualizado correctamente.");
       queryClient.invalidateQueries({ queryKey: ["userApiKeys"] });
       queryClient.invalidateQueries({ queryKey: ["students"] });
+      queryClient.invalidateQueries({ queryKey: ["professors"] });
+      queryClient.invalidateQueries({ queryKey: ["monitors"] });
     },
     onError: (error) => {
       console.error("Error fetching data:", error);
@@ -84,3 +87,33 @@ export const useMutationCreateSubject = () => {
     },
   });
 }
+
+export const useMutationSubjectProfessor = () =>{
+  const queryClient = useQueryClient();
+  const { showAlert } = useAlert();
+  return useMutation({
+    mutationFn: postProfessorSubject,
+    onSuccess: () => {
+      showAlert("success", "Materia asignado correctamente.");
+      queryClient.invalidateQueries({ queryKey: ["professorByUsername"] });
+    },
+    onError: (error) => {
+      showAlert("error", error.message);
+    },
+  });
+}
+
+export const useMutationDeleteSubjectProfessor = () =>{
+  const queryClient = useQueryClient();
+  const { showAlert } = useAlert();
+  return useMutation({
+    mutationFn: deleteProfessorSubject,
+    onSuccess: () => {
+      showAlert("success", "Materia eliminada correctamente.");
+      queryClient.invalidateQueries({ queryKey: ["professorByUsername"] });
+    },
+    onError: (error) => {
+      showAlert("error", error.message);
+    },
+  }); }
+  

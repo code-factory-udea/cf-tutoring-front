@@ -6,7 +6,6 @@ interface InfoMonitorProps {
 }
 
 export const InfoMonitor = ({ username, close }: InfoMonitorProps) => {
-  console.log(username);
   const { data: monitor } = useQueryTutorByUsername(username);
   console.log(monitor);
   return (
