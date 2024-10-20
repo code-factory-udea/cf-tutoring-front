@@ -1,6 +1,9 @@
 import { Modal } from "@components/Modal";
 import { useAlert } from "@context/alertContext";
-import { useMutationCreateSubject } from "@hooks/mutations";
+import {
+  useMutationCreateSubject,
+  useMutationUpdateSubject,
+} from "@hooks/mutations";
 import {
   useQueryAcademicPrograms,
   useQueryFaculties,
@@ -18,12 +21,19 @@ const COLUMNS = ["Código", "Nombre"];
 
 const SubjectPage = () => {
   const { isOpen, openModal, closeModal } = useModal();
-  const { data: faculties } = useQueryFaculties();
-  const { mutateAsync: createSubject } = useMutationCreateSubject();
+  const { showAlert } = useAlert();
   const [subject, setSubject] = useState<string>("");
   const [subjectCode, setSubjectCode] = useState<string>("");
-  const { showAlert } = useAlert();
-  
+  const [modalType, setModalType] = useState<"create" | "edit" | null>(null);
+  const [selectedSubject, setSelectedSubject] = useState<{
+    code: number;
+    name: string;
+  } | null>(null);
+
+  const { data: faculties } = useQueryFaculties();
+  const { mutateAsync: createSubject } = useMutationCreateSubject();
+  const { mutateAsync: updateSubject } = useMutationUpdateSubject();
+
   const [selectedAcademicProgram, setSelectedAcademicProgram] = useState<{
     id: string;
     name: string;
@@ -33,7 +43,9 @@ const SubjectPage = () => {
     name: string;
   } | null>(null);
 
-  const { data: academicPrograms } = useQueryAcademicPrograms(Number(selectedFaculty?.id));
+  const { data: academicPrograms } = useQueryAcademicPrograms(
+    Number(selectedFaculty?.id),
+  );
 
   const { data: subjects } = useQuerySubjects(
     Number(selectedAcademicProgram?.id),
@@ -55,27 +67,24 @@ const SubjectPage = () => {
     }));
   }, [academicPrograms]);
 
-  const handleSelectFaculty = (selectedOption: {
-    value: string;
-    label: string;
-  }) => {
-    setSelectedFaculty({
-      id: selectedOption.value,
-      name: selectedOption.label,
-    });
-  };
-  const handleSelectAcademicProgram = (selectedOption: {
-    value: string;
-    label: string;
-  }) => {
-    setSelectedAcademicProgram({
-      id: selectedOption.value,
-      name: selectedOption.label,
-    });
-  };
+  const handleSelect =
+    (
+      setter: React.Dispatch<
+        React.SetStateAction<{ id: string; name: string } | null>
+      >,
+    ) =>
+    (option: { value: string; label: string }) => {
+      setter({ id: option.value, name: option.label });
+    };
+
+  function resetForm() {
+    setSubject("");
+    setSubjectCode("");
+    setSelectedSubject(null);
+  }
 
   const handleConfirm = async () => {
-    if (subject.trim() === "" || subjectCode.trim() === "") {
+    if (!subject.trim() || !subjectCode.trim()) {
       showAlert(
         "info",
         "El nombre y el código de la materia no pueden estar vacíos",
@@ -83,14 +92,20 @@ const SubjectPage = () => {
       return;
     }
 
-    await createSubject({
-      code: Number(subjectCode),
+    const payload = {
+      code: modalType === "edit" ? selectedSubject.code : Number(subjectCode),
       name: subject,
-      academicProgramId: Number(selectedAcademicProgram.id),
-    });
+      ...(modalType === "create" && {
+        academicProgramId: Number(selectedAcademicProgram?.id),
+      }),
+      ...(modalType === "edit" && { newCode: Number(subjectCode) }),
+    };
 
-    setSubject("");
-    setSubjectCode("");
+    const mutation = modalType === "create" ? createSubject : updateSubject;
+
+    await mutation(payload);
+
+    resetForm();
     closeModal();
   };
 
@@ -102,8 +117,17 @@ const SubjectPage = () => {
       );
       return;
     }
+    setModalType("create");
     openModal();
   };
+
+  function openEditModal(subject) {
+    setSelectedSubject(subject);
+    setSubject(subject.name);
+    setSubjectCode(String(subject.code));
+    setModalType("edit");
+    openModal();
+  }
 
   const memoizedSubjects = useMemo(() => {
     if (!subjects) return [];
@@ -113,19 +137,38 @@ const SubjectPage = () => {
     });
   }, [subjects]);
 
+  const handleRowClick = (row) => {
+    const code = row[0].props.children;
+    const name = row[1].props.children;
+
+    openEditModal({ code, name });
+  };
+
   return (
-    <div className="flex flex-col gap-4 w-full">
-      <Dropdown
-        placeholder="Seleccione una Facultad"
-        options={memoizedFaculties}
-        onSelect={handleSelectFaculty}
-      />
-      {selectedFaculty && (
+    <div className="flex flex-col gap-3 w-full">
+      <p className="bg-secondary-green/30 w-fit px-2 py-1 rounded-md text-sm">
+        Explora la lista de materias disponibles seleccionando una facultad y un
+        programa académico.
+      </p>
+      <h2 className="text-xl font-bold">Seleccione una facultad </h2>
+      <div className="w-1/2">
         <Dropdown
-          placeholder="Seleccione un programa académico"
-          options={memoizedAcademicProgram}
-          onSelect={handleSelectAcademicProgram}
+          placeholder="Seleccione una Facultad"
+          options={memoizedFaculties}
+          onSelect={handleSelect(setSelectedFaculty)}
         />
+      </div>
+      {selectedFaculty && (
+        <div className="w-1/2 space-y-3">
+          <h2 className="text-xl font-bold">
+            Seleccione un programa académico
+          </h2>
+          <Dropdown
+            placeholder="Seleccione un programa académico"
+            options={memoizedAcademicProgram}
+            onSelect={handleSelect(setSelectedAcademicProgram)}
+          />
+        </div>
       )}
 
       {selectedAcademicProgram && selectedFaculty && (
@@ -134,13 +177,23 @@ const SubjectPage = () => {
         </div>
       )}
       {selectedAcademicProgram && selectedFaculty && (
-        <Table
-          columns={COLUMNS}
-          data={memoizedSubjects}
-          isLoadingData={false}
-        />
+        <>
+          <p className="bg-yellow-100 w-fit px-2 py-1 rounded-md text-sm italic">
+            Para editar una materia, seleccione la materia que desea editar y
+            haga clic en el botón de "confirmar".
+          </p>
+          <Table
+            columns={COLUMNS}
+            data={memoizedSubjects}
+            isLoadingData={false}
+            onRowClick={handleRowClick}
+          />
+        </>
       )}
-      <Modal isOpen={isOpen} title="Crear una materia">
+      <Modal
+        isOpen={isOpen}
+        title={modalType === "create" ? "Crear una materia" : "Editar materia"}
+      >
         <h2 className="text-md font-semibold text-dark/60">
           Facultad: {selectedFaculty?.name}
         </h2>

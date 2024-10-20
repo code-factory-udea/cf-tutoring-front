@@ -37,7 +37,7 @@ export const Dropdown = ({ options, onSelect, placeholder }: DropdownProps) => {
   };
 
   return (
-    <div className="relative inline-block w-full" ref={dropdownRef}>
+    <div className="relative inline-block w-full text-sm" ref={dropdownRef}>
       <div
         onClick={() => setIsOpen(!isOpen)}
         className="bg-light border border-gray-300 rounded-lg px-4 py-2 cursor-pointer w-full flex justify-between items-center"

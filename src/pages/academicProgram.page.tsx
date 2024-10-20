@@ -1,6 +1,9 @@
 import { Modal } from "@components/Modal";
 import { useAlert } from "@context/alertContext";
-import { useMutationCreateAcademicProgram } from "@hooks/mutations";
+import {
+  useMutationCreateAcademicProgram,
+  useMutationUpdateAcademicProgram,
+} from "@hooks/mutations";
 import { useQueryAcademicPrograms, useQueryFaculties } from "@hooks/queries";
 import { useModal } from "@hooks/useModal";
 import Button from "@ui/Button";
@@ -14,26 +17,27 @@ import { HiAcademicCap } from "react-icons/hi2";
 const COLUMNS = ["ID", "Nombre"];
 
 const AcademicProgramPage = () => {
-  
   const { data: faculties } = useQueryFaculties();
   const { mutateAsync: createAcademicProgram } =
     useMutationCreateAcademicProgram();
+  const { mutateAsync: updateAcademicProgram } =
+    useMutationUpdateAcademicProgram();
   const { isOpen, openModal, closeModal } = useModal();
   const { showAlert } = useAlert();
   const [academicName, setAcademicName] = useState<string>("");
-  const [subjectCode, setSubjectCode] = useState<string>("");
+  const [programCode, setProgramCode] = useState<string>("");
   const [selectedFaculty, setSelectedFaculty] = useState<{
     id: string;
     name: string;
   } | null>(null);
+  const [modalType, setModalType] = useState<"create" | "edit" | null>(null);
 
   const { data: academicPrograms } = useQueryAcademicPrograms(
-    Number(selectedFaculty?.id)
+    Number(selectedFaculty?.id),
   );
-  
+
   const memoizedAcademicPrograms = useMemo(() => {
     if (!academicPrograms) return [];
-
     return academicPrograms.map((academic) => {
       return [<p>{academic.id}</p>, <p>{academic.name}</p>];
     });
@@ -55,73 +59,122 @@ const AcademicProgramPage = () => {
   };
 
   const handleConfirm = async () => {
-    if (academicName.trim() === "" && subjectCode.trim() === "") {
+    if (academicName.trim() === "" || programCode.trim() === "") {
       showAlert("info", "No pueden quedar campos vacíos");
       return;
     }
-    await createAcademicProgram({
-      id: Number(subjectCode),
-      facultyId: Number(selectedFaculty.id),
+
+    const payload = {
+      id: Number(programCode),
       name: academicName,
-    });
-    setAcademicName("");
-    setSubjectCode("");
+      facultyId: Number(selectedFaculty?.id),
+    };
+
+    const mutation =modalType === "create" ? createAcademicProgram : updateAcademicProgram;
+
+    await mutation(payload);
+    resetForm();
     closeModal();
   };
 
-  const handleCreateAcademicProgram = () => {
+  function handleRowClick(row) {
+    const id = row[0].props.children;
+    const name = row[1].props.children;
+
+    openEditModal({ id, name });
+  }
+
+  function openEditModal(program: { id: string; name: string }) {
+    setProgramCode(String(program.id));
+    setAcademicName(program.name);
+    setModalType("edit");
+    openModal();
+  }
+
+  function openCreateModal() {
     if (!selectedFaculty) {
       showAlert("info", "Seleccione una facultad para continuar");
       return;
     }
+    setModalType("create");
     openModal();
-  };
+  }
+
+  function resetForm() {
+    setAcademicName("");
+    setProgramCode("");
+  }
 
   return (
     <div className="flex flex-col gap-4 w-full">
-      <h3 className="text-2xl font-bold">Seleccione una facultad </h3>
-      <Dropdown
-        placeholder="Seleccione una Facultad"
-        options={memoizedFaculties}
-        onSelect={handleSelect}
-      />
+      <p className="bg-secondary-green/30 w-fit px-2 py-1 rounded-md text-sm">
+        Explora la lista de programas académicos disponibles y agrega nuevos
+        programas fácilmente.
+      </p>
+      <h2 className="text-2xl font-bold">Seleccione una facultad </h2>
+      <div className="w-1/2">
+        <Dropdown
+          placeholder="Seleccione una Facultad"
+          options={memoizedFaculties}
+          onSelect={handleSelect}
+        />
+      </div>
 
       {selectedFaculty && (
         <div className="w-1/2 flex">
           <Button
             label="Agregar Programa Académico"
-            onClick={handleCreateAcademicProgram}
+            onClick={openCreateModal}
           />
         </div>
       )}
-
-      <Table
-        columns={COLUMNS}
-        data={memoizedAcademicPrograms}
-        isLoadingData={false}
-      />
-      <Modal isOpen={isOpen} title="Crear un programa académico">
+      {selectedFaculty && (
+        <>
+          <p className="bg-yellow-100 w-fit px-2 py-1 rounded-md text-sm italic">
+            Para editar un programa académico, seleccione el programa que desea
+            editar y haga clic en el botón de "confirmar".
+          </p>
+          <Table
+            columns={COLUMNS}
+            data={memoizedAcademicPrograms}
+            isLoadingData={false}
+            onRowClick={handleRowClick}
+          />
+        </>
+      )}
+      <Modal
+        isOpen={isOpen}
+        title={
+          modalType === "create"
+            ? "Crear un programa académico"
+            : "Editar programa académico"
+        }
+      >
         <h2 className="text-md font-semibold text-dark/60">
           Facultad: {selectedFaculty?.name}
         </h2>
+
         <InputText
           placeholder="Ingrese el código del programa académico"
           icon={<FaBook />}
           label="Código del programa académico"
           name="programCode"
-          value={subjectCode}
+          value={programCode}
           required
-          onChange={(e) => setSubjectCode(e.target.value)}
+          onChange={(e) => setProgramCode(e.target.value)}
+          disabled={modalType === "edit"} 
         />
+
         <InputText
           placeholder="Ingrese el nombre del programa académico"
           icon={<HiAcademicCap />}
           label="Nombre del programa académico"
-          name="faculty"
+          name="programName"
           value={academicName}
           required
           onChange={(e) => setAcademicName(e.target.value)}
         />
+
         <div className="flex justify-end gap-2 mt-4">
           <button
             onClick={closeModal}

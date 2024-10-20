@@ -32,6 +32,15 @@ export const Table = ({
       </div>
     );
   }
+  if (data.length === 0) {
+    return (
+      <div className="flex justify-center items-center py-4">
+        <p className="text-primary-green text-xl font-bold">
+          No se encontraron resultados
+        </p>
+      </div>
+    );
+  }
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full bg-light border border-primary-green rounded-lg">

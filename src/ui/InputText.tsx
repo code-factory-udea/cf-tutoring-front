@@ -8,6 +8,7 @@ interface InputTextProps {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void;
   required?: boolean;
+  disabled?: boolean;
 }
 export const InputText = ({
   label,
@@ -17,6 +18,7 @@ export const InputText = ({
   onChange,
   icon,
   required,
+  disabled
 }: InputTextProps) => {
   return (
     <div className="relative w-full mt-2">
@@ -34,6 +36,7 @@ export const InputText = ({
           className="outline-none border border-gray-300 rounded-md py-2 pl-12 pr-3 w-full text-sm hover:border-gray-400 focus:border-gray-400 focus:shadow-lg"
           placeholder={placeholder}
           onChange={onChange}
+          disabled={disabled}
         />
       </div>
     </div>

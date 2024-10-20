@@ -18,10 +18,6 @@ const FacultyPage = () => {
   const { data: faculties } = useQueryFaculties();
   const { showAlert } = useAlert();
 
-  const handleRowClick = (index: number) => {
-    console.log("Row clicked:", index);
-  };
-
   const handleConfirm = () => {
     if (facultyName.trim() === "") {
       showAlert("info", "El nombre de la facultad no puede estar vacío");
@@ -36,22 +32,21 @@ const FacultyPage = () => {
   const memoizedFaculties = useMemo(() => {
     if (!faculties) return [];
     return faculties.map((faculty) => {
-      return [ <p>{faculty.id}</p>, <p>{faculty.name}</p>];
+      return [<p>{faculty.id}</p>, <p>{faculty.name}</p>];
     });
   }, [faculties]);
 
   return (
     <div className="flex flex-col gap-4 w-full">
+      <p className="bg-secondary-green/30 w-fit px-2 py-1 rounded-md text-sm">
+        Explora la lista de facultades disponibles y agrega nuevas facultades
+        fácilmente.
+      </p>
       <div className="w-1/2 flex">
         <Button label="Agregar Facultad" onClick={openModal} />
       </div>
 
-      <Table
-        columns={COLUMNS}
-        data={memoizedFaculties}
-        onRowClick={handleRowClick}
-        isLoadingData={false}
-      />
+      <Table columns={COLUMNS} data={memoizedFaculties} isLoadingData={false} />
       <Modal isOpen={isOpen} title="Crear una facultad">
         <InputText
           placeholder="Ingrese el nombre de la facultad"

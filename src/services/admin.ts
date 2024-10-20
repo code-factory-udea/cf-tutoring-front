@@ -16,15 +16,6 @@ export const getAdmins = async (page: number, name: string) => {
   }
 };
 
-export const getAdminOthers = async () => {
-  try {
-    const response = await axiosInstance.get("admin/others");
-    return response.data as Admin[];
-  } catch (error) {
-    throw new Error("Failed to get admin");
-  }
-};
-
 export const getRoles = async () => {
   try {
     const response = await axiosInstance.get("admin/role");
