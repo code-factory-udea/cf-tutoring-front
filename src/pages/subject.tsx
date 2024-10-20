@@ -104,12 +104,6 @@ const SubjectPage = () => {
     const mutation = modalType === "create" ? createSubject : updateSubject;
 
     await mutation(payload);
-    showAlert(
-      "success",
-      modalType === "create"
-        ? "Materia creada con éxito"
-        : "Materia actualizada con éxito",
-    );
 
     resetForm();
     closeModal();
@@ -186,7 +180,7 @@ const SubjectPage = () => {
         <>
           <p className="bg-yellow-100 w-fit px-2 py-1 rounded-md text-sm italic">
             Para editar una materia, seleccione la materia que desea editar y
-            haga clic en el botón de editar.
+            haga clic en el botón de "confirmar".
           </p>
           <Table
             columns={COLUMNS}

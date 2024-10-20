@@ -170,7 +170,7 @@ export const useMutationUpdateAcademicProgram = () => {
     mutationFn: updateAcademicProgram,
     onSuccess: () => {
       showAlert("success", "Programa Académico actualizado correctamente.");
-      queryClient.invalidateQueries({ queryKey: ["subjects"] });
+      queryClient.invalidateQueries({ queryKey: ["academicPrograms"] });
     },
     onError: (error) => {
       showAlert("error", error.message);
