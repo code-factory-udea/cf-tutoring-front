@@ -1,5 +1,5 @@
 import { useAlert } from "@context/alertContext";
-import { postAcademicProgram, postFaculty } from "@services/academic";
+import { postAcademicProgram, postFaculty, updateAcademicProgram } from "@services/academic";
 import { authLogin } from "@services/auth";
 import { deleteProfessorSubject, postProfessorSubject } from "@services/professor";
 import { deleteSubjectTutor, postSubject, postSubjectTutor, updateSubject } from "@services/subject";
@@ -155,6 +155,21 @@ export const useMutationUpdateSubject = () => {
     mutationFn: updateSubject,
     onSuccess: () => {
       showAlert("success", "Materia actualizada correctamente.");
+      queryClient.invalidateQueries({ queryKey: ["subjects"] });
+    },
+    onError: (error) => {
+      showAlert("error", error.message);
+    },
+  });
+}
+
+export const useMutationUpdateAcademicProgram = () => {
+  const queryClient = useQueryClient();
+  const { showAlert } = useAlert();
+  return useMutation({
+    mutationFn: updateAcademicProgram,
+    onSuccess: () => {
+      showAlert("success", "Programa Académico actualizado correctamente.");
       queryClient.invalidateQueries({ queryKey: ["subjects"] });
     },
     onError: (error) => {
