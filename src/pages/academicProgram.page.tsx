@@ -78,7 +78,7 @@ const AcademicProgramPage = () => {
 
   return (
     <div className="flex flex-col gap-4 w-full">
-      <p className="bg-gray-200 w-fit px-2 py-1 rounded-md">
+      <p className="bg-secondary-green/30 w-fit px-2 py-1 rounded-md text-sm">
         Explora la lista de programas académicos disponibles y agrega nuevos
         programas fácilmente.
       </p>

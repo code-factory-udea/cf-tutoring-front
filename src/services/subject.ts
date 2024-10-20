@@ -48,3 +48,8 @@ export const deleteSubjectTutor = async ({
     throw new Error(error.response.data.message);
   }
 };
+
+export const updateSubject = async (subjectData) => {
+  const response = await axiosInstance.patch("admin/subject", subjectData);
+  return response.data;
+};
