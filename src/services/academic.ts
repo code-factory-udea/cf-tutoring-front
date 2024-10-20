@@ -41,3 +41,8 @@ export const postFaculty = async ({ name }: { name: string }) => {
         throw new Error("Failed to post faculty");
     }
 }
+
+export const updateAcademicProgram = async (academicData) => {
+    const response = await axiosInstance.patch("admin/academic-program", academicData);
+    return response.data;
+}
