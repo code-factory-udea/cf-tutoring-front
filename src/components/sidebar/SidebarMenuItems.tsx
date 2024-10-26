@@ -53,7 +53,6 @@ export const SidebarMenuItems = ({ role }: SidebarMenuItemsProps) => {
     case "Monitor":
       return (
         <>
-          <ItemSidebar icon={<GoHome />} title="Home" route="/" />
           <ItemSidebar
             icon={<FaRegCalendarAlt />}
             title="Agenda"
@@ -72,11 +71,13 @@ export const SidebarMenuItems = ({ role }: SidebarMenuItemsProps) => {
           <ItemSidebar
             icon={<MdOutlineFreeCancellation />}
             title="Solicitudes Canceladas"
-            route="/solicitudes-canceladas"/>
+            route="/solicitudes-canceladas"
+          />
           <ItemSidebar
             icon={<FaCalendarCheck />}
             title="Tutorias Realizadas"
-            route="/tutorias-realizadas"/>
+            route="/tutorias-realizadas"
+          />
         </>
       );
 

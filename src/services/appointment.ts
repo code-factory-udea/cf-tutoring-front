@@ -39,7 +39,7 @@ export const getAppointmentsTutor = async (status: string) => {
   }
 }
 
-export const postAppointmentTutorResponse = async (data: { appointmentId: number; status: string }) => {
+export const postAppointmentTutorResponse = async (data: { id: number; appointmentResponse: string }) => {
   try {
     const response = await axiosInstance.post("appointment/tutor", data);
     return response.data;

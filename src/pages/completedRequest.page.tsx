@@ -1,23 +1,20 @@
 import { useQueryAppointmentsTutor } from "@hooks/queries";
-import { AppointmentList } from "@interfaces/appointment";
+import { Spinner } from "@ui/Spinner";
 import { APPOINMENT_STATUS } from "@utils/constants";
 import { ToastContainer } from "react-toastify";
 
-const initialTutorships: AppointmentList[] = [
-  { id: 1, name: "Matemáticas Avanzadas", date: "2024-10-28", virtual: true },
-  { id: 2, name: "Física Moderna", date: "2024-10-30", virtual: false },
-  { id: 3, name: "Programación en React", date: "2024-11-02", virtual: true },
-];
-export const CompletedRequestPage = () => {
-  const { data: completedRequests, isLoading } = useQueryAppointmentsTutor(
-    APPOINMENT_STATUS.COMPLETED,
-  );
 
+export const CompletedRequestPage = () => {
+  const { data: completedRequests, isLoading } = useQueryAppointmentsTutor(APPOINMENT_STATUS.COMPLETED);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
   return (
     <div className="p-6 text-dark">
       <h1 className="text-2xl font-bold mb-4">Tutorías Completadas</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {initialTutorships.map((request) => (
+        {completedRequests.map((request) => (
           <div
             key={request.id}
             className="bg-white shadow-lg rounded-lg p-6 border border-gray-200"

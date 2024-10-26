@@ -231,7 +231,7 @@ export const useMutationCreateLinkTutorVirtualRoom = () => {
       mutationFn: postAppointmentTutorResponse,
       onSuccess: () => {
         showAlert("success", "Respuesta enviada correctamente.");
-        queryClient.invalidateQueries({ queryKey: ["tutorSchedule"] });
+        queryClient.invalidateQueries({ queryKey: ["appointmentsTutor"] });
       },
       onError: (error) => {
         showAlert("error", error.message);
