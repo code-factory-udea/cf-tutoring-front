@@ -1,5 +1,4 @@
 import { EditRole } from "@components/EditRole";
-import { useQueryStudents } from "@hooks/queries";
 import { SearchBar } from "@ui/SearchBar";
 import { Table } from "@ui/Table";
 import { useEffect, useMemo, useState } from "react";

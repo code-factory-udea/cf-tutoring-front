@@ -8,10 +8,11 @@ import {
   getTutorByUsername,
 } from "@services/student";
 import { getSubjects } from "@services/subject";
+import { getLinkTutorVirtualRoom, getTutorSchedule } from "@services/tutor";
+import { getUndefined } from "@services/undefined";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { Admin } from "../interfaces/admin";
 import { getAdmins } from "../services/admin";
-import { getUndefined } from "@services/undefined";
 
 export function useQueryAdmins({ page, name }: { page: number; name: string }) {
   const response = useInfiniteQuery({
@@ -171,33 +172,45 @@ export const useQuerySubjects = (academicProgramId: number) =>
     enabled: !!academicProgramId,
   });
 
-  export function useQueryUndefined({
-    page,
-    name,
-  }: {
-    page: number;
-    name: string;
-  }) {
-    const response = useInfiniteQuery({
-      initialPageParam: 1,
-      queryKey: ["undefineds", page, name],
-      queryFn: ({ pageParam = 1 }) => getUndefined({ page: pageParam, name }),
-      getNextPageParam: (lastPage) =>
-        lastPage.hasNextPage ? lastPage.currentPage + 1 : undefined,
-    });
-  
-    const userUndefined = response.data?.pages.reduce((prev, curr) => {
-      return [...prev, ...curr.userList];
-    }, [] as User[]);
-  
-    const handleChangeInView = (inView: boolean) => {
-      if (response.isFetching || !inView) return;
-      response.hasNextPage && response.fetchNextPage();
-    };
-  
-    return {
-      ...response,
-      undefineds: userUndefined || [],
-      handleChangeInView,
-    };
-  }
+export function useQueryUndefined({
+  page,
+  name,
+}: {
+  page: number;
+  name: string;
+}) {
+  const response = useInfiniteQuery({
+    initialPageParam: 1,
+    queryKey: ["undefineds", page, name],
+    queryFn: ({ pageParam = 1 }) => getUndefined({ page: pageParam, name }),
+    getNextPageParam: (lastPage) =>
+      lastPage.hasNextPage ? lastPage.currentPage + 1 : undefined,
+  });
+
+  const userUndefined = response.data?.pages.reduce((prev, curr) => {
+    return [...prev, ...curr.userList];
+  }, [] as User[]);
+
+  const handleChangeInView = (inView: boolean) => {
+    if (response.isFetching || !inView) return;
+    response.hasNextPage && response.fetchNextPage();
+  };
+
+  return {
+    ...response,
+    undefineds: userUndefined || [],
+    handleChangeInView,
+  };
+}
+
+export const useQueryTutorSchedule = () =>
+  useQuery({
+    queryKey: ["tutorSchedule"],
+    queryFn: () => getTutorSchedule(),
+  });
+
+  export const useQueryTutorLinkVirtualRoom = () =>
+  useQuery({
+    queryKey: ["tutorLinkVirtualRoom"],
+    queryFn: () => getLinkTutorVirtualRoom(),
+  });

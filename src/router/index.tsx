@@ -1,6 +1,7 @@
 import { Login } from "@components/Login";
 import AcademicProgramPage from "@pages/academicProgram.page";
 import AdminPage from "@pages/admin.page";
+import { AgendaPage } from "@pages/agenda.page";
 import FacultyPage from "@pages/faculty.page";
 import HomePage from "@pages/home.page";
 import MainLayout from "@pages/mainLayout";
@@ -85,6 +86,7 @@ const router = createBrowserRouter([
         path: "/usuarios/unidentified",
         element: <PrivateRoute element={<UnidentifiedPage />} />,
       },
+      { path: "/agenda", element: <PrivateRoute element={<AgendaPage />} /> },
     ],
   },
 ]);

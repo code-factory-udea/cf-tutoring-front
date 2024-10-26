@@ -1,4 +1,5 @@
 import { ItemSidebar } from "@ui/ItemSidebar";
+import { FaRegCalendarAlt } from "react-icons/fa";
 import { FaChalkboardUser, FaUserGroup } from "react-icons/fa6";
 import { GoHome } from "react-icons/go";
 import { IoMdJournal } from "react-icons/io";
@@ -44,6 +45,18 @@ export const SidebarMenuItems = ({ role }: SidebarMenuItemsProps) => {
     case "student":
       return <ItemSidebar icon={<GoHome />} title="Home" route="/" />;
     case "teacher":
+    case "Monitor":
+      return (
+        <>
+          <ItemSidebar icon={<GoHome />} title="Home" route="/" />
+          <ItemSidebar
+            icon={<FaRegCalendarAlt />}
+            title="Agenda"
+            route="/agenda"
+          />
+        </>
+      );
+
     default:
       return <ItemSidebar icon={<GoHome />} title="Home" route="/" />;
   }

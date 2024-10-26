@@ -3,6 +3,7 @@
         "jsx": "react-jsx",
         "module": "esnext",
         "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true,
         "target": "esnext",
         "baseUrl": ".",
         "paths": {
