@@ -3,6 +3,7 @@ import { postAcademicProgram, postFaculty, updateAcademicProgram } from "@servic
 import { authLogin } from "@services/auth";
 import { deleteProfessorSubject, postProfessorSubject } from "@services/professor";
 import { deleteSubjectTutor, postSubject, postSubjectTutor, updateSubject } from "@services/subject";
+import { postLinkTutorVirtualRoom, postTutorSchedule } from "@services/tutor";
 import { updateUserRole } from "@services/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -177,3 +178,32 @@ export const useMutationUpdateAcademicProgram = () => {
     },
   });
 }
+
+export const useMutationCreateTutorSchedule = () => {
+  const queryClient = useQueryClient();
+  const { showAlert } = useAlert();
+  return useMutation({
+    mutationFn: postTutorSchedule,
+    onSuccess: () => {
+      showAlert("success", "Horario creado correctamente.");
+      queryClient.invalidateQueries({ queryKey: ["tutorSchedule"] });
+    },
+    onError: (error) => {
+      showAlert("error", error.message);
+    },
+  });
+}
+
+export const useMutationCreateLinkTutorVirtualRoom = () => {
+  const queryClient = useQueryClient();
+  const { showAlert } = useAlert();
+  return useMutation({
+    mutationFn: postLinkTutorVirtualRoom,
+    onSuccess: () => {
+      showAlert("success", "Link de sala virtual creado correctamente.");
+      queryClient.invalidateQueries({ queryKey: ["tutorLinkVirtualRoom"] });
+    },
+    onError: (error) => {
+      showAlert("error", error.message);
+    } 
+  })}
