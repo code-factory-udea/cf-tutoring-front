@@ -3,7 +3,7 @@ import { postAcademicProgram, postFaculty, updateAcademicProgram } from "@servic
 import { authLogin } from "@services/auth";
 import { deleteProfessorSubject, postProfessorSubject } from "@services/professor";
 import { deleteSubjectTutor, postSubject, postSubjectTutor, updateSubject } from "@services/subject";
-import { postLinkTutorVirtualRoom, postTutorSchedule } from "@services/tutor";
+import { deleteTutorSchedule, postLinkTutorVirtualRoom, postTutorSchedule } from "@services/tutor";
 import { updateUserRole } from "@services/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -207,3 +207,18 @@ export const useMutationCreateLinkTutorVirtualRoom = () => {
       showAlert("error", error.message);
     } 
   })}
+
+  export const useMutationDeleteTutorSchedule = () => {
+    const queryClient = useQueryClient();
+    const { showAlert } = useAlert();
+    return useMutation({
+      mutationFn: deleteTutorSchedule,
+      onSuccess: () => {
+        showAlert("success", "Horario eliminado correctamente.");
+        queryClient.invalidateQueries({ queryKey: ["tutorSchedule"] });
+      },
+      onError: (error) => {
+        showAlert("error", error.message);
+      },
+    });
+  }

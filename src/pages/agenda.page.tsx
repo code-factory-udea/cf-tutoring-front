@@ -2,6 +2,7 @@ import { Modal } from "@components/Modal";
 import {
   useMutationCreateLinkTutorVirtualRoom,
   useMutationCreateTutorSchedule,
+  useMutationDeleteTutorSchedule,
 } from "@hooks/mutations";
 import {
   useQueryTutorLinkVirtualRoom,
@@ -18,6 +19,8 @@ import {
   SlotInfo,
 } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 import { FaEdit, FaSave } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -26,6 +29,7 @@ moment.locale("es");
 const localizer = momentLocalizer(moment);
 
 interface Event {
+  id: number;
   start: Date;
   end: Date;
 }
@@ -96,6 +100,7 @@ export const AgendaPage: React.FC = () => {
   const [endTime, setEndTime] = useState<string>("");
   const { mutateAsync: createSchedule } = useMutationCreateTutorSchedule();
   const { mutateAsync: createLink } = useMutationCreateLinkTutorVirtualRoom();
+  const { mutateAsync: deleteSchedule } = useMutationDeleteTutorSchedule();
   const { data: tutorSchedule } = useQueryTutorSchedule();
   const { data: linkTutorVirtualRoom } = useQueryTutorLinkVirtualRoom();
   const [link, setLink] = useState("");
@@ -112,7 +117,7 @@ export const AgendaPage: React.FC = () => {
       SUNDAY: 7,
     };
 
-    return schedule.map(({ day, startTime, endTime }) => {
+    return schedule.map(({ day, startTime, endTime, id }) => {
       const startDate = moment()
         .day(daysOfWeek[day.toUpperCase()])
         .set({
@@ -134,6 +139,7 @@ export const AgendaPage: React.FC = () => {
       return {
         start: startDate.toDate(),
         end: endDate.toDate(),
+        id,
       };
     });
   };
@@ -169,12 +175,6 @@ export const AgendaPage: React.FC = () => {
         return;
       }
 
-      const newEvent: Event = {
-        start: startDate.toDate(),
-        end: endDate.toDate(),
-      };
-
-      setEvents([...events, newEvent]);
       await createSchedule({
         day: startDate.format("dddd").toUpperCase(),
         startTime: `${startDate.format("HH:mm")}`,
@@ -193,8 +193,30 @@ export const AgendaPage: React.FC = () => {
     setIsEditing(false);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>  setInputValue(e.target.value);
-  
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setInputValue(e.target.value);
+
+  const deleteEvent = async (id: number) => {
+    await deleteSchedule(id);
+  };
+  const handleEventClick = (event: Event) => {
+    confirmAlert({
+      message: "¿Estás seguro de que deseas eliminar este horario?",
+      buttons: [
+        {
+          label: "Sí",
+          onClick: () => {
+            deleteEvent(event.id);
+          },
+        },
+        {
+          label: "No",
+          onClick: () => toast.info("Eliminación cancelada."),
+        },
+      ],
+    });
+  };
+
   return (
     <div>
       <h2 className="text-md font-semibold">
@@ -208,6 +230,7 @@ export const AgendaPage: React.FC = () => {
           defaultView="week"
           views={["week", "day"]}
           onSelectSlot={handleSelectSlot}
+          onSelectEvent={handleEventClick}
           style={{ height: 580 }}
           messages={messages}
           components={{
@@ -229,7 +252,7 @@ export const AgendaPage: React.FC = () => {
           })}
         />
       </section>
-      <section className="text-dark w-full">
+      <section className="text-dark w-full justify-center items-center flex flex-col">
         <h3 className="text-md font-semibold">
           Link para dar las tutorías virtuales
         </h3>
