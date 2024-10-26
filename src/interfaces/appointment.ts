@@ -15,3 +15,10 @@ export interface AppointmentResponse {
   calificationDate: string;
   virtual: boolean;
 }
+
+export interface AppointmentList {
+  id: number;
+  name: string;
+  date: string;
+  virtual: boolean;
+}

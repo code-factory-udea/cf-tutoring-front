@@ -1,14 +1,14 @@
 import { Modal } from "@components/Modal";
 import {
-  useMutationCreateLinkTutorVirtualRoom,
   useMutationCreateTutorSchedule,
   useMutationDeleteTutorSchedule,
 } from "@hooks/mutations";
 import {
-  useQueryTutorLinkVirtualRoom,
+  useQueryAppointmentsTutor,
   useQueryTutorSchedule,
 } from "@hooks/queries";
 import { useModal } from "@hooks/useModal";
+import { APPOINMENT_STATUS } from "@utils/constants";
 import moment from "moment";
 import "moment/locale/es";
 import { useEffect, useState } from "react";
@@ -21,7 +21,6 @@ import {
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
-import { FaEdit, FaSave } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -91,20 +90,18 @@ function CustomToolbar({ onView, view }) {
   );
 }
 
-export const AgendaPage: React.FC = () => {
+export const AppoinmentTutor = () => {
   const { isOpen, openModal, closeModal } = useModal();
-  const [isEditing, setIsEditing] = useState(false);
   const [events, setEvents] = useState<Event[]>([]);
   const [slotInfo, setSlotInfo] = useState<SlotInfo | null>(null);
   const [startTime, setStartTime] = useState<string>("");
   const [endTime, setEndTime] = useState<string>("");
   const { mutateAsync: createSchedule } = useMutationCreateTutorSchedule();
-  const { mutateAsync: createLink } = useMutationCreateLinkTutorVirtualRoom();
   const { mutateAsync: deleteSchedule } = useMutationDeleteTutorSchedule();
   const { data: tutorSchedule } = useQueryTutorSchedule();
-  const { data: linkTutorVirtualRoom } = useQueryTutorLinkVirtualRoom();
-  const [link, setLink] = useState("");
-  const [inputValue, setInputValue] = useState(link);
+  const { data: appoinments, isLoading } = useQueryAppointmentsTutor(
+    APPOINMENT_STATUS.ACCEPTED,
+  );
 
   const convertScheduleToEvents = (schedule) => {
     const daysOfWeek = {
@@ -185,17 +182,6 @@ export const AgendaPage: React.FC = () => {
     }
   };
 
-  const handleEditClick = () => setIsEditing(true);
-
-  const handleSaveClick = async () => {
-    await createLink({ link: inputValue });
-    setLink(inputValue);
-    setIsEditing(false);
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setInputValue(e.target.value);
-
   const deleteEvent = async (id: number) => {
     await deleteSchedule(id);
   };
@@ -252,40 +238,7 @@ export const AgendaPage: React.FC = () => {
           })}
         />
       </section>
-      <section className="text-dark w-full justify-center items-center flex flex-col">
-        <h3 className="text-md font-semibold">
-          Link para dar las tutorías virtuales
-        </h3>
-        {isEditing ? (
-          <div className="w-1/2 flex gap-2">
-            <input
-              type="text"
-              value={inputValue}
-              onChange={handleInputChange}
-              className="border border-primary-green shadow-lg rounded-md p-1 bg-light-green/30 w-full"
-            />
-            <button
-              onClick={handleSaveClick}
-              className="flex items-center gap-1 bg-secondary-green text-white px-2 py-1 rounded-md hover:bg-primary-green shadow-lg"
-            >
-              <FaSave /> Guardar
-            </button>
-          </div>
-        ) : (
-          <div className="flex items-center w-1/2 gap-2">
-            <p className="border border-primary-green shadow-lg rounded-md p-1 bg-primary-green w-full text-light text-center">
-              {linkTutorVirtualRoom?.link ??
-                "No has creado un link para las tutorías"}
-            </p>
-            <button
-              onClick={handleEditClick}
-              className="flex items-center gap-1 bg-secondary-green text-white px-2 py-1 rounded-md hover:bg-primary-green shadow-lg"
-            >
-              <FaEdit /> Editar
-            </button>
-          </div>
-        )}
-      </section>
+
       <Modal isOpen={isOpen} title="Crear Horario">
         <div className="bg-white rounded-lg shadow-lg p-6 w-full">
           <div className="mb-4">

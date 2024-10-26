@@ -40,3 +40,12 @@ export const getLinkTutorVirtualRoom = async () => {
         throw new Error(error.response.data.message);
     }
 }
+
+export const deleteTutorSchedule = async (id: number) => {
+    try {
+        const response = await axiosInstance.delete(`tutor/schedule/${id}`);
+        return response.data
+    } catch (error) {
+        throw new Error(error.response.data.message);
+    }
+}
