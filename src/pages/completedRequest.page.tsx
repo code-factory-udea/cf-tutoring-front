@@ -23,7 +23,7 @@ export const CompletedRequestPage = () => {
               {request.name}
             </h2>
             <p className="text-gray-600">
-              <strong>Fecha:</strong> {request.date}
+              <strong>Fecha:</strong> {new Date(request.date).toLocaleString()}
             </p>
             <p className="text-gray-600">
               <strong>Virtual:</strong> {request.virtual ? "Sí" : "No"}
