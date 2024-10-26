@@ -1,9 +1,14 @@
 import { ItemSidebar } from "@ui/ItemSidebar";
-import { FaRegCalendarAlt } from "react-icons/fa";
+import { FaCalendarCheck, FaRegCalendarAlt } from "react-icons/fa";
 import { FaChalkboardUser, FaUserGroup } from "react-icons/fa6";
 import { GoHome } from "react-icons/go";
 import { IoMdJournal } from "react-icons/io";
-import { MdHomeWork, MdOutlineLibraryBooks } from "react-icons/md";
+import {
+  MdHomeWork,
+  MdOutlineFreeCancellation,
+  MdOutlineLibraryBooks,
+  MdOutlinePendingActions,
+} from "react-icons/md";
 
 interface SidebarMenuItemsProps {
   role: string;
@@ -54,6 +59,24 @@ export const SidebarMenuItems = ({ role }: SidebarMenuItemsProps) => {
             title="Agenda"
             route="/agenda"
           />
+          <ItemSidebar
+            icon={<MdOutlinePendingActions />}
+            title="Solicitudes Pendientes"
+            route="/solicitudes-pendientes"
+          />
+          <ItemSidebar
+            icon={<FaChalkboardUser />}
+            title="Monitorias"
+            route="/monitorias"
+          />
+          <ItemSidebar
+            icon={<MdOutlineFreeCancellation />}
+            title="Solicitudes Canceladas"
+            route="/solicitudes-canceladas"/>
+          <ItemSidebar
+            icon={<FaCalendarCheck />}
+            title="Tutorias Realizadas"
+            route="/tutorias-realizadas"/>
         </>
       );
 

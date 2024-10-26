@@ -1,5 +1,6 @@
 import { useAlert } from "@context/alertContext";
 import { postAcademicProgram, postFaculty, updateAcademicProgram } from "@services/academic";
+import { postAppointmentTutorResponse } from "@services/appointment";
 import { authLogin } from "@services/auth";
 import { deleteProfessorSubject, postProfessorSubject } from "@services/professor";
 import { deleteSubjectTutor, postSubject, postSubjectTutor, updateSubject } from "@services/subject";
@@ -215,6 +216,21 @@ export const useMutationCreateLinkTutorVirtualRoom = () => {
       mutationFn: deleteTutorSchedule,
       onSuccess: () => {
         showAlert("success", "Horario eliminado correctamente.");
+        queryClient.invalidateQueries({ queryKey: ["tutorSchedule"] });
+      },
+      onError: (error) => {
+        showAlert("error", error.message);
+      },
+    });
+  }
+
+  export const useMutationAppointmentTutorResponse = () => {
+    const queryClient = useQueryClient();
+    const { showAlert } = useAlert();
+    return useMutation({
+      mutationFn: postAppointmentTutorResponse,
+      onSuccess: () => {
+        showAlert("success", "Respuesta enviada correctamente.");
         queryClient.invalidateQueries({ queryKey: ["tutorSchedule"] });
       },
       onError: (error) => {

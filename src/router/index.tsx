@@ -2,10 +2,13 @@ import { Login } from "@components/Login";
 import AcademicProgramPage from "@pages/academicProgram.page";
 import AdminPage from "@pages/admin.page";
 import { AgendaPage } from "@pages/agenda.page";
+import { AppoinmentTutor } from "@pages/appoinmentTutor.page";
+import { CanceledRequestPage } from "@pages/canceledRequest.page";
 import FacultyPage from "@pages/faculty.page";
 import HomePage from "@pages/home.page";
 import MainLayout from "@pages/mainLayout";
 import MonitorPage from "@pages/monitor.page";
+import { PendingRequestPage } from "@pages/pendingRequest.page";
 import StudentPage from "@pages/student.page";
 import SubjectPage from "@pages/subject";
 import TeacherPage from "@pages/teacher.page";
@@ -13,6 +16,7 @@ import UnidentifiedPage from "@pages/undefined.page";
 import UserPage from "@pages/user.page";
 import { createBrowserRouter } from "react-router-dom";
 import PrivateRoute from "./privateRouter";
+import { CompletedRequestPage } from "@pages/completedRequest.page";
 
 const userRoutes = [
   {
@@ -87,6 +91,16 @@ const router = createBrowserRouter([
         element: <PrivateRoute element={<UnidentifiedPage />} />,
       },
       { path: "/agenda", element: <PrivateRoute element={<AgendaPage />} /> },
+      {
+        path: "/solicitudes-pendientes",
+        element: <PrivateRoute element={<PendingRequestPage />} />,
+      },
+      {
+        path: "/monitorias",
+        element: <PrivateRoute element={<AppoinmentTutor />} />,
+      },
+      { path: "/solicitudes-canceladas", element: <CanceledRequestPage /> },
+      {path: "/tutorias-realizadas", element: <CompletedRequestPage />},
     ],
   },
 ]);
