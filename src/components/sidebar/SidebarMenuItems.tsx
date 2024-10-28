@@ -1,5 +1,5 @@
 import { ItemSidebar } from "@ui/ItemSidebar";
-import { FaCalendarCheck, FaRegCalendarAlt } from "react-icons/fa";
+import { FaCalendarCheck, FaChalkboardTeacher, FaRegCalendarAlt } from "react-icons/fa";
 import { FaChalkboardUser, FaUserGroup } from "react-icons/fa6";
 import { GoHome } from "react-icons/go";
 import { IoMdJournal } from "react-icons/io";
@@ -8,6 +8,10 @@ import {
   MdOutlineFreeCancellation,
   MdOutlineLibraryBooks,
   MdOutlinePendingActions,
+  MdAirlineSeatReclineExtra,
+  MdFactCheck ,
+  MdCancelPresentation,
+  MdOutlineComment 
 } from "react-icons/md";
 
 interface SidebarMenuItemsProps {
@@ -47,8 +51,36 @@ export const SidebarMenuItems = ({ role }: SidebarMenuItemsProps) => {
           />
         </>
       );
-    case "student":
-      return <ItemSidebar icon={<GoHome />} title="Home" route="/" />;
+    case "Estudiante":
+      return (
+        <>
+          <ItemSidebar 
+            icon={<FaChalkboardTeacher />} 
+            title="Solicitar Tutoría" 
+            route="/solicitar-tutoria" 
+          />
+          <ItemSidebar
+            icon={<MdAirlineSeatReclineExtra />} 
+            title="Solicitudes en espera" 
+            route="/tutorias-en-espera"
+          />
+          <ItemSidebar
+            icon={<MdCancelPresentation />} 
+            title="Solicitudes rechazadas" 
+            route="/tutorias-canceladas"
+          />
+          <ItemSidebar
+            icon={<MdFactCheck />} 
+            title="Solicitudes confirmadas" 
+            route="/tutorias-confirmadas-o-cancelar"
+          />
+          <ItemSidebar
+            icon={<MdOutlineComment />} 
+            title="Historial y calificación de solicitudes" 
+            route="/tutorias-calificar-historial"
+          />
+        </>
+      );
     case "teacher":
     case "Monitor":
       return (
@@ -64,7 +96,7 @@ export const SidebarMenuItems = ({ role }: SidebarMenuItemsProps) => {
             route="/solicitudes-pendientes"
           />
           <ItemSidebar
-            icon={<FaChalkboardUser />}
+            icon={<MdCancelPresentation />}
             title="Monitorias"
             route="/monitorias"
           />
