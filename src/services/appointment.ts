@@ -1,12 +1,12 @@
 import axiosInstance from "@axios/index";
-import { AppointmentResponse } from "@interfaces/appointment";
+import { AppointmentList, AppointmentResponse } from "@interfaces/appointment";
 
 export const getAppointmentsCSV = async () => {
   try {
     const response = await axiosInstance.get("admin/appointment/csv");
     return response.data;
   } catch (error) {
-    throw new Error("Failed to get appointments CSV");
+    throw new Error(error.response.data.message);
   }
 };
 
@@ -17,7 +17,7 @@ export const getAppointmentById = async (appointmentId: number) => {
     );
     return response.data as AppointmentResponse;
   } catch (error) {
-    throw new Error("Failed to get appointment");
+    throw new Error(error.response.data.message);
   }
 };
 
@@ -26,6 +26,24 @@ export const getAppointments = async () => {
     const response = await axiosInstance.get("admin/appointment");
     return response.data as AppointmentResponse[];
   } catch (error) {
-    throw new Error("Failed to get appointments");
+    throw new Error(error.response.data.message);
+  }
+};
+
+export const getAppointmentsTutor = async (status: string) => {
+  try {
+    const response = await axiosInstance.get(`appointment/tutor?status=${status}`);
+    return response.data as AppointmentList[];
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+}
+
+export const postAppointmentTutorResponse = async (data: { id: number; appointmentResponse: string }) => {
+  try {
+    const response = await axiosInstance.post("appointment/tutor", data);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
   }
 };
