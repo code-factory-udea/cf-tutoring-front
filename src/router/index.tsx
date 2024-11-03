@@ -4,6 +4,7 @@ import AdminPage from "@pages/admin.page";
 import { AgendaPage } from "@pages/agenda.page";
 import { AppoinmentTutor } from "@pages/appoinmentTutor.page";
 import { CanceledRequestPage } from "@pages/canceledRequest.page";
+import { CompletedRequestPage } from "@pages/completedRequest.page";
 import FacultyPage from "@pages/faculty.page";
 import HomePage from "@pages/home.page";
 import MainLayout from "@pages/mainLayout";
@@ -16,7 +17,6 @@ import UnidentifiedPage from "@pages/undefined.page";
 import UserPage from "@pages/user.page";
 import { createBrowserRouter } from "react-router-dom";
 import PrivateRoute from "./privateRouter";
-import { CompletedRequestPage } from "@pages/completedRequest.page";
 import RequestTutoringPage from "@pages/requestTutoring.page";
 import RequestWaitingPage from "@pages/requestWaiting.page";
 import RequestRejectedPage from "@pages/requestRejected.page";
@@ -105,12 +105,15 @@ const router = createBrowserRouter([
         element: <PrivateRoute element={<AppoinmentTutor />} />,
       },
       { path: "/solicitudes-canceladas", element: <CanceledRequestPage /> },
+
+      { path: "/tutorias-realizadas", element: <CompletedRequestPage /> },
       {path: "/tutorias-realizadas", element: <CompletedRequestPage />},
       {path: "/solicitar-tutoria", element: <RequestTutoringPage />},
       {path: "/tutorias-en-espera", element: <RequestWaitingPage />},
       {path: "/tutorias-canceladas", element: <RequestRejectedPage />},
       {path: "/tutorias-confirmadas-o-cancelar", element: <RequestConfirmedOrCancelPage />},
       {path: "/tutorias-calificar-historial", element: <RequestHistoryOrQualificationPage />},
+
     ],
   },
 ]);
