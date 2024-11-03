@@ -18,7 +18,11 @@ export const CompletedRequestPage = () => {
   const { data: appointment, isLoading: isLoadingAppointments } =
     useQueryAppointmentsTutorCompleted(appointmentId);
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <div className="w-full flex items-center justify-center">
+        <Spinner />
+      </div>
+    );
   }
   const handleShowDetails = (id: number) => {
     setAppointmentId(id);

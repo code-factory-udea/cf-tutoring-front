@@ -17,7 +17,6 @@ import UnidentifiedPage from "@pages/undefined.page";
 import UserPage from "@pages/user.page";
 import { createBrowserRouter } from "react-router-dom";
 import PrivateRoute from "./privateRouter";
-import { CompletedRequestPage } from "@pages/completedRequest.page";
 import RequestTutoringPage from "@pages/requestTutoring.page";
 import RequestWaitingPage from "@pages/requestWaiting.page";
 import RequestRejectedPage from "@pages/requestRejected.page";
