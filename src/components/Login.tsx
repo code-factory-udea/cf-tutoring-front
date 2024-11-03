@@ -11,7 +11,7 @@ export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const [authData, setAuthData] = useLocalStorage();
+  const [_, setAuthData] = useLocalStorage();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
