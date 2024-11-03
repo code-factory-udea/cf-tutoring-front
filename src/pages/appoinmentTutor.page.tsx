@@ -1,14 +1,10 @@
-import { Modal } from "@components/Modal";
 import {
-  useMutationCreateTutorSchedule,
-  useMutationDeleteTutorSchedule,
+  useMutationAppointmentTutorResponse,
+  useMutationUpdateAppointmentTutorResponse,
 } from "@hooks/mutations";
-import {
-  useQueryAppointmentsTutor,
-  useQueryTutorSchedule,
-} from "@hooks/queries";
-import { useModal } from "@hooks/useModal";
-import { APPOINMENT_STATUS } from "@utils/constants";
+import { useQueryAppointmentsTutor } from "@hooks/queries";
+import { ConfirmAlert } from "@ui/ConfirmAlert";
+import { APPOINMENT_STATUS, APPOINTMENT_REQUEST } from "@utils/constants";
 import moment from "moment";
 import "moment/locale/es";
 import { useEffect, useState } from "react";
@@ -16,12 +12,10 @@ import {
   Calendar,
   Event as CalendarEvent,
   momentLocalizer,
-  SlotInfo,
 } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 moment.locale("es");
@@ -91,123 +85,65 @@ function CustomToolbar({ onView, view }) {
 }
 
 export const AppoinmentTutor = () => {
-  const { isOpen, openModal, closeModal } = useModal();
   const [events, setEvents] = useState<Event[]>([]);
-  const [slotInfo, setSlotInfo] = useState<SlotInfo | null>(null);
-  const [startTime, setStartTime] = useState<string>("");
-  const [endTime, setEndTime] = useState<string>("");
-  const { mutateAsync: createSchedule } = useMutationCreateTutorSchedule();
-  const { mutateAsync: deleteSchedule } = useMutationDeleteTutorSchedule();
-  const { data: tutorSchedule } = useQueryTutorSchedule();
-  const { data: appoinments, isLoading } = useQueryAppointmentsTutor(
+  const { mutateAsync: updateSchedule } =
+    useMutationUpdateAppointmentTutorResponse();
+  const { mutateAsync: cancelEvent } = useMutationAppointmentTutorResponse();
+  const { data: appoinments } = useQueryAppointmentsTutor(
     APPOINMENT_STATUS.ACCEPTED,
   );
-
-  const convertScheduleToEvents = (schedule) => {
-    const daysOfWeek = {
-      MONDAY: 1,
-      TUESDAY: 2,
-      WEDNESDAY: 3,
-      THURSDAY: 4,
-      FRIDAY: 5,
-      SATURDAY: 6,
-      SUNDAY: 7,
-    };
-
-    return schedule.map(({ day, startTime, endTime, id }) => {
-      const startDate = moment()
-        .day(daysOfWeek[day.toUpperCase()])
-        .set({
-          hour: parseInt(startTime.split(":")[0], 10),
-          minute: parseInt(startTime.split(":")[1], 10),
-          second: 0,
-          millisecond: 0,
-        });
-
-      const endDate = moment()
-        .day(daysOfWeek[day.toUpperCase()])
-        .set({
-          hour: parseInt(endTime.split(":")[0], 10),
-          minute: parseInt(endTime.split(":")[1], 10),
-          second: 0,
-          millisecond: 0,
-        });
-
-      return {
-        start: startDate.toDate(),
-        end: endDate.toDate(),
-        id,
-      };
-    });
+  const convertAppointmentsToEvents = (appointments) => {
+    return appointments.map((appointment) => ({
+      id: appointment.id,
+      title: appointment.name,
+      description: appointment.virtual ? "Virtual" : "Presencial",
+      start: moment(`${appointment.date} ${appointment.startTime}`).toDate(),
+      end: moment(`${appointment.date} ${appointment.endTime}`).toDate(),
+    }));
   };
 
   useEffect(() => {
-    if (tutorSchedule) {
-      const loadedEvents = convertScheduleToEvents(tutorSchedule);
+    if (appoinments) {
+      const loadedEvents = convertAppointmentsToEvents(appoinments);
       setEvents(loadedEvents);
     }
-  }, [tutorSchedule]);
-
-  const handleSelectSlot = (slotInfo: SlotInfo) => {
-    setSlotInfo(slotInfo);
-    setStartTime(moment(slotInfo.start).format("HH:mm"));
-    setEndTime(moment(slotInfo.end).format("HH:mm"));
-    openModal();
-  };
-
-  const handleSaveEvent = async () => {
-    if (slotInfo && startTime && endTime) {
-      const startDate = moment(slotInfo.start).set({
-        hour: parseInt(startTime.split(":")[0]),
-        minute: parseInt(startTime.split(":")[1]),
-      });
-
-      const endDate = moment(slotInfo.start).set({
-        hour: parseInt(endTime.split(":")[0]),
-        minute: parseInt(endTime.split(":")[1]),
-      });
-
-      if (endDate.isBefore(startDate)) {
-        toast.error("La hora final no puede ser anterior a la hora de inicio.");
-        return;
-      }
-
-      await createSchedule({
-        day: startDate.format("dddd").toUpperCase(),
-        startTime: `${startDate.format("HH:mm")}`,
-        endTime: `${endDate.format("HH:mm")}`,
-      });
-
-      closeModal();
-    }
-  };
+  }, [appoinments]);
 
   const deleteEvent = async (id: number) => {
-    await deleteSchedule(id);
+    await cancelEvent({    id,
+      appointmentResponse: APPOINTMENT_REQUEST.CANCEL,
+    })}
+
+  const completeEvent = async (id: number) => {
+    await updateSchedule({ id });
   };
+
   const handleEventClick = (event: Event) => {
-    confirmAlert({
-      message: "¿Estás seguro de que deseas eliminar este horario?",
-      buttons: [
-        {
-          label: "Sí",
-          onClick: () => {
-            deleteEvent(event.id);
-          },
+    const eventDate = moment(event.start);
+    const currentDate = moment();
+
+    if (currentDate.isAfter(eventDate)) {
+      ConfirmAlert({
+        title: "Completar Tutoría",
+        message: "¿Deseas marcar esta tutoría como completada?",
+        onConfirm: () => {
+          completeEvent(event.id);
         },
-        {
-          label: "No",
-          onClick: () => toast.info("Eliminación cancelada."),
+      });
+    } else {
+      ConfirmAlert({
+        title: "Cancelar Tutoría",
+        message: "¿Estás seguro de que deseas cancelar esta tutoría?",
+        onConfirm: () => {
+          deleteEvent(event.id);
         },
-      ],
-    });
+      });
+    }
   };
 
   return (
     <div>
-      <h2 className="text-md font-semibold">
-        Organiza tu disponibilidad para atender tutorías
-      </h2>
+      <h2 className="text-md font-semibold">Las tutorías para esta semana</h2>
       <section className="mb-4">
         <Calendar
           selectable
@@ -215,7 +151,6 @@ export const AppoinmentTutor = () => {
           events={events as CalendarEvent[]}
           defaultView="week"
           views={["week", "day"]}
-          onSelectSlot={handleSelectSlot}
           onSelectEvent={handleEventClick}
           style={{ height: 580 }}
           messages={messages}
@@ -238,51 +173,6 @@ export const AppoinmentTutor = () => {
           })}
         />
       </section>
-
-      <Modal isOpen={isOpen} title="Crear Horario">
-        <div className="bg-white rounded-lg shadow-lg p-6 w-full">
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
-              Hora de inicio (HH:mm):
-            </label>
-            <input
-              type="time"
-              value={startTime}
-              onChange={(e) => setStartTime(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
-              Hora de fin (HH:mm):
-            </label>
-            <input
-              type="time"
-              value={endTime}
-              onChange={(e) => setEndTime(e.target.value)}
-              min="06:00"
-              max="22:00"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
-            />
-          </div>
-
-          <div className="flex justify-end gap-4">
-            <button
-              onClick={closeModal}
-              className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-            >
-              Cancelar
-            </button>
-            <button
-              onClick={handleSaveEvent}
-              className="px-4 py-2 bg-teal-500 text-white rounded-md hover:bg-teal-600"
-            >
-              Guardar
-            </button>
-          </div>
-        </div>
-      </Modal>
       <ToastContainer />
     </div>
   );

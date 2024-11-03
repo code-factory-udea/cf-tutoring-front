@@ -10,7 +10,6 @@ export const PendingRequestPage = () => {
   const { mutateAsync: responseAppointment } = useMutationAppointmentTutorResponse();
 
   const handleAccept = async (id: number) => {
-    console.log(id);
     await responseAppointment({
       id,
       appointmentResponse: APPOINTMENT_REQUEST.APPROVE,
