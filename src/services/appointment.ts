@@ -47,3 +47,21 @@ export const postAppointmentTutorResponse = async (data: { id: number; appointme
     throw new Error(error.response.data.message);
   }
 };
+
+export const getAppointmentTutorCompleted = async (appoimentId: number) => {
+  try {
+    const response = await axiosInstance.get(`appointment/tutor/${appoimentId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};
+
+export const updateAppointmentTutorResponse = async (data: { id: number }) => {
+  try {
+    const response = await axiosInstance.patch("appointment/tutor", data);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};
