@@ -20,5 +20,7 @@ export interface AppointmentList {
   id: number;
   name: string;
   date: string;
+  startTime: string;
+  endTime: string;
   virtual: boolean;
 }
