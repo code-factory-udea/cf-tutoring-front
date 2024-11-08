@@ -1,35 +1,52 @@
-import { useAlert } from "@context/alertContext";
-import { postAcademicProgram, postFaculty, updateAcademicProgram } from "@services/academic";
-import { postAppointmentTutorResponse } from "@services/appointment";
+import {
+  postAcademicProgram,
+  postFaculty,
+  updateAcademicProgram,
+} from "@services/academic";
+import {
+  postAppointmentTutorResponse,
+  updateAppointmentTutorResponse,
+} from "@services/appointment";
 import { authLogin } from "@services/auth";
-import { deleteProfessorSubject, postProfessorSubject } from "@services/professor";
-import { deleteSubjectTutor, postSubject, postSubjectTutor, updateSubject } from "@services/subject";
-import { deleteTutorSchedule, postLinkTutorVirtualRoom, postTutorSchedule } from "@services/tutor";
+import {
+  deleteProfessorSubject,
+  postProfessorSubject,
+} from "@services/professor";
+import {
+  deleteSubjectTutor,
+  postSubject,
+  postSubjectTutor,
+  updateSubject,
+} from "@services/subject";
+import {
+  deleteTutorSchedule,
+  postLinkTutorVirtualRoom,
+  postTutorSchedule,
+} from "@services/tutor";
 import { requestTutoring } from "@services/student";
 import { updateUserRole } from "@services/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 export const useMutationValidateUser = () => {
-  const { showAlert } = useAlert();
   return useMutation({
     mutationFn: authLogin,
     onSuccess: () => {
-      showAlert("success", "Usuario autenticado correctamente.");
+      toast.success("Usuario autenticado correctamente.");
     },
     onError: (error) => {
       console.error("Error fetching data:", error);
-      showAlert("error", "Usuario o Contraseña incorrectos.");
+      toast.error("Usuario o Contraseña incorrectos.");
     },
   });
 };
 
 export const useMutationUpdateUserRole = () => {
   const queryClient = useQueryClient();
-  const { showAlert } = useAlert();
   return useMutation({
     mutationFn: updateUserRole,
     onSuccess: () => {
-      showAlert("success", "Rol actualizado correctamente.");
+      toast.success("Rol actualizado correctamente.");
       queryClient.invalidateQueries({ queryKey: ["userApiKeys"] });
       queryClient.invalidateQueries({ queryKey: ["students"] });
       queryClient.invalidateQueries({ queryKey: ["professors"] });
@@ -37,208 +54,212 @@ export const useMutationUpdateUserRole = () => {
     },
     onError: (error) => {
       console.error("Error fetching data:", error);
-      showAlert("error", error.message);
+      toast.error(error.message);
     },
   });
 };
 
-
 export const useMutationCreateFaculty = () => {
   const queryClient = useQueryClient();
-  const { showAlert } = useAlert();
   return useMutation({
     mutationFn: postFaculty,
     onSuccess: () => {
-      showAlert("success", "Facultad creada correctamente.");
+      toast.success("Facultad creada correctamente.");
       queryClient.invalidateQueries({ queryKey: ["faculties"] });
     },
     onError: (error) => {
       console.error("Error fetching data:", error);
-      showAlert("error", "Error al crear la facultad.");
+      toast.error("Error al crear la facultad.");
     },
   });
-}
+};
 
 export const useMutationCreateAcademicProgram = () => {
   const queryClient = useQueryClient();
-  const { showAlert } = useAlert();
   return useMutation({
     mutationFn: postAcademicProgram,
     onSuccess: () => {
-      showAlert("success", "Programa académico creado correctamente.");
+      toast.success("Programa académico creado correctamente.");
       queryClient.invalidateQueries({ queryKey: ["academicPrograms"] });
     },
     onError: (error) => {
       console.error("Error fetching data:", error);
-      showAlert("error", "Error al crear el programa académico.");
+      toast.error("Error al crear el programa académico.");
     },
   });
-}
+};
 
 export const useMutationCreateSubject = () => {
   const queryClient = useQueryClient();
-  const { showAlert } = useAlert();
   return useMutation({
     mutationFn: postSubject,
     onSuccess: () => {
-      showAlert("success", "Materia creada correctamente.");
+      toast.success("Materia creada correctamente.");
       queryClient.invalidateQueries({ queryKey: ["subjects"] });
     },
     onError: (error) => {
       console.error("Error fetching data:", error);
-      showAlert("error", "Error al crear la materia.");
+      toast.error("Error al crear la materia.");
     },
   });
-}
+};
 
-export const useMutationSubjectProfessor = () =>{
+export const useMutationSubjectProfessor = () => {
   const queryClient = useQueryClient();
-  const { showAlert } = useAlert();
   return useMutation({
     mutationFn: postProfessorSubject,
     onSuccess: () => {
-      showAlert("success", "Materia asignado correctamente.");
+      toast.success("Materia asignado correctamente.");
       queryClient.invalidateQueries({ queryKey: ["professorByUsername"] });
     },
     onError: (error) => {
-      showAlert("error", error.message);
+      toast.error(error.message);
     },
   });
-}
+};
 
-export const useMutationDeleteSubjectProfessor = () =>{
+export const useMutationDeleteSubjectProfessor = () => {
   const queryClient = useQueryClient();
-  const { showAlert } = useAlert();
   return useMutation({
     mutationFn: deleteProfessorSubject,
     onSuccess: () => {
-      showAlert("success", "Materia eliminada correctamente.");
+      toast.success("Materia eliminada correctamente.");
       queryClient.invalidateQueries({ queryKey: ["professorByUsername"] });
     },
     onError: (error) => {
-      showAlert("error", error.message);
+      toast.error(error.message);
     },
-  }); }
-  
+  });
+};
+
 export const useMutationCreateSubjectTutor = () => {
   const queryClient = useQueryClient();
-  const { showAlert } = useAlert();
   return useMutation({
     mutationFn: postSubjectTutor,
     onSuccess: () => {
-      showAlert("success", "Materia asignada correctamente.");
+      toast.success("Materia asignada correctamente.");
       queryClient.invalidateQueries({ queryKey: ["tutorByUsername"] });
     },
     onError: (error) => {
-      showAlert("error", error.message);
+      toast.error(error.message);
     },
   });
-}
+};
 
 export const useMutationDeleteSubjectTutor = () => {
   const queryClient = useQueryClient();
-  const { showAlert } = useAlert();
   return useMutation({
     mutationFn: deleteSubjectTutor,
     onSuccess: () => {
-      showAlert("success", "Materia eliminada correctamente.");
+      toast.success("Materia eliminada correctamente.");
       queryClient.invalidateQueries({ queryKey: ["tutorByUsername"] });
       queryClient.refetchQueries({ queryKey: ["tutorByUsername"] });
     },
     onError: (error) => {
-      showAlert("error", error.message);
+      toast.error(error.message);
     },
   });
-}
+};
 
 export const useMutationUpdateSubject = () => {
   const queryClient = useQueryClient();
-  const { showAlert } = useAlert();
   return useMutation({
     mutationFn: updateSubject,
     onSuccess: () => {
-      showAlert("success", "Materia actualizada correctamente.");
+      toast.success("Materia actualizada correctamente.");
       queryClient.invalidateQueries({ queryKey: ["subjects"] });
     },
     onError: (error) => {
-      showAlert("error", error.message);
+      toast.error(error.message);
     },
   });
-}
+};
 
 export const useMutationUpdateAcademicProgram = () => {
   const queryClient = useQueryClient();
-  const { showAlert } = useAlert();
   return useMutation({
     mutationFn: updateAcademicProgram,
     onSuccess: () => {
-      showAlert("success", "Programa Académico actualizado correctamente.");
+      toast.success("Programa Académico actualizado correctamente.");
       queryClient.invalidateQueries({ queryKey: ["academicPrograms"] });
     },
     onError: (error) => {
-      showAlert("error", error.message);
+      toast.error(error.message);
     },
   });
-}
+};
 
 export const useMutationCreateTutorSchedule = () => {
   const queryClient = useQueryClient();
-  const { showAlert } = useAlert();
   return useMutation({
     mutationFn: postTutorSchedule,
     onSuccess: () => {
-      showAlert("success", "Horario creado correctamente.");
+      toast.success("Horario creado correctamente.");
       queryClient.invalidateQueries({ queryKey: ["tutorSchedule"] });
     },
     onError: (error) => {
-      showAlert("error", error.message);
+      toast.error(error.message);
     },
   });
-}
+};
 
 export const useMutationCreateLinkTutorVirtualRoom = () => {
   const queryClient = useQueryClient();
-  const { showAlert } = useAlert();
   return useMutation({
     mutationFn: postLinkTutorVirtualRoom,
     onSuccess: () => {
-      showAlert("success", "Link de sala virtual creado correctamente.");
+      toast.success("Link de sala virtual creado correctamente.");
       queryClient.invalidateQueries({ queryKey: ["tutorLinkVirtualRoom"] });
     },
     onError: (error) => {
-      showAlert("error", error.message);
-    } 
-  })}
+      toast.error(error.message);
+    },
+  });
+};
 
-  export const useMutationDeleteTutorSchedule = () => {
-    const queryClient = useQueryClient();
-    const { showAlert } = useAlert();
-    return useMutation({
-      mutationFn: deleteTutorSchedule,
-      onSuccess: () => {
-        showAlert("success", "Horario eliminado correctamente.");
-        queryClient.invalidateQueries({ queryKey: ["tutorSchedule"] });
-      },
-      onError: (error) => {
-        showAlert("error", error.message);
-      },
-    });
-  }
+export const useMutationDeleteTutorSchedule = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: deleteTutorSchedule,
+    onSuccess: () => {
+      toast.success("Horario eliminado correctamente.");
+      queryClient.invalidateQueries({ queryKey: ["tutorSchedule"] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
 
-  export const useMutationAppointmentTutorResponse = () => {
-    const queryClient = useQueryClient();
-    const { showAlert } = useAlert();
-    return useMutation({
-      mutationFn: postAppointmentTutorResponse,
-      onSuccess: () => {
-        showAlert("success", "Respuesta enviada correctamente.");
-        queryClient.invalidateQueries({ queryKey: ["appointmentsTutor"] });
-      },
-      onError: (error) => {
-        showAlert("error", error.message);
-      },
-    });
-  }
+export const useMutationAppointmentTutorResponse = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: postAppointmentTutorResponse,
+    onSuccess: () => {
+      toast.success("Respuesta enviada correctamente.");
+      queryClient.invalidateQueries({ queryKey: ["appointmentsTutor"] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useMutationUpdateAppointmentTutorResponse = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: updateAppointmentTutorResponse,
+    onSuccess: () => {
+      toast.success("Monitoría finalizada correctamente."),
+        queryClient.invalidateQueries({
+          queryKey: ["appointmentsTutor"],
+        });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
 
   export const useMutationRequestTutoring = () => {
     const queryClient = useQueryClient();

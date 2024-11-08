@@ -1,7 +1,10 @@
 import { User } from "@interfaces/user";
 import { getAcademicProgram, getFaculty } from "@services/academic";
 import { getRoles } from "@services/admin";
-import { getAppointmentsTutor } from "@services/appointment";
+import {
+  getAppointmentsTutor,
+  getAppointmentTutorCompleted,
+} from "@services/appointment";
 import { getProfessorByUsername, getProfessors } from "@services/professor";
 import {
   getMonitors,
@@ -249,3 +252,9 @@ export const useQueryMonitorsBySubjectId = (subjectId: number) =>
         queryFn: () => getPendingAppointments({ status }),
         enabled: !!status,
       });
+
+export const useQueryAppointmentsTutorCompleted = (appoimentId: number) =>
+  useQuery({
+    queryKey: ["appointmentsTutorCompleted", appoimentId],
+    queryFn: () => getAppointmentTutorCompleted(appoimentId),
+  });
