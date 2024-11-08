@@ -23,9 +23,11 @@ import {
   postLinkTutorVirtualRoom,
   postTutorSchedule,
 } from "@services/tutor";
+import { requestTutoring } from "@services/student";
 import { updateUserRole } from "@services/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { useAlert } from "@context/alertContext";
 
 export const useMutationValidateUser = () => {
   return useMutation({
@@ -259,3 +261,19 @@ export const useMutationUpdateAppointmentTutorResponse = () => {
     },
   });
 };
+
+  export const useMutationRequestTutoring = () => {
+    const queryClient = useQueryClient();
+    const { showAlert } = useAlert();
+    return useMutation({
+      mutationFn: requestTutoring,
+      onSuccess: () => {
+        showAlert("success", "Solicitud de tutoría creada correctamente.");
+        queryClient.invalidateQueries({ queryKey: ["tutoringSchedule"] });
+        queryClient.invalidateQueries({ queryKey: ["appointmentsTutor"] });
+      },
+      onError: (error: any) => {
+        showAlert("error", "Error al solicitar tutoría. Por favor, inténtalo de nuevo.");
+      },
+    });
+  };
