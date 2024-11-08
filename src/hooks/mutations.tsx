@@ -5,6 +5,7 @@ import { authLogin } from "@services/auth";
 import { deleteProfessorSubject, postProfessorSubject } from "@services/professor";
 import { deleteSubjectTutor, postSubject, postSubjectTutor, updateSubject } from "@services/subject";
 import { deleteTutorSchedule, postLinkTutorVirtualRoom, postTutorSchedule } from "@services/tutor";
+import { requestTutoring } from "@services/student";
 import { updateUserRole } from "@services/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -238,3 +239,19 @@ export const useMutationCreateLinkTutorVirtualRoom = () => {
       },
     });
   }
+
+  export const useMutationRequestTutoring = () => {
+    const queryClient = useQueryClient();
+    const { showAlert } = useAlert();
+    return useMutation({
+      mutationFn: requestTutoring,
+      onSuccess: () => {
+        showAlert("success", "Solicitud de tutoría creada correctamente.");
+        queryClient.invalidateQueries({ queryKey: ["tutoringSchedule"] });
+        queryClient.invalidateQueries({ queryKey: ["appointmentsTutor"] });
+      },
+      onError: (error: any) => {
+        showAlert("error", "Error al solicitar tutoría. Por favor, inténtalo de nuevo.");
+      },
+    });
+  };

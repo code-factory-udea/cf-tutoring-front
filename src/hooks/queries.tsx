@@ -7,6 +7,9 @@ import {
   getMonitors,
   getStudents,
   getTutorByUsername,
+  getMonitorsBySubjectId,
+  getTutoringSchedule,
+  getPendingAppointments
 } from "@services/student";
 import { getSubjects } from "@services/subject";
 import { getLinkTutorVirtualRoom, getTutorSchedule } from "@services/tutor";
@@ -222,3 +225,27 @@ export const useQueryAppointmentsTutor = (status: string) =>
     queryFn: () => getAppointmentsTutor(status),
     enabled: !!status,
   });
+
+export const useQueryMonitorsBySubjectId = (subjectId: number) => 
+  useQuery({
+    queryKey: ["monitorsBySubjectId", subjectId],
+    queryFn: () => getMonitorsBySubjectId(subjectId),
+    enabled: !!subjectId,
+  });
+
+  export const useQueryTutoringSchedule = (username: string | null) => 
+    useQuery({
+      queryKey: ["tutorSchedule", username],
+      queryFn: () => {
+        if (!username) throw new Error("Username is required");
+        return getTutoringSchedule(username);
+      },
+      enabled: !!username,
+    });
+
+    export const useQueryPendingAppointments = (status: string) =>
+      useQuery({
+        queryKey: ["pendingAppointments", status],
+        queryFn: () => getPendingAppointments({ status }),
+        enabled: !!status,
+      });
