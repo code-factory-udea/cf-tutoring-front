@@ -5,7 +5,13 @@ import {
   getAppointmentsTutor,
   getAppointmentTutorCompleted,
 } from "@services/appointment";
-import { getProfessorByUsername, getProfessors } from "@services/professor";
+import {
+  getProfessorAppointment,
+  getProfessorByUsername,
+  getProfessors,
+  getProfessorSubjects,
+  getProfessorTutor,
+} from "@services/professor";
 import {
   getMonitors,
   getStudents,
@@ -230,4 +236,32 @@ export const useQueryAppointmentsTutorCompleted = (appoimentId: number) =>
   useQuery({
     queryKey: ["appointmentsTutorCompleted", appoimentId],
     queryFn: () => getAppointmentTutorCompleted(appoimentId),
+  });
+
+export const useQueryProfessorTutors = (subjectCode: number) =>
+  useQuery({
+    queryKey: ["professorTutor", subjectCode],
+    queryFn: () => getProfessorTutor(subjectCode),
+  });
+
+export const useQueryProfessorSubjects = () =>
+  useQuery({
+    queryKey: ["professorSubjects"],
+    queryFn: () => getProfessorSubjects(),
+  });
+
+export const useQueryProfessorAppointments = ({
+  username,
+  initialDate,
+  finalDate,
+}: {
+  username: string;
+  initialDate: string;
+  finalDate: string;
+}) =>
+  useQuery({
+    queryKey: ["professorAppointments", username, initialDate, finalDate],
+    queryFn: () =>
+      getProfessorAppointment({ username, initialDate, finalDate }),
+    enabled: !!username && !!initialDate && !!finalDate,
   });

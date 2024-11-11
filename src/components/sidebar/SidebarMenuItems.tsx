@@ -1,18 +1,23 @@
 import { ItemSidebar } from "@ui/ItemSidebar";
-import { FaCalendarCheck, FaChalkboardTeacher, FaRegCalendarAlt } from "react-icons/fa";
+import {
+  FaCalendarCheck,
+  FaChalkboardTeacher,
+  FaRegCalendarAlt,
+} from "react-icons/fa";
 import { FaChalkboardUser, FaUserGroup } from "react-icons/fa6";
 import { GoHome } from "react-icons/go";
 import { IoMdJournal } from "react-icons/io";
 import {
+  MdAirlineSeatReclineExtra,
+  MdCancelPresentation,
+  MdFactCheck,
   MdHomeWork,
+  MdOutlineComment,
   MdOutlineFreeCancellation,
   MdOutlineLibraryBooks,
   MdOutlinePendingActions,
-  MdAirlineSeatReclineExtra,
-  MdFactCheck ,
-  MdCancelPresentation,
-  MdOutlineComment 
 } from "react-icons/md";
+import { PiUsersFourFill } from "react-icons/pi";
 
 interface SidebarMenuItemsProps {
   role: string;
@@ -54,34 +59,43 @@ export const SidebarMenuItems = ({ role }: SidebarMenuItemsProps) => {
     case "Estudiante":
       return (
         <>
-          <ItemSidebar 
-            icon={<FaChalkboardTeacher />} 
-            title="Solicitar Tutoría" 
-            route="/solicitar-tutoria" 
+          <ItemSidebar
+            icon={<FaChalkboardTeacher />}
+            title="Solicitar Tutoría"
+            route="/solicitar-tutoria"
           />
           <ItemSidebar
-            icon={<MdAirlineSeatReclineExtra />} 
-            title="Solicitudes en espera" 
+            icon={<MdAirlineSeatReclineExtra />}
+            title="Solicitudes en espera"
             route="/tutorias-en-espera"
           />
           <ItemSidebar
-            icon={<MdCancelPresentation />} 
-            title="Solicitudes rechazadas" 
+            icon={<MdCancelPresentation />}
+            title="Solicitudes rechazadas"
             route="/tutorias-canceladas"
           />
           <ItemSidebar
-            icon={<MdFactCheck />} 
-            title="Solicitudes confirmadas" 
+            icon={<MdFactCheck />}
+            title="Solicitudes confirmadas"
             route="/tutorias-confirmadas-o-cancelar"
           />
           <ItemSidebar
-            icon={<MdOutlineComment />} 
-            title="Historial y calificación de solicitudes" 
+            icon={<MdOutlineComment />}
+            title="Historial y calificación de solicitudes"
             route="/tutorias-calificar-historial"
           />
         </>
       );
-    case "teacher":
+    case "Profesor":
+      return (
+        <>
+          <ItemSidebar
+            icon={<PiUsersFourFill />}
+            title="Mis monitores"
+            route="/monitores"
+          />
+        </>
+      );
     case "Monitor":
       return (
         <>

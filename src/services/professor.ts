@@ -1,5 +1,6 @@
 import axiosInstance from "@axios/index";
-import { Professor } from "@interfaces/professor";
+import { Professor, ProfessorAppointment } from "@interfaces/professor";
+import { Tutor } from "@interfaces/tutor";
 import { UserList } from "@interfaces/user";
 
 export const getProfessorByUsername = async (username: string) => {
@@ -55,3 +56,36 @@ export const postProfessorSubject = async ({
     throw new Error(error.response.data.message);
   }
 };
+
+export const getProfessorSubjects = async () => {
+  try {
+    const response = await axiosInstance.get(`professor/subject`);
+    return response.data
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+}
+
+export const getProfessorTutor = async (subjectCode: number) => {
+  try {
+    const response = await axiosInstance.get(`professor/tutor/${subjectCode}`);
+    return response.data as Tutor[];
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+}
+
+export const getProfessorAppointment = async ({ username, initialDate, finalDate }: { username: string, initialDate: string, finalDate: string }) => {
+  try {
+    const response = await axiosInstance.get(`professor/appointment`, {
+      params: {
+        username,
+        initialDate,
+        finalDate
+      }
+    });
+    return response.data as ProfessorAppointment[];
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+}
