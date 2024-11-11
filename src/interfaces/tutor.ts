@@ -4,3 +4,8 @@ export interface TutorSchedule {
     startTime: string;
     endTime: string;
 }
+
+export interface Tutor {
+    username: string;
+    name: string;
+}

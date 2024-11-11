@@ -10,6 +10,11 @@ import HomePage from "@pages/home.page";
 import MainLayout from "@pages/mainLayout";
 import MonitorPage from "@pages/monitor.page";
 import { PendingRequestPage } from "@pages/pendingRequest.page";
+import RequestConfirmedOrCancelPage from "@pages/requestConfirmedOrCancel.page";
+import RequestHistoryOrQualificationPage from "@pages/requestHistoryOrQualification.page";
+import RequestRejectedPage from "@pages/requestRejected.page";
+import RequestTutoringPage from "@pages/requestTutoring.page";
+import RequestWaitingPage from "@pages/requestWaiting.page";
 import StudentPage from "@pages/student.page";
 import SubjectPage from "@pages/subject";
 import TeacherPage from "@pages/teacher.page";
@@ -17,11 +22,7 @@ import UnidentifiedPage from "@pages/undefined.page";
 import UserPage from "@pages/user.page";
 import { createBrowserRouter } from "react-router-dom";
 import PrivateRoute from "./privateRouter";
-import RequestTutoringPage from "@pages/requestTutoring.page";
-import RequestWaitingPage from "@pages/requestWaiting.page";
-import RequestRejectedPage from "@pages/requestRejected.page";
-import RequestConfirmedOrCancelPage from "@pages/requestConfirmedOrCancel.page";
-import RequestHistoryOrQualificationPage from "@pages/requestHistoryOrQualification.page";
+import { ProfessorMonitorPage } from "@pages/professorMonitor.page";
 
 const userRoutes = [
   {
@@ -107,13 +108,19 @@ const router = createBrowserRouter([
       { path: "/solicitudes-canceladas", element: <CanceledRequestPage /> },
 
       { path: "/tutorias-realizadas", element: <CompletedRequestPage /> },
-      {path: "/tutorias-realizadas", element: <CompletedRequestPage />},
-      {path: "/solicitar-tutoria", element: <RequestTutoringPage />},
-      {path: "/tutorias-en-espera", element: <RequestWaitingPage />},
-      {path: "/tutorias-canceladas", element: <RequestRejectedPage />},
-      {path: "/tutorias-confirmadas-o-cancelar", element: <RequestConfirmedOrCancelPage />},
-      {path: "/tutorias-calificar-historial", element: <RequestHistoryOrQualificationPage />},
-
+      { path: "/tutorias-realizadas", element: <CompletedRequestPage /> },
+      { path: "/solicitar-tutoria", element: <RequestTutoringPage /> },
+      { path: "/tutorias-en-espera", element: <RequestWaitingPage /> },
+      { path: "/tutorias-canceladas", element: <RequestRejectedPage /> },
+      {
+        path: "/tutorias-confirmadas-o-cancelar",
+        element: <RequestConfirmedOrCancelPage />,
+      },
+      {
+        path: "/tutorias-calificar-historial",
+        element: <RequestHistoryOrQualificationPage />,
+      },
+      {path: "/monitores", element: <ProfessorMonitorPage />},
     ],
   },
 ]);

@@ -11,3 +11,12 @@ export const APPOINMENT_STATUS = {
     CANCELED: "CANCELED",
     COMPLETED: "COMPLETED",
 }
+
+export const STATUS_LABELS: Record<string, string> = {
+    [APPOINMENT_STATUS.PENDING]: "Pendiente",
+    [APPOINMENT_STATUS.ACCEPTED]: "Aceptado",
+    [APPOINMENT_STATUS.REJECTED]: "Rechazado",
+    [APPOINMENT_STATUS.CANCELED]: "Cancelado",
+    [APPOINMENT_STATUS.COMPLETED]: "Completado",
+  };
+  
