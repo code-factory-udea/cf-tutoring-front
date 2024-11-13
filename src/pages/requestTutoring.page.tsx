@@ -102,15 +102,17 @@ const RequestTutoringPage = () => {
         .set({
           hour: parseInt(startTime.split(":")[0], 10),
           minute: parseInt(startTime.split(":")[1], 10),
-        });
-
-      const endDate = moment()
-        .day(daysOfWeek[day.toUpperCase()])
+          second: 0,
+        })
+        .local(); // Usa la zona horaria local
+  
+      const endDate = moment(startDate)
         .set({
           hour: parseInt(endTime.split(":")[0], 10),
           minute: parseInt(endTime.split(":")[1], 10),
-        });
-
+        })
+        .local(); // Usa la zona horaria local
+  
       return {
         start: startDate.toDate(),
         end: endDate.toDate(),
@@ -158,15 +160,18 @@ const RequestTutoringPage = () => {
 
     const handleConfirmTutoring = () => {
       if (!selectedEvent || !selectedTutor) return;
-    
+
+      const startDate = moment(selectedEvent.start).local(); // Forzar zona horaria local
+      const endDate = moment(selectedEvent.end).local(); // Forzar zona horaria local
+
       const payload = {
         tutorUsername: selectedTutor,
         isVirtual: true,
         schedule: {
           id: selectedEvent.id,
-          day: moment(selectedEvent.start).format("dddd").toUpperCase(),
-          startTime: moment(selectedEvent.start).set({ second: 0 }).format("HH:mm:ss"),
-          endTime: moment(selectedEvent.end).set({ second: 0 }).format("HH:mm:ss"), 
+          day: startDate.format("dddd").toUpperCase(),
+          startTime: startDate.format("HH:mm:ss"),
+          endTime: endDate.format("HH:mm:ss"),
         },
       };
     
