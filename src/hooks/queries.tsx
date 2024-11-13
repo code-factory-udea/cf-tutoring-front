@@ -236,22 +236,22 @@ export const useQueryMonitorsBySubjectId = (subjectId: number) =>
     enabled: !!subjectId,
   });
 
-  export const useQueryTutoringSchedule = (username: string | null) => 
-    useQuery({
-      queryKey: ["tutorSchedule", username],
-      queryFn: () => {
-        if (!username) throw new Error("Username is required");
-        return getTutoringSchedule(username);
-      },
-      enabled: !!username,
-    });
+export const useQueryTutoringSchedule = (username: string | null) => 
+  useQuery({
+    queryKey: ["tutorSchedule", username],
+    queryFn: () => {
+      if (!username) throw new Error("Username is required");
+      return getTutoringSchedule(username);
+    },
+    enabled: !!username,
+  });
 
-    export const useQueryPendingAppointments = (status: string) =>
-      useQuery({
-        queryKey: ["pendingAppointments", status],
-        queryFn: () => getPendingAppointments({ status }),
-        enabled: !!status,
-      });
+export const useQueryPendingAppointments = (status: string) =>
+  useQuery({
+    queryKey: ["pendingAppointments", status],
+    queryFn: () => getPendingAppointments({ status }),
+    enabled: !!status,
+  });
 
 export const useQueryAppointmentsTutorCompleted = (appoimentId: number) =>
   useQuery({
