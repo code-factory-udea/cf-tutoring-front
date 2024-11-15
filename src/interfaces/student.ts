@@ -22,3 +22,13 @@ export interface Appointment {
     endTime: string;  
     virtual: boolean;
   }
+
+export interface SurveyPayload {
+  appointmentId: number;
+  calification: number;
+  feedback: string;
+}
+
+export interface SurveyResponse {
+  message: string;
+}

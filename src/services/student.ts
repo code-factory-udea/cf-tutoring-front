@@ -1,6 +1,6 @@
 import axiosInstance from "@axios/index";
 import { UserList } from "@interfaces/user";
-import { TutoringRequestResponse, TutoringRequestPayload } from "@interfaces/student";
+import { TutoringRequestResponse, TutoringRequestPayload, SurveyPayload, SurveyResponse } from "@interfaces/student";
 import { Appointment } from "@interfaces/student";
 
 export const getStudents = async ({ page, name }: { page: number, name: string }) => {
@@ -71,3 +71,9 @@ export const getPendingAppointments = async (params: { status: string }): Promis
   });
   return data;
 };
+
+export const postAppointmentSurvey = async (payload: SurveyPayload): Promise<SurveyResponse> => {
+  const { data } = await axiosInstance.post<SurveyResponse>("/appointment/student/survey", payload);
+  return data;
+};
+
