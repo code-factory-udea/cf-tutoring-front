@@ -1,9 +1,11 @@
+import { useAlert } from "@context/alertContext";
 import {
   postAcademicProgram,
   postFaculty,
   updateAcademicProgram,
 } from "@services/academic";
 import {
+  getAppointmentsCSV,
   postAppointmentTutorResponse,
   updateAppointmentTutorResponse,
 } from "@services/appointment";
@@ -30,17 +32,17 @@ import {
 import { updateUserRole } from "@services/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { useAlert } from "@context/alertContext";
 
 export const useMutationValidateUser = () => {
+  const { showAlert } = useAlert();
+
   return useMutation({
     mutationFn: authLogin,
     onSuccess: () => {
       toast.success("Usuario autenticado correctamente.");
     },
     onError: (error) => {
-      console.error("Error fetching data:", error);
-      toast.error("Usuario o Contraseña incorrectos.");
+      showAlert("error", error.message);
     },
   });
 };
@@ -57,7 +59,6 @@ export const useMutationUpdateUserRole = () => {
       queryClient.invalidateQueries({ queryKey: ["monitors"] });
     },
     onError: (error) => {
-      console.error("Error fetching data:", error);
       toast.error(error.message);
     },
   });
@@ -265,6 +266,11 @@ export const useMutationUpdateAppointmentTutorResponse = () => {
   });
 };
 
+export const useMutationAppointmentsCSV = () =>
+  useMutation({
+    mutationFn: getAppointmentsCSV,
+  });
+
 export const useMutationRequestTutoring = () => {
   const queryClient = useQueryClient();
   const { showAlert } = useAlert();
@@ -275,8 +281,8 @@ export const useMutationRequestTutoring = () => {
       queryClient.invalidateQueries({ queryKey: ["tutoringSchedule"] });
       queryClient.invalidateQueries({ queryKey: ["appointmentsTutor"] });
     },
-    onError: (error: any) => {
-      showAlert("error", "Error al solicitar tutoría. Por favor, inténtalo de nuevo.");
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 };
@@ -291,7 +297,7 @@ export const useMutateAppointmentSurvey = () => {
       queryClient.invalidateQueries({ queryKey: ["pendingAppointments"] });
       queryClient.invalidateQueries({ queryKey: ["appointmentsTutor"] });
     },
-    onError: (error: any) => {
+    onError: (error:any) => {
       if (error.response?.status === 400 && error.response?.data?.message) {
         showAlert("error", error.response.data.message);
       } else {

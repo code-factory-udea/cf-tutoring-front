@@ -3,6 +3,11 @@ import { isTokenExpired } from "../utils/tokenExpired";
 
 const isAuthenticated = () => {
   const token = localStorage.getItem("authToken");
+  const tokenExpired = isTokenExpired();
+  if (tokenExpired) {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("user");
+  }
   return !!token && !isTokenExpired();
 };
 
