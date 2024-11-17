@@ -6,6 +6,6 @@ export const authLogin = async (credentials: Credentials) => {
     const response = await axiosInstance.post("auth/login", credentials);
     return response.data;
   } catch (error) {
-    throw new Error("Failed to login");
+    throw new Error(error.response.data.message);
   }
 };

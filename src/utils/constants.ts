@@ -8,15 +8,17 @@ export const APPOINMENT_STATUS = {
     PENDING: "PENDING",
     ACCEPTED: "ACCEPTED",
     REJECTED: "REJECTED",
-    CANCELED: "CANCELED",
+    CANCELLED: "CANCELLED",
     COMPLETED: "COMPLETED",
+    FINISHED: "FINISHED",
 }
 
 export const STATUS_LABELS: Record<string, string> = {
     [APPOINMENT_STATUS.PENDING]: "Pendiente",
     [APPOINMENT_STATUS.ACCEPTED]: "Aceptado",
     [APPOINMENT_STATUS.REJECTED]: "Rechazado",
-    [APPOINMENT_STATUS.CANCELED]: "Cancelado",
+    [APPOINMENT_STATUS.CANCELLED]: "Cancelado",
     [APPOINMENT_STATUS.COMPLETED]: "Completado",
+    [APPOINMENT_STATUS.FINISHED]: "Finalizado",
   };
   

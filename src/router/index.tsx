@@ -3,6 +3,7 @@ import AcademicProgramPage from "@pages/academicProgram.page";
 import AdminPage from "@pages/admin.page";
 import { AgendaPage } from "@pages/agenda.page";
 import { AppoinmentTutor } from "@pages/appoinmentTutor.page";
+import { AppointmentAdminPage } from "@pages/appointmentAdmin.page";
 import { CanceledRequestPage } from "@pages/canceledRequest.page";
 import { CompletedRequestPage } from "@pages/completedRequest.page";
 import FacultyPage from "@pages/faculty.page";
@@ -10,6 +11,7 @@ import HomePage from "@pages/home.page";
 import MainLayout from "@pages/mainLayout";
 import MonitorPage from "@pages/monitor.page";
 import { PendingRequestPage } from "@pages/pendingRequest.page";
+import { ProfessorMonitorPage } from "@pages/professorMonitor.page";
 import RequestConfirmedOrCancelPage from "@pages/requestConfirmedOrCancel.page";
 import RequestHistoryOrQualificationPage from "@pages/requestHistoryOrQualification.page";
 import RequestRejectedPage from "@pages/requestRejected.page";
@@ -22,7 +24,6 @@ import UnidentifiedPage from "@pages/undefined.page";
 import UserPage from "@pages/user.page";
 import { createBrowserRouter } from "react-router-dom";
 import PrivateRoute from "./privateRouter";
-import { ProfessorMonitorPage } from "@pages/professorMonitor.page";
 
 const userRoutes = [
   {
@@ -120,7 +121,14 @@ const router = createBrowserRouter([
         path: "/tutorias-calificar-historial",
         element: <RequestHistoryOrQualificationPage />,
       },
-      {path: "/monitores", element: <ProfessorMonitorPage />},
+      {
+        path: "/monitores",
+        element: <PrivateRoute element={<ProfessorMonitorPage />} />,
+      },
+      {
+        path: "/monitorias-realizadas",
+        element: <PrivateRoute element={<AppointmentAdminPage />} />,
+      },
     ],
   },
 ]);

@@ -1,9 +1,11 @@
+import { useAlert } from "@context/alertContext";
 import {
   postAcademicProgram,
   postFaculty,
   updateAcademicProgram,
 } from "@services/academic";
 import {
+  getAppointmentsCSV,
   postAppointmentTutorResponse,
   updateAppointmentTutorResponse,
 } from "@services/appointment";
@@ -28,14 +30,15 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
 export const useMutationValidateUser = () => {
+  const { showAlert } = useAlert();
+
   return useMutation({
     mutationFn: authLogin,
     onSuccess: () => {
       toast.success("Usuario autenticado correctamente.");
     },
     onError: (error) => {
-      console.error("Error fetching data:", error);
-      toast.error("Usuario o Contraseña incorrectos.");
+      showAlert("error", error.message);
     },
   });
 };
@@ -52,7 +55,6 @@ export const useMutationUpdateUserRole = () => {
       queryClient.invalidateQueries({ queryKey: ["monitors"] });
     },
     onError: (error) => {
-      console.error("Error fetching data:", error);
       toast.error(error.message);
     },
   });
@@ -259,3 +261,8 @@ export const useMutationUpdateAppointmentTutorResponse = () => {
     },
   });
 };
+
+export const useMutationAppointmentsCSV = () =>
+  useMutation({
+    mutationFn: getAppointmentsCSV,
+  });
