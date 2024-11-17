@@ -19,7 +19,7 @@ export const CanceledRequestPage = () => {
       return [
         <p>{request.id}</p>,
         <p>{request.name}</p>,
-        <p>{new Date(request.date).toLocaleString()}</p>,
+        <p>{moment(request.date).format("YYYY/MM/DD")}, {request.startTime} - {request.endTime}</p>,
         <p>{request.virtual ? "Si" : "No"}</p>,
       ];
     });

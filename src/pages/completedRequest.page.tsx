@@ -8,6 +8,7 @@ import { Spinner } from "@ui/Spinner";
 import { APPOINMENT_STATUS } from "@utils/constants";
 import { useState } from "react";
 import { ToastContainer } from "react-toastify";
+import moment from "moment";
 
 export const CompletedRequestPage = () => {
   const { isOpen, openModal, closeModal } = useModal();
@@ -40,8 +41,11 @@ export const CompletedRequestPage = () => {
             <h2 className="text-lg font-medium text-teal-600">
               {request.name}
             </h2>
-            <p className="text-gray-600">
-              <strong>Fecha:</strong> {new Date(request.date).toLocaleString()}
+            <p className="text-sm text-gray-500">
+                  Fecha: {moment(request.date).format('DD/MM/YYYY')}
+            </p>
+            <p className="text-sm text-gray-500">
+              Hora: {request.startTime} - {request.endTime}
             </p>
             <p className="text-gray-600">
               <strong>Virtual:</strong> {request.virtual ? "Sí" : "No"}

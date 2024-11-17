@@ -25,6 +25,10 @@ import {
   postLinkTutorVirtualRoom,
   postTutorSchedule,
 } from "@services/tutor";
+import { 
+  requestTutoring,
+  postAppointmentSurvey 
+} from "@services/student";
 import { updateUserRole } from "@services/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
@@ -266,3 +270,39 @@ export const useMutationAppointmentsCSV = () =>
   useMutation({
     mutationFn: getAppointmentsCSV,
   });
+
+export const useMutationRequestTutoring = () => {
+  const queryClient = useQueryClient();
+  const { showAlert } = useAlert();
+  return useMutation({
+    mutationFn: requestTutoring,
+    onSuccess: () => {
+      showAlert("success", "Solicitud de tutoría creada correctamente.");
+      queryClient.invalidateQueries({ queryKey: ["tutoringSchedule"] });
+      queryClient.invalidateQueries({ queryKey: ["appointmentsTutor"] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useMutateAppointmentSurvey = () => {
+  const queryClient = useQueryClient();
+  const { showAlert } = useAlert();
+  return useMutation({
+    mutationFn: postAppointmentSurvey,
+    onSuccess: () => {
+      showAlert("success", "Calificación enviada correctamente.");
+      queryClient.invalidateQueries({ queryKey: ["pendingAppointments"] });
+      queryClient.invalidateQueries({ queryKey: ["appointmentsTutor"] });
+    },
+    onError: (error:any) => {
+      if (error.response?.status === 400 && error.response?.data?.message) {
+        showAlert("error", error.response.data.message);
+      } else {
+        showAlert("error", "Error al enviar la calificación.");
+      }
+    },
+  });
+};
