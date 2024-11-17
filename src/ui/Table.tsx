@@ -42,7 +42,7 @@ export const Table = ({
     );
   }
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto h-screen">
       <table className="min-w-full bg-light border border-primary-green rounded-lg">
         <thead>
           <tr>
