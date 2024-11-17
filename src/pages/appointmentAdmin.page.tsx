@@ -17,8 +17,7 @@ export const AppointmentAdminPage = () => {
   useEffect(() => {
     const today = new Date();
     const lastWeek = new Date(today);
-    lastWeek.setDate(today.getDate() - 7);
-
+    lastWeek.setDate(today.getDate() - 15);
     setFinalDate(today.toISOString().split("T")[0]);
     setInitialDate(lastWeek.toISOString().split("T")[0]);
   }, []);
