@@ -27,7 +27,8 @@ import {
 } from "@services/tutor";
 import { 
   requestTutoring,
-  postAppointmentSurvey 
+  postAppointmentSurvey,
+  cancelTutoring, 
 } from "@services/student";
 import { updateUserRole } from "@services/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -303,6 +304,21 @@ export const useMutateAppointmentSurvey = () => {
       } else {
         showAlert("error", "Error al enviar la calificación.");
       }
+    },
+  });
+};
+
+export const useMutationCancelTutoring = () => {
+  const queryClient = useQueryClient();
+  const { showAlert } = useAlert();
+  return useMutation({
+    mutationFn: cancelTutoring,
+    onSuccess: () => {
+      showAlert("success", "¡Tutoría cancelada correctamente!");
+      queryClient.invalidateQueries({ queryKey: ["pendingAppointments"] });
+    },
+    onError: (error: any) => {
+      showAlert("error", "Error al cancelar la tutoría.");
     },
   });
 };
