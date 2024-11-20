@@ -83,3 +83,10 @@ export const cancelTutoring = async (id: number): Promise<CancelTutoringRequest>
   });
   return response.data;
 };
+
+export const cancelTutoringProgram = async (id: number): Promise<CancelTutoringRequest> => {
+  const response = await axiosInstance.patch<CancelTutoringRequest>("/appointment/student", {
+    id,
+  });
+  return response.data;
+};

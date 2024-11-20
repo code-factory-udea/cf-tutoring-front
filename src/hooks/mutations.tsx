@@ -28,7 +28,8 @@ import {
 import { 
   requestTutoring,
   postAppointmentSurvey,
-  cancelTutoring, 
+  cancelTutoring,
+  cancelTutoringProgram, 
 } from "@services/student";
 import { updateUserRole } from "@services/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -313,6 +314,21 @@ export const useMutationCancelTutoring = () => {
   const { showAlert } = useAlert();
   return useMutation({
     mutationFn: cancelTutoring,
+    onSuccess: () => {
+      showAlert("success", "¡Tutoría cancelada correctamente!");
+      queryClient.invalidateQueries({ queryKey: ["pendingAppointments"] });
+    },
+    onError: (error: any) => {
+      showAlert("error", "Error al cancelar la tutoría.");
+    },
+  });
+};
+
+export const useMutationCancelTutoringProgram = () => {
+  const queryClient = useQueryClient();
+  const { showAlert } = useAlert();
+  return useMutation({
+    mutationFn: cancelTutoringProgram,
     onSuccess: () => {
       showAlert("success", "¡Tutoría cancelada correctamente!");
       queryClient.invalidateQueries({ queryKey: ["pendingAppointments"] });
