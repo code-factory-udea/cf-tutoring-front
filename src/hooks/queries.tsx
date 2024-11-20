@@ -2,6 +2,7 @@ import { User } from "@interfaces/user";
 import { getAcademicProgram, getFaculty } from "@services/academic";
 import { getRoles } from "@services/admin";
 import {
+  getAppointments,
   getAppointmentsTutor,
   getAppointmentTutorCompleted,
 } from "@services/appointment";
@@ -292,3 +293,16 @@ export const useQueryProfessorAppointments = ({
       getProfessorAppointment({ username, initialDate, finalDate }),
     enabled: !!username && !!initialDate && !!finalDate,
   });
+
+  export const useQueryAppointments = ({
+    initialDate,
+    finalDate,
+  }: {
+    initialDate: string;
+    finalDate: string;
+  }) =>
+    useQuery({
+      queryKey: ["appointmentsAdmin", initialDate, finalDate],
+      queryFn: () => getAppointments({ initialDate, finalDate }),
+      enabled: !!initialDate && !!finalDate,
+  })

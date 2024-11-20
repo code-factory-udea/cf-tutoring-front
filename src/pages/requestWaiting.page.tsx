@@ -1,7 +1,10 @@
 import { useQueryPendingAppointments } from "@hooks/queries";
+import { useMutationCancelTutoring } from "@hooks/mutations";
+import { toast } from "react-toastify";
 
 const RequestWaitingPage = () => {
     const { data, isLoading, isError } = useQueryPendingAppointments("PENDING");
+    const { mutate: cancelTutoring } = useMutationCancelTutoring();
   
     if (isLoading) {
       return <p>Cargando solicitudes en espera...</p>;
@@ -30,6 +33,12 @@ const RequestWaitingPage = () => {
               <p>
                 <strong>Estado:</strong> Pendiente
               </p>
+              <button
+                onClick={() => cancelTutoring(appointment.id)}
+                className="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+              >
+                Cancelar
+              </button>
             </div>
           ))}
         </div>

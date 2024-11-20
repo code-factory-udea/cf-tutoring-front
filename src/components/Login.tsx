@@ -3,6 +3,7 @@ import { useLocalStorage } from "@hooks/useLocalStorage";
 import { useState } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const Login = () => {
   const { mutateAsync: validateUser } = useMutationValidateUser();
@@ -28,7 +29,7 @@ export const Login = () => {
         navigate("/");
       }
     } catch (err) {
-      console.error("Error de autenticación:", err);
+      toast.error(err.message);
     } finally {
       setIsLoading(false);
     }

@@ -32,3 +32,7 @@ export interface SurveyPayload {
 export interface SurveyResponse {
   message: string;
 }
+
+export interface CancelTutoringRequest {
+  id: number;
+}

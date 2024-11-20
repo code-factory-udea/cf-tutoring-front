@@ -8,7 +8,7 @@ import { ToastContainer } from "react-toastify";
 const COLUMNS = ["ID", "Nombre", "Fecha", "Virtual"];
 export const CanceledRequestPage = () => {
   const { data: rejectedRequests, isLoading: isLoadingRejected } = useQueryAppointmentsTutor(APPOINMENT_STATUS.REJECTED);
-  const { data: canceledRequests, isLoading: isLoadingCanceled } = useQueryAppointmentsTutor(APPOINMENT_STATUS.CANCELED);
+  const { data: canceledRequests, isLoading: isLoadingCanceled } = useQueryAppointmentsTutor(APPOINMENT_STATUS.CANCELLED);
 
   const memoizedRequest = useMemo(() => {
     if (!rejectedRequests || !canceledRequests) return [];

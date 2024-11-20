@@ -1,6 +1,6 @@
 import axiosInstance from "@axios/index";
 import { UserList } from "@interfaces/user";
-import { TutoringRequestResponse, TutoringRequestPayload, SurveyPayload, SurveyResponse } from "@interfaces/student";
+import { TutoringRequestResponse, TutoringRequestPayload, SurveyPayload, SurveyResponse, CancelTutoringRequest } from "@interfaces/student";
 import { Appointment } from "@interfaces/student";
 
 export const getStudents = async ({ page, name }: { page: number, name: string }) => {
@@ -77,3 +77,16 @@ export const postAppointmentSurvey = async (payload: SurveyPayload): Promise<Sur
   return data;
 };
 
+export const cancelTutoring = async (id: number): Promise<CancelTutoringRequest> => {
+  const response = await axiosInstance.patch<CancelTutoringRequest>("/appointment/student/request", {
+    id,
+  });
+  return response.data;
+};
+
+export const cancelTutoringProgram = async (id: number): Promise<CancelTutoringRequest> => {
+  const response = await axiosInstance.patch<CancelTutoringRequest>("/appointment/student", {
+    id,
+  });
+  return response.data;
+};

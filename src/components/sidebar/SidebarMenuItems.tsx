@@ -52,7 +52,7 @@ export const SidebarMenuItems = ({ role }: SidebarMenuItemsProps) => {
           <ItemSidebar
             icon={<FaChalkboardUser />}
             title="Monitorias"
-            route="/monitorias"
+            route="/monitorias-realizadas"
           />
         </>
       );
