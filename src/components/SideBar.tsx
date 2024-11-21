@@ -70,7 +70,7 @@ export const Sidebar = () => {
                       {authData && authData.user ? authData.user.name : ""}
                     </p>
                     <p className="text-sm font-medium truncate text-dark">
-                      {authData && authData.user ? authData.user.username : ""}
+                      {authData && authData.user ? authData.user.role : ""}
                     </p>
                   </div>
                   <ul className="py-1">
