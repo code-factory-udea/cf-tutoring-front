@@ -6,9 +6,9 @@ import {
 import { useModal } from "@hooks/useModal";
 import { Spinner } from "@ui/Spinner";
 import { APPOINMENT_STATUS } from "@utils/constants";
+import moment from "moment";
 import { useState } from "react";
 import { ToastContainer } from "react-toastify";
-import moment from "moment";
 
 export const CompletedRequestPage = () => {
   const { isOpen, openModal, closeModal } = useModal();
@@ -42,7 +42,7 @@ export const CompletedRequestPage = () => {
               {request.name}
             </h2>
             <p className="text-sm text-gray-500">
-                  Fecha: {moment(request.date).format('DD/MM/YYYY')}
+              Fecha: {moment(request.date).format("DD/MM/YYYY")}
             </p>
             <p className="text-sm text-gray-500">
               Hora: {request.startTime} - {request.endTime}
@@ -93,7 +93,7 @@ export const CompletedRequestPage = () => {
               Fecha de Calificación:
               <span className="text-gray-500 font-normal">
                 {" "}
-                {appointment?.calificationDate}
+                {moment(appointment?.calificationDate).format("DD/MM/YYYY")}
               </span>
             </p>
           </div>

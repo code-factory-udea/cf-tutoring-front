@@ -80,6 +80,14 @@ function CustomToolbar({ onView, view }) {
       >
         Día
       </button>
+      <button
+        className={`${
+          view === "month" ? "bg-primary-green text-white" : ""
+        } px-4 py-2 rounded-md hover:bg-primary-green hover:text-white`}
+        onClick={() => onView("month")}
+      >
+        Mes
+      </button>
     </div>
   );
 }
@@ -143,14 +151,14 @@ export const AppoinmentTutor = () => {
 
   return (
     <div>
-      <h2 className="text-md font-semibold">Las tutorías para esta semana</h2>
+      <h2 className="text-2xl font-bold mb-4">Tutorías para esta semana</h2>
       <section className="mb-4">
         <Calendar
           selectable
           localizer={localizer}
           events={events as CalendarEvent[]}
           defaultView="week"
-          views={["week", "day"]}
+          views={["week", "day","month"]}
           onSelectEvent={handleEventClick}
           style={{ height: 580 }}
           messages={messages}
