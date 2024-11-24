@@ -15,6 +15,12 @@ import {
   postProfessorSubject,
 } from "@services/professor";
 import {
+  cancelTutoring,
+  cancelTutoringProgram,
+  postAppointmentSurvey,
+  requestTutoring,
+} from "@services/student";
+import {
   deleteSubjectTutor,
   postSubject,
   postSubjectTutor,
@@ -25,12 +31,6 @@ import {
   postLinkTutorVirtualRoom,
   postTutorSchedule,
 } from "@services/tutor";
-import { 
-  requestTutoring,
-  postAppointmentSurvey,
-  cancelTutoring,
-  cancelTutoringProgram, 
-} from "@services/student";
 import { updateUserRole } from "@services/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
@@ -243,7 +243,6 @@ export const useMutationAppointmentTutorResponse = () => {
   return useMutation({
     mutationFn: postAppointmentTutorResponse,
     onSuccess: () => {
-      toast.success("Respuesta enviada correctamente.");
       queryClient.invalidateQueries({ queryKey: ["appointmentsTutor"] });
     },
     onError: (error) => {
@@ -299,12 +298,8 @@ export const useMutateAppointmentSurvey = () => {
       queryClient.invalidateQueries({ queryKey: ["pendingAppointments"] });
       queryClient.invalidateQueries({ queryKey: ["appointmentsTutor"] });
     },
-    onError: (error:any) => {
-      if (error.response?.status === 400 && error.response?.data?.message) {
-        showAlert("error", error.response.data.message);
-      } else {
-        showAlert("error", "Error al enviar la calificación.");
-      }
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 };
@@ -318,8 +313,8 @@ export const useMutationCancelTutoring = () => {
       showAlert("success", "¡Tutoría cancelada correctamente!");
       queryClient.invalidateQueries({ queryKey: ["pendingAppointments"] });
     },
-    onError: (error: any) => {
-      showAlert("error", "Error al cancelar la tutoría.");
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 };
@@ -333,8 +328,8 @@ export const useMutationCancelTutoringProgram = () => {
       showAlert("success", "¡Tutoría cancelada correctamente!");
       queryClient.invalidateQueries({ queryKey: ["pendingAppointments"] });
     },
-    onError: (error: any) => {
-      showAlert("error", "Error al cancelar la tutoría.");
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 };
