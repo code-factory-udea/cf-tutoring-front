@@ -24,7 +24,6 @@ const FacultyPage = () => {
       return;
     }
     createFaculty({ name: facultyName });
-    console.log("Nombre de la facultad:", facultyName);
     setFacultyName("");
     closeModal();
   };
