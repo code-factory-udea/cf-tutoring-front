@@ -15,6 +15,7 @@ import {
 } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -61,33 +62,55 @@ function CustomDayHeader({ label }: { label: string }) {
   );
 }
 
-function CustomToolbar({ onView, view }) {
+function CustomToolbar({ onView, view, onNavigate, date }) {
+  const monthName = new Intl.DateTimeFormat("es-ES", { month: "long" }).format(
+    date,
+  );
   return (
-    <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
-      <button
-        className={`${
-          view === "week" ? "bg-primary-green text-white mb-2" : ""
-        } px-4 py-2 rounded-md hover:bg-primary-green hover:text-white`}
-        onClick={() => onView("week")}
-      >
-        Semana
-      </button>
-      <button
-        className={`${
-          view === "day" ? "bg-primary-green text-white" : ""
-        } px-4 py-2 rounded-md hover:bg-primary-green hover:text-white`}
-        onClick={() => onView("day")}
-      >
-        Día
-      </button>
-      <button
-        className={`${
-          view === "month" ? "bg-primary-green text-white" : ""
-        } px-4 py-2 rounded-md hover:bg-primary-green hover:text-white`}
-        onClick={() => onView("month")}
-      >
-        Mes
-      </button>
+    <div className="flex justify-between my-1 ">
+      <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
+        <button
+          className={`${
+            view === "week" ? "bg-primary-green text-white mb-2" : ""
+          } px-4 py-2 rounded-md hover:bg-primary-green hover:text-white`}
+          onClick={() => onView("week")}
+        >
+          Semana
+        </button>
+        <button
+          className={`${
+            view === "day" ? "bg-primary-green text-white" : ""
+          } px-4 py-2 rounded-md hover:bg-primary-green hover:text-white`}
+          onClick={() => onView("day")}
+        >
+          Día
+        </button>
+        <button
+          className={`${
+            view === "month" ? "bg-primary-green text-white" : ""
+          } px-4 py-2 rounded-md hover:bg-primary-green hover:text-white`}
+          onClick={() => onView("month")}
+        >
+          Mes
+        </button>
+      </div>
+      {view === "month" && (
+        <div className="flex gap-2 items-center">
+          <span className="text-lg font-bold capitalize">{monthName}</span>
+          <button
+            className="bg-primary-green text-white px-2 py-2 rounded-md hover:bg-primary-green hover:text-white"
+            onClick={() => onNavigate("PREV")}
+          >
+            <IoIosArrowBack />
+          </button>
+          <button
+            className="bg-primary-green text-white px-2 py-2 rounded-md hover:bg-primary-green hover:text-white"
+            onClick={() => onNavigate("NEXT")}
+          >
+            <IoIosArrowForward />
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -118,9 +141,8 @@ export const AppoinmentTutor = () => {
   }, [appoinments]);
 
   const deleteEvent = async (id: number) => {
-    await cancelEvent({    id,
-      appointmentResponse: APPOINTMENT_REQUEST.CANCEL,
-    })}
+    await cancelEvent({ id, appointmentResponse: APPOINTMENT_REQUEST.CANCEL });
+  };
 
   const completeEvent = async (id: number) => {
     await updateSchedule({ id });
@@ -158,7 +180,7 @@ export const AppoinmentTutor = () => {
           localizer={localizer}
           events={events as CalendarEvent[]}
           defaultView="week"
-          views={["week", "day","month"]}
+          views={["week", "day", "month"]}
           onSelectEvent={handleEventClick}
           style={{ height: 580 }}
           messages={messages}
