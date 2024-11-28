@@ -7,7 +7,8 @@ import { ToastContainer } from "react-toastify";
 
 const COLUMNS = ["ID", "Nombre", "Fecha", "Virtual"];
 export const RequestRejectedPage = () => {
-  const { data: rejectedRequests, isLoading: isLoadingRejected } = useQueryPendingAppointments(APPOINMENT_STATUS.REJECTED);
+  const { data: rejectedRequests, isLoading: isLoadingRejected } =
+    useQueryPendingAppointments(APPOINMENT_STATUS.REJECTED);
 
   const memoizedRequest = useMemo(() => {
     if (!rejectedRequests) return [];
@@ -18,7 +19,10 @@ export const RequestRejectedPage = () => {
       return [
         <p>{request.id}</p>,
         <p>{request.name}</p>,
-        <p>{moment(request.date).format("YYYY/MM/DD")}, {request.startTime} - {request.endTime}</p>,
+        <p>
+          {moment(request.date).format("YYYY/MM/DD")}, {request.startTime} -{" "}
+          {request.endTime}
+        </p>,
         <p>{request.virtual ? "Si" : "No"}</p>,
       ];
     });

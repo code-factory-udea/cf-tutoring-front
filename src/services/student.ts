@@ -1,18 +1,28 @@
 import axiosInstance from "@axios/index";
+import {
+  Appointment,
+  CancelTutoringRequest,
+  SurveyPayload,
+  SurveyResponse,
+  TutoringRequestPayload,
+  TutoringRequestResponse,
+} from "@interfaces/student";
 import { UserList } from "@interfaces/user";
-import { TutoringRequestResponse, TutoringRequestPayload, SurveyPayload, SurveyResponse, CancelTutoringRequest } from "@interfaces/student";
-import { Appointment } from "@interfaces/student";
 
-export const getStudents = async ({ page, name }: { page: number, name: string }) => {
+export const getStudents = async ({
+  page,
+  name,
+}: {
+  page: number;
+  name: string;
+}) => {
   try {
-    const response = await axiosInstance.get("admin/student",
-      {
-        params: {
-          page,
-          name
-        }
-      }
-    );
+    const response = await axiosInstance.get("admin/student", {
+      params: {
+        page,
+        name,
+      },
+    });
     return response.data as UserList;
   } catch (error) {
     throw new Error("Failed to get students");
@@ -28,16 +38,20 @@ export const getTutorByUsername = async (username: string) => {
   }
 };
 
-export const getMonitors = async ({ page, name }: { page: number, name: string }) => {
+export const getMonitors = async ({
+  page,
+  name,
+}: {
+  page: number;
+  name: string;
+}) => {
   try {
-    const response = await axiosInstance.get("admin/tutor",
-      {
-        params: {
-          page,
-          name
-        }
-      }
-    );
+    const response = await axiosInstance.get("admin/tutor", {
+      params: {
+        page,
+        name,
+      },
+    });
     return response.data as UserList;
   } catch (error) {
     throw new Error("Failed to get monitors");
@@ -46,23 +60,29 @@ export const getMonitors = async ({ page, name }: { page: number, name: string }
 
 export const getMonitorsBySubjectId = async (subjectId: number) => {
   try {
-    const response = await axiosInstance.get(`/appointment/student/${subjectId}`);
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response.data.message)
-  }
-};
-
-export const getTutoringSchedule = async (username: string) => {
-  try {
-    const response = await axiosInstance.get(`/appointment/student/tutor/${username}`);
+    const response = await axiosInstance.get(
+      `/appointment/student/${subjectId}`,
+    );
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);
   }
 };
 
-export const requestTutoring = async (payload: TutoringRequestPayload): Promise<TutoringRequestResponse> => {
+export const getTutoringSchedule = async (username: string) => {
+  try {
+    const response = await axiosInstance.get(
+      `/appointment/student/tutor/${username}`,
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};
+
+export const requestTutoring = async (
+  payload: TutoringRequestPayload,
+): Promise<TutoringRequestResponse> => {
   try {
     const response = await axiosInstance.post("/appointment/student", payload);
     return response.data as TutoringRequestResponse;
@@ -71,40 +91,60 @@ export const requestTutoring = async (payload: TutoringRequestPayload): Promise<
   }
 };
 
-export const getPendingAppointments = async (params: { status: string }): Promise<Appointment[]> => {
-  const { data } = await axiosInstance.get<Appointment[]>("/appointment/student", {
-    params: {
-      status: params.status,
+export const getPendingAppointments = async (params: {
+  status: string;
+}): Promise<Appointment[]> => {
+  const { data } = await axiosInstance.get<Appointment[]>(
+    "/appointment/student",
+    {
+      params: {
+        status: params.status,
+      },
     },
-  });
+  );
   return data;
 };
 
-export const postAppointmentSurvey = async (payload: SurveyPayload): Promise<SurveyResponse> => {
+export const postAppointmentSurvey = async (
+  payload: SurveyPayload,
+): Promise<SurveyResponse> => {
   try {
-    const { data } = await axiosInstance.post<SurveyResponse>("/appointment/student/survey", payload);
+    const { data } = await axiosInstance.post<SurveyResponse>(
+      "/appointment/student/survey",
+      payload,
+    );
     return data;
   } catch (error) {
     throw new Error(error.response.data.message);
   }
-}
+};
 
-export const cancelTutoring = async (id: number): Promise<CancelTutoringRequest> => {
+export const cancelTutoring = async (
+  id: number,
+): Promise<CancelTutoringRequest> => {
   try {
-    const response = await axiosInstance.patch<CancelTutoringRequest>("/appointment/student/request", {
-      id,
-    });
+    const response = await axiosInstance.patch<CancelTutoringRequest>(
+      "/appointment/student/request",
+      {
+        id,
+      },
+    );
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);
   }
 };
 
-export const cancelTutoringProgram = async (id: number): Promise<CancelTutoringRequest> => {
+export const cancelTutoringProgram = async (
+  id: number,
+): Promise<CancelTutoringRequest> => {
   try {
-    const response = await axiosInstance.patch<CancelTutoringRequest>("/appointment/student", {
-      id,
-    });
+    const response = await axiosInstance.patch<CancelTutoringRequest>(
+      "/appointment/student",
+      {
+        id,
+      },
+    );
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);

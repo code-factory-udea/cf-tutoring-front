@@ -54,11 +54,11 @@ export const AppointmentAdminPage = () => {
     if (!appointments) return [];
     return appointments.map((appointment) => {
       const appointmentDate = appointment.date
-      ? new Date(appointment.date).toLocaleString('es-ES', {
-          dateStyle: 'short', 
-          timeStyle: 'short',
-        })
-      : "Fecha no disponible";
+        ? new Date(appointment.date).toLocaleString("es-ES", {
+            dateStyle: "short",
+            timeStyle: "short",
+          })
+        : "Fecha no disponible";
       return [
         <p>{appointment.tutorName}</p>,
         <p>{appointment.studentName}</p>,

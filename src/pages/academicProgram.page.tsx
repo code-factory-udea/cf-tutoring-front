@@ -70,7 +70,8 @@ const AcademicProgramPage = () => {
       facultyId: Number(selectedFaculty?.id),
     };
 
-    const mutation =modalType === "create" ? createAcademicProgram : updateAcademicProgram;
+    const mutation =
+      modalType === "create" ? createAcademicProgram : updateAcademicProgram;
 
     await mutation(payload);
     resetForm();
@@ -162,7 +163,7 @@ const AcademicProgramPage = () => {
           value={programCode}
           required
           onChange={(e) => setProgramCode(e.target.value)}
-          disabled={modalType === "edit"} 
+          disabled={modalType === "edit"}
         />
 
         <InputText

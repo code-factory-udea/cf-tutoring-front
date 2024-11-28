@@ -25,29 +25,6 @@ import UserPage from "@pages/user.page";
 import { createBrowserRouter } from "react-router-dom";
 import PrivateRoute from "./privateRouter";
 
-const userRoutes = [
-  {
-    path: "estudiantes",
-    element: <StudentPage />,
-  },
-  {
-    path: "monitores",
-    element: <MonitorPage />,
-  },
-  {
-    path: "profesores",
-    element: <TeacherPage />,
-  },
-  {
-    path: "administradores",
-    element: <AdminPage />,
-  },
-  {
-    path: "unidentified",
-    element: <UnidentifiedPage />,
-  },
-];
-
 const router = createBrowserRouter([
   {
     path: "/login",

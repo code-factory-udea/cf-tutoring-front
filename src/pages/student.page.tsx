@@ -54,7 +54,11 @@ const StudentPage = () => {
         isLoadingData={isPending}
       />
       <div ref={refBottom} className="w-full py-1" />
-      {isFetching && <p className="text-center text-primary-green text-xl font-bold">Buscando...</p>}
+      {isFetching && (
+        <p className="text-center text-primary-green text-xl font-bold">
+          Buscando...
+        </p>
+      )}
     </div>
   );
 };
