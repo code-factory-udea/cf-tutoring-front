@@ -387,17 +387,18 @@ const RequestTutoringPage = () => {
         </Modal>
       )}
       {isConfirmationOpen && selectedEvent && (
-        <Modal isOpen={isConfirmationOpen} title="Confirmar Tutoría">
+        <Modal isOpen={isConfirmationOpen} title="Solicitud de tutoría">
           <div className="flex flex-col items-center gap-4">
             <p className="text-lg text-center">
-              ¿Confirmar la tutoría para el horario:{" "}
+              ¿Confirmar solicitud de monitoria para el horario:{" "}
               <strong>
                 {selectedEvent?.title} el {isNextWeek && "próximo"} día{" "}
                 {new Intl.DateTimeFormat("es-ES", {
                   weekday: "long",
                   day: "numeric",
                   month: "long",
-                }).format(adjustedDate)}
+                }).format(adjustedDate)}{" "}
+                a las {moment(adjustedDate).format("HH:mm")} horas
               </strong>
               ?
             </p>
