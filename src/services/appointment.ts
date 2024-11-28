@@ -3,9 +3,7 @@ import { AppointmentList, AppointmentResponse } from "@interfaces/appointment";
 
 export const getAppointmentsCSV = async ({ initialDate, finalDate }: { initialDate: string, finalDate: string }) => {
   try {
-    const response = await axiosInstance.post("admin/appointment/csv", {
-      body: { initialDate, finalDate },
-    });
+    const response = await axiosInstance.post("admin/appointment/csv", { initialDate, finalDate } );
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);
