@@ -42,12 +42,12 @@ const RequestWaitingPage = () => {
               <strong>Estado:</strong> Pendiente
             </p>
             <div className="justify-center flex">
-            <Button
-              label="Cancelar"
-              onClick={() => cancelTutoring(appointment.id)}
-              size="small"
-              variant="danger"
-            />
+              <Button
+                label="Cancelar"
+                onClick={() => cancelTutoring(appointment.id)}
+                size="small"
+                variant="danger"
+              />
             </div>
           </div>
         ))}

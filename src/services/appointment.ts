@@ -1,9 +1,18 @@
 import axiosInstance from "@axios/index";
 import { AppointmentList, AppointmentResponse } from "@interfaces/appointment";
 
-export const getAppointmentsCSV = async ({ initialDate, finalDate }: { initialDate: string, finalDate: string }) => {
+export const getAppointmentsCSV = async ({
+  initialDate,
+  finalDate,
+}: {
+  initialDate: string;
+  finalDate: string;
+}) => {
   try {
-    const response = await axiosInstance.post("admin/appointment/csv", { initialDate, finalDate } );
+    const response = await axiosInstance.post("admin/appointment/csv", {
+      initialDate,
+      finalDate,
+    });
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);
@@ -21,9 +30,17 @@ export const getAppointmentById = async (appointmentId: number) => {
   }
 };
 
-export const getAppointments = async ({ initialDate, finalDate }: { initialDate: string, finalDate: string }) => {
+export const getAppointments = async ({
+  initialDate,
+  finalDate,
+}: {
+  initialDate: string;
+  finalDate: string;
+}) => {
   try {
-    const response = await axiosInstance.get(`admin/appointment`, { params: { initialDate, finalDate } });
+    const response = await axiosInstance.get(`admin/appointment`, {
+      params: { initialDate, finalDate },
+    });
     return response.data as AppointmentResponse[];
   } catch (error) {
     throw new Error(error.response.data.message);
@@ -32,14 +49,19 @@ export const getAppointments = async ({ initialDate, finalDate }: { initialDate:
 
 export const getAppointmentsTutor = async (status: string) => {
   try {
-    const response = await axiosInstance.get(`appointment/tutor?status=${status}`);
+    const response = await axiosInstance.get(
+      `appointment/tutor?status=${status}`,
+    );
     return response.data as AppointmentList[];
   } catch (error) {
     throw new Error(error.response.data.message);
   }
-}
+};
 
-export const postAppointmentTutorResponse = async (data: { id: number; appointmentResponse: string }) => {
+export const postAppointmentTutorResponse = async (data: {
+  id: number;
+  appointmentResponse: string;
+}) => {
   try {
     const response = await axiosInstance.post("appointment/tutor", data);
     return response.data;
@@ -50,7 +72,9 @@ export const postAppointmentTutorResponse = async (data: { id: number; appointme
 
 export const getAppointmentTutorCompleted = async (appoimentId: number) => {
   try {
-    const response = await axiosInstance.get(`appointment/tutor/${appoimentId}`);
+    const response = await axiosInstance.get(
+      `appointment/tutor/${appoimentId}`,
+    );
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);

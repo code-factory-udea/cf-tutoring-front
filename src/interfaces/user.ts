@@ -20,9 +20,9 @@ export interface Role {
 }
 
 export interface UserList {
-  totalPages: number,
-  userList: User[],
-  currentPage: number,
-  pageSize: number,
-  hasNextPage: true
+  totalPages: number;
+  userList: User[];
+  currentPage: number;
+  pageSize: number;
+  hasNextPage: true;
 }

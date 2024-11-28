@@ -3,7 +3,7 @@ import { Role } from "@interfaces/user";
 
 export const getAdmins = async (page: number, name: string) => {
   try {
-    const response = await axiosInstance.get('/admin/admin', {
+    const response = await axiosInstance.get("/admin/admin", {
       params: {
         page,
         name,
@@ -11,7 +11,7 @@ export const getAdmins = async (page: number, name: string) => {
     });
     return response.data;
   } catch (error) {
-    throw new Error('Error fetching admins');
+    throw new Error("Error fetching admins");
   }
 };
 
@@ -23,4 +23,3 @@ export const getRoles = async () => {
     throw new Error("Failed to get roles");
   }
 };
-

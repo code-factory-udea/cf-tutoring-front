@@ -6,11 +6,12 @@ import {
 import { Dropdown } from "@ui/Dropdown";
 import { Spinner } from "@ui/Spinner";
 import { Table } from "@ui/Table";
+import { STATUS_LABELS } from "@utils/constants";
 import { useMemo, useState } from "react";
-import {STATUS_LABELS} from "@utils/constants"; 
 
 const COLUMNS = ["Fecha", "Estudiante", "Modalidad", "Estado"];
-const getStatusLabel = (status: string) => STATUS_LABELS[status] || "Estado desconocido";
+const getStatusLabel = (status: string) =>
+  STATUS_LABELS[status] || "Estado desconocido";
 
 export const ProfessorMonitorPage = () => {
   const [selectedSubject, setSelectedSubject] = useState<{
@@ -28,7 +29,7 @@ export const ProfessorMonitorPage = () => {
 
   const { data: subjects } = useQueryProfessorSubjects();
   const { data: tutors, isPending: pendingTutors } = useQueryProfessorTutors(
-    selectedSubject?.code
+    selectedSubject?.code,
   );
   const { data: appointments, isPending: pendingAppointments } =
     useQueryProfessorAppointments({
@@ -73,7 +74,7 @@ export const ProfessorMonitorPage = () => {
         <p>{appointmentDate}</p>,
         <p>{appointment.studentName}</p>,
         <p>{appointment.virtual ? "Virtual" : "Presencial"}</p>,
-        <p>{getStatusLabel[appointment.status ]}</p>,
+        <p>{getStatusLabel[appointment.status]}</p>,
       ];
     });
   }, [appointments]);

@@ -7,8 +7,10 @@ import { ToastContainer } from "react-toastify";
 
 const COLUMNS = ["ID", "Nombre", "Fecha", "Virtual"];
 export const CanceledRequestPage = () => {
-  const { data: rejectedRequests, isLoading: isLoadingRejected } = useQueryAppointmentsTutor(APPOINMENT_STATUS.REJECTED);
-  const { data: canceledRequests, isLoading: isLoadingCanceled } = useQueryAppointmentsTutor(APPOINMENT_STATUS.CANCELLED);
+  const { data: rejectedRequests, isLoading: isLoadingRejected } =
+    useQueryAppointmentsTutor(APPOINMENT_STATUS.REJECTED);
+  const { data: canceledRequests, isLoading: isLoadingCanceled } =
+    useQueryAppointmentsTutor(APPOINMENT_STATUS.CANCELLED);
 
   const memoizedRequest = useMemo(() => {
     if (!rejectedRequests || !canceledRequests) return [];
@@ -19,7 +21,10 @@ export const CanceledRequestPage = () => {
       return [
         <p>{request.id}</p>,
         <p>{request.name}</p>,
-        <p>{moment(request.date).format("YYYY/MM/DD")}, {request.startTime} - {request.endTime}</p>,
+        <p>
+          {moment(request.date).format("YYYY/MM/DD")}, {request.startTime} -{" "}
+          {request.endTime}
+        </p>,
         <p>{request.virtual ? "Si" : "No"}</p>,
       ];
     });

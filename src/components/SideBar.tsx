@@ -101,7 +101,9 @@ export const Sidebar = () => {
         >
           <div className="h-full px-3 pb-4 overflow-y-auto bg-secondary-green border-secondary-green">
             <ul className="space-y-2 font-medium" onClick={closeSidebar}>
-              <SidebarMenuItems role={authData && authData.user ? authData.user.role:''} />
+              <SidebarMenuItems
+                role={authData && authData.user ? authData.user.role : ""}
+              />
             </ul>
           </div>
         </div>

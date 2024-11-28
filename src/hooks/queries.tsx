@@ -15,11 +15,11 @@ import {
 } from "@services/professor";
 import {
   getMonitors,
+  getMonitorsBySubjectId,
+  getPendingAppointments,
   getStudents,
   getTutorByUsername,
-  getMonitorsBySubjectId,
   getTutoringSchedule,
-  getPendingAppointments
 } from "@services/student";
 import { getSubjects } from "@services/subject";
 import { getLinkTutorVirtualRoom, getTutorSchedule } from "@services/tutor";
@@ -236,14 +236,14 @@ export const useQueryAppointmentsTutor = (status: string) =>
     enabled: !!status,
   });
 
-export const useQueryMonitorsBySubjectId = (subjectId: number) => 
+export const useQueryMonitorsBySubjectId = (subjectId: number) =>
   useQuery({
     queryKey: ["monitorsBySubjectId", subjectId],
     queryFn: () => getMonitorsBySubjectId(subjectId),
     enabled: !!subjectId,
   });
 
-export const useQueryTutoringSchedule = (username: string | null) => 
+export const useQueryTutoringSchedule = (username: string | null) =>
   useQuery({
     queryKey: ["tutorSchedule", username],
     queryFn: () => {
@@ -294,15 +294,15 @@ export const useQueryProfessorAppointments = ({
     enabled: !!username && !!initialDate && !!finalDate,
   });
 
-  export const useQueryAppointments = ({
-    initialDate,
-    finalDate,
-  }: {
-    initialDate: string;
-    finalDate: string;
-  }) =>
-    useQuery({
-      queryKey: ["appointmentsAdmin", initialDate, finalDate],
-      queryFn: () => getAppointments({ initialDate, finalDate }),
-      enabled: !!initialDate && !!finalDate,
-  })
+export const useQueryAppointments = ({
+  initialDate,
+  finalDate,
+}: {
+  initialDate: string;
+  finalDate: string;
+}) =>
+  useQuery({
+    queryKey: ["appointmentsAdmin", initialDate, finalDate],
+    queryFn: () => getAppointments({ initialDate, finalDate }),
+    enabled: !!initialDate && !!finalDate,
+  });

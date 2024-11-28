@@ -22,27 +22,28 @@ export const postSubjectTutor = async ({
   }
 };
 
-export const getSubjects = async ({ academicProgramId }: { academicProgramId: number }) => {
+export const getSubjects = async ({
+  academicProgramId,
+}: {
+  academicProgramId: number;
+}) => {
   try {
     const response = await axiosInstance.get("subject", {
       params: {
         academicProgramId,
-      }
+      },
     });
     return response.data as Subject[];
   } catch (error) {
     throw new Error(error.response.data.message);
   }
-}
+};
 
-export const deleteSubjectTutor = async ({
-  id,
-}: { id: number }) => {
+export const deleteSubjectTutor = async ({ id }: { id: number }) => {
   try {
-    const response = await axiosInstance.patch(`admin/tutor/subject`,
-      {
-        id
-      });
+    const response = await axiosInstance.patch(`admin/tutor/subject`, {
+      id,
+    });
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);
