@@ -56,17 +56,17 @@ const AdminPage = () => {
     <div className="flex flex-col gap-4">
       {/* Barra de búsqueda */}
       <SearchBar onSearch={onSearch} placeholder="Buscar Administradores" />
-      
+
       {/* Tabla de administradores */}
       <Table
         columns={COLUMNS}
         data={memoizedAdmins}
         isLoadingData={isPending}
       />
-      
+
       {/* Scroll para cargar más administradores */}
       <div ref={refBottom} className="w-full py-1" />
-      
+
       {/* Indicador de búsqueda en curso */}
       {isFetching && (
         <p className="text-center text-primary-green text-xl font-bold">

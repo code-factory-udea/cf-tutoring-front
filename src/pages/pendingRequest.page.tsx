@@ -3,8 +3,8 @@ import { useQueryAppointmentsTutor } from "@hooks/queries";
 import Button from "@ui/Button";
 import { Spinner } from "@ui/Spinner";
 import { APPOINMENT_STATUS, APPOINTMENT_REQUEST } from "@utils/constants";
-import { toast, ToastContainer } from "react-toastify";
 import moment from "moment";
+import { toast, ToastContainer } from "react-toastify";
 
 export const PendingRequestPage = () => {
   const { data: pendingRequests, isLoading } = useQueryAppointmentsTutor(
@@ -45,7 +45,7 @@ export const PendingRequestPage = () => {
               <div>
                 <h2 className="text-lg font-semibold">{tutorship.name}</h2>
                 <p className="text-sm text-gray-500">
-                  Fecha: {moment(tutorship.date).format('DD/MM/YYYY')}
+                  Fecha: {moment(tutorship.date).format("DD/MM/YYYY")}
                 </p>
                 <p className="text-sm text-gray-500">
                   Hora: {tutorship.startTime} - {tutorship.endTime}

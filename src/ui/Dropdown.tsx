@@ -12,7 +12,9 @@ interface DropdownProps {
 
 export const Dropdown = ({ options, onSelect, placeholder }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<DropdownOption | null>(null);
+  const [selectedOption, setSelectedOption] = useState<DropdownOption | null>(
+    null,
+  );
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -32,7 +34,7 @@ export const Dropdown = ({ options, onSelect, placeholder }: DropdownProps) => {
 
   const handleOptionSelect = (option: DropdownOption) => {
     setSelectedOption(option);
-    onSelect(option); 
+    onSelect(option);
     setIsOpen(false);
   };
 

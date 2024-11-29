@@ -18,7 +18,7 @@ export const InputText = ({
   onChange,
   icon,
   required,
-  disabled
+  disabled,
 }: InputTextProps) => {
   return (
     <div className="relative w-full mt-2">

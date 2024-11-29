@@ -8,7 +8,11 @@ interface CustomAlertProps {
   onConfirm: () => void;
 }
 
-export const ConfirmAlert = ({ title, message, onConfirm }: CustomAlertProps) => {
+export const ConfirmAlert = ({
+  title,
+  message,
+  onConfirm,
+}: CustomAlertProps) => {
   confirmAlert({
     customUI: ({ onClose }) => (
       <div className="custom-alert p-4 bg-light rounded-lg shadow-md text-dark">

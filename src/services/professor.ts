@@ -12,16 +12,20 @@ export const getProfessorByUsername = async (username: string) => {
   }
 };
 
-export const getProfessors = async ({ page, name }: { page: number, name: string }) => {
+export const getProfessors = async ({
+  page,
+  name,
+}: {
+  page: number;
+  name: string;
+}) => {
   try {
-    const response = await axiosInstance.get("admin/professor",
-      {
-        params: {
-          page,
-          name
-        }
-      }
-    );
+    const response = await axiosInstance.get("admin/professor", {
+      params: {
+        page,
+        name,
+      },
+    });
     return response.data as UserList;
   } catch (error) {
     throw new Error(error.response.data.message);
@@ -60,11 +64,11 @@ export const postProfessorSubject = async ({
 export const getProfessorSubjects = async () => {
   try {
     const response = await axiosInstance.get(`professor/subject`);
-    return response.data
+    return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);
   }
-}
+};
 
 export const getProfessorTutor = async (subjectCode: number) => {
   try {
@@ -73,19 +77,27 @@ export const getProfessorTutor = async (subjectCode: number) => {
   } catch (error) {
     throw new Error(error.response.data.message);
   }
-}
+};
 
-export const getProfessorAppointment = async ({ username, initialDate, finalDate }: { username: string, initialDate: string, finalDate: string }) => {
+export const getProfessorAppointment = async ({
+  username,
+  initialDate,
+  finalDate,
+}: {
+  username: string;
+  initialDate: string;
+  finalDate: string;
+}) => {
   try {
     const response = await axiosInstance.get(`professor/appointment`, {
       params: {
         username,
         initialDate,
-        finalDate
-      }
+        finalDate,
+      },
     });
     return response.data as ProfessorAppointment[];
   } catch (error) {
     throw new Error(error.response.data.message);
   }
-}
+};

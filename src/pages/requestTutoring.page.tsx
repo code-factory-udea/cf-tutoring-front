@@ -231,7 +231,7 @@ const RequestTutoringPage = () => {
     if (!selectedEvent || !selectedTutor) return;
 
     const startDate = moment(selectedEvent.start).local();
-    const endDate = moment(selectedEvent.end).local(); //
+    const endDate = moment(selectedEvent.end).local();
 
     const payload = {
       tutorUsername: selectedTutor,
@@ -257,6 +257,19 @@ const RequestTutoringPage = () => {
     setIsConfirmationOpen(true);
   };
 
+  const getAdjustedDate = (date) => {
+    const startDate = moment(date).local();
+    const now = moment();
+
+    let isNextWeek = false;
+    if (startDate.isBefore(now)) {
+      startDate.add(1, "week");
+      isNextWeek = true;
+    }
+
+    return { adjustedDate: startDate.toDate(), isNextWeek };
+  };
+  const { adjustedDate, isNextWeek } = getAdjustedDate(selectedEvent?.start);
   return (
     <div className="flex flex-col gap-3 w-full">
       <h1 className="text-2xl font-bold">Solicitar Tutoría</h1>
@@ -374,17 +387,21 @@ const RequestTutoringPage = () => {
         </Modal>
       )}
       {isConfirmationOpen && selectedEvent && (
-        <Modal isOpen={isConfirmationOpen} title="Confirmar Tutoría">
+        <Modal
+          isOpen={isConfirmationOpen}
+          title="Confirmar solicitud de monitoria"
+        >
           <div className="flex flex-col items-center gap-4">
             <p className="text-lg text-center">
-              ¿Confirmar la tutoría para el horario:{" "}
+              ¿Deseas confirmar la solicitud de monitoria en el horario:{" "}
               <strong>
-                {selectedEvent?.title} el día{" "}
+                {selectedEvent?.title} el {isNextWeek && "próximo"} día{" "}
                 {new Intl.DateTimeFormat("es-ES", {
                   weekday: "long",
                   day: "numeric",
                   month: "long",
-                }).format(new Date(selectedEvent?.start))}
+                }).format(adjustedDate)}{" "}
+                a las {moment(adjustedDate).format("HH:mm")} horas
               </strong>
               ?
             </p>

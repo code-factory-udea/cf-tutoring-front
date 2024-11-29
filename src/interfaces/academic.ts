@@ -1,5 +1,5 @@
-export interface AcademicProgram{
-    id: number;
-    name: string;
-    facultyId: number;
+export interface AcademicProgram {
+  id: number;
+  name: string;
+  facultyId: number;
 }

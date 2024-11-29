@@ -1,23 +1,24 @@
 import { Modal } from "@components/Modal";
+import { useMutateAppointmentSurvey } from "@hooks/mutations";
 import { useQueryPendingAppointments } from "@hooks/queries";
-import { useMutateAppointmentSurvey } from "@hooks/mutations"
 import { useModal } from "@hooks/useModal";
 import { Spinner } from "@ui/Spinner";
 import { APPOINMENT_STATUS } from "@utils/constants";
+import moment from "moment";
 import { useState } from "react";
 import { ToastContainer } from "react-toastify";
-import moment from "moment";
 
 const RequestHistoryOrQualificationPage = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const [appointmentId, setAppointmentId] = useState<number>(0);
   const [calification, setCalification] = useState<number>(0);
   const [feedback, setFeedback] = useState<string>("");
-  const [submittedAppointments, setSubmittedAppointments] = useState<Set<number>>(new Set());
+  const [submittedAppointments, setSubmittedAppointments] = useState<
+    Set<number>
+  >(new Set());
 
-  const { data: pendingAppointments = [], isLoading } = useQueryPendingAppointments(
-    APPOINMENT_STATUS.COMPLETED
-  );
+  const { data: pendingAppointments = [], isLoading } =
+    useQueryPendingAppointments(APPOINMENT_STATUS.COMPLETED);
 
   const mutation = useMutateAppointmentSurvey();
 
@@ -31,7 +32,7 @@ const RequestHistoryOrQualificationPage = () => {
           setCalification(0);
           setFeedback("");
         },
-      }
+      },
     );
   };
 
@@ -63,7 +64,9 @@ const RequestHistoryOrQualificationPage = () => {
             key={request.id}
             className="bg-white shadow-lg rounded-lg p-6 border border-gray-200"
           >
-            <h2 className="text-lg font-medium text-teal-600">{request.name}</h2>
+            <h2 className="text-lg font-medium text-teal-600">
+              {request.name}
+            </h2>
             <p className="text-sm text-gray-500">
               Fecha: {moment(request.date).format("DD/MM/YYYY")}
             </p>
