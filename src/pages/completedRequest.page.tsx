@@ -29,6 +29,14 @@ export const CompletedRequestPage = () => {
     setAppointmentId(id);
     openModal();
   };
+
+  const formatCalificationDate = (date: string) => {
+    if (date === "Sin asignar" || !date) {
+      return "Sin asignar";
+    }
+    return moment(date).format("DD/MM/YYYY");
+  };
+
   return (
     <div className="p-6 text-dark">
       <h1 className="text-2xl font-bold mb-4">Tutorías Completadas</h1>
@@ -93,7 +101,7 @@ export const CompletedRequestPage = () => {
               Fecha de Calificación:
               <span className="text-gray-500 font-normal">
                 {" "}
-                {moment(appointment?.calificationDate).format("DD/MM/YYYY")}
+                {formatCalificationDate(appointment?.calificationDate)}
               </span>
             </p>
           </div>
